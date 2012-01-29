@@ -55,6 +55,18 @@ void Model::addUpdatedPlayer(Player p)
     players.append(p);
 }
 
+void Model::setName(QString n)
+{
+    QMutexLocker locker(&mutex);
+    name = n;
+}
+
+QString Model::getName()
+{
+    QMutexLocker locker(&mutex);
+    return name;
+}
+
 void Model::updateKeys(QString name, bool state)
 {
     emit keyChanged(name, state);

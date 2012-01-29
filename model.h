@@ -18,12 +18,15 @@ public:
     void setUpdatedPlayers(QString json);
     void addUpdatedPlayer(Player);
     QList<Player> getUpdatedPlayers();
+    void setName(QString n);
+    QString getName();
     void updateKeys(QString name, bool state);
 
 private:
     static Model * instance;
     Model();
     QList<Player> players;
+    QString name;
     mutable QMutex mutex;
 
 signals:
