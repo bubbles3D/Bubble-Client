@@ -174,13 +174,63 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-    mCameraMan->injectKeyDown(arg);
+
+    Model  * model = Model::getInstance();
+    QString keyName;
+
+    switch (arg.key) {
+    case OIS::KC_UP:
+        keyName = "UP";
+        model->updateKeys(keyName, true);
+        break;
+    case OIS::KC_DOWN:
+        keyName = "DOWN";
+        model->updateKeys(keyName, true);
+        break;
+    case OIS::KC_RIGHT:
+        keyName = "RIGHT";
+        model->updateKeys(keyName, true);
+        break;
+    case OIS::KC_LEFT:
+        keyName = "LEFT";
+        model->updateKeys(keyName, true);
+        break;
+    default:
+        break;
+    }
+
+    //mCameraMan->injectKeyDown(arg);
     return true;
 }
 
 bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+    //mCameraMan->injectKeyUp(arg);
+
+    Model  * model = Model::getInstance();
+    QString keyName;
+
+    switch (arg.key) {
+    case OIS::KC_UP:
+        keyName = "UP";
+        model->updateKeys(keyName, false);
+        break;
+    case OIS::KC_DOWN:
+        keyName = "DOWN";
+        model->updateKeys(keyName, false);
+        break;
+    case OIS::KC_RIGHT:
+        keyName = "RIGHT";
+        model->updateKeys(keyName, false);
+        break;
+    case OIS::KC_LEFT:
+        keyName = "LEFT";
+        model->updateKeys(keyName, false);
+        break;
+    default:
+        break;
+    }
+
     return true;
 }
 
@@ -220,9 +270,10 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
              node->setPosition(p.getX(),55,p.getZ());
          }catch (Ogre::Exception ex){
-             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "BoxTest.mesh");
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum.mesh");
              Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
              cubeNode->setPosition(p.getX(),55,p.getZ());
+             cubeNode->scale(20,20,20);
 
              cubeNode->attachObject(cube);
          }

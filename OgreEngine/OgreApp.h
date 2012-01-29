@@ -2,6 +2,10 @@
 #define APP_H
 
 #include <QThread>
+#include <QList>
+#include <QPair>
+#include <QString>
+#include <QVariant>
 #include <OGRE/Ogre.h>
 #include "OGRE/ExampleFrameListener.h"
 #include <string.h>
