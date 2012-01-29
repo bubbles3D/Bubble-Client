@@ -59,4 +59,5 @@ void Model::addUpdatedPlayer(Player p)
 void Model::updateKeys(QList<QPair<QString, QVariant> > k)
 {
     emit keys(k);
+    qDebug() << "Emited keys signal";
 }
