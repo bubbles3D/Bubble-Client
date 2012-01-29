@@ -10,8 +10,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    qRegisterMetaType<QList<QPair<QString, QVariant> > >("EventList");
-
     NetworkClient nc;
     nc.setName("naruto42");
     nc.startOn("134.214.167.50", 9001);
