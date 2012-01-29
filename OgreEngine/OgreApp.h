@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "BaseApplication.h"
+#include "model.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
@@ -30,6 +31,8 @@ protected:
     virtual bool mouseMoved( const OIS::MouseEvent &arg );
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+    void updatePositions();
 
 };
 #endif // APP_H

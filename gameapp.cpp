@@ -5,7 +5,7 @@
 GameApp::GameApp(QObject *parent) :
     QObject(parent)
 {
-    thread = new QThread();
+    thread = new OgreApp();
     connect(thread, SIGNAL(finished()), this, SLOT(endOfThread()));
     connect(thread, SIGNAL(terminated()), this, SLOT(endOfThread()));
 }
@@ -13,14 +13,11 @@ GameApp::GameApp(QObject *parent) :
 
 void GameApp::endOfThread()
 {
+    qDebug() << "lol";
     delete thread;
 }
 
 void GameApp::run()
 {
-    NetworkClient nc;
-    nc.setName("naruto69");
-    nc.startOn("134.214.167.50", 9001);
-
     thread->start();
 }

@@ -2,7 +2,7 @@
 #define GAMEAPP_H
 
 #include <QObject>
-#include <QThread>
+#include "OgreEngine/OgreApp.h"
 #include "networkclient.h"
 
 class GameApp : public QObject
@@ -18,7 +18,7 @@ public slots:
     void endOfThread();
 
  private:
-    QThread * thread;
+    OgreApp * thread;
 
 };
 

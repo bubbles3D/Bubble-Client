@@ -79,7 +79,7 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
-    //updatePositions();
+    updatePositions();
 
     return true;
 }
@@ -207,6 +207,12 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
  void OgreApp::run(){
      BaseApplication::go();
+ }
+
+ void OgreApp::updatePositions(){
+     Model * model = Model::getInstance();
+     QList<Player> playerList = model->getUpdatedPlayers();
+
  }
 
 /*
