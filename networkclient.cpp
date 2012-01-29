@@ -32,14 +32,14 @@ void NetworkClient::init()
     sock->write("init "+name.toAscii()+"$$");
 }
 
-void NetworkClient::modifications(QList<QPair<QString, bool> > keys)
+void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
 {
     QVariantMap map;
     QVariantList list;
 
     for(int i = 0; i < keys.size(); ++i)
     {
-        QPair<QString, bool> pair = keys.at(i);
+        QPair<QString, QVariant> pair = keys.at(i);
         qDebug() << pair;
         QVariantMap v;
         v.insert("name", pair.first);
@@ -70,9 +70,17 @@ void NetworkClient::processIncommingData()
     m->setUpdatedPlayers(str);
 
     //DEBUG
-//    QList<QPair<QString, bool> > list;
-//    QPair<QString, bool> pair("UP", true);
-//    list.append(pair);
-//    qDebug() << "Sending list";
-//    this->modifications(list);
+    QList<QPair<QString, QVariant> > list;
+    QVariantMap point;
+    point.insert("x", 10);
+    point.insert("y", 10);
+    point.insert("z", -10);
+    QPair<QString, QVariant> pair("MOUSE", point);
+    list.append(pair);
+
+    QPair<QString, QVariant> pair2("UP", true);
+    list.append(pair2);
+
+    qDebug() << "Sending list";
+    this->modifications(list);
 }

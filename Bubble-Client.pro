@@ -5,12 +5,14 @@ SOURCES += \
     networkclient.cpp \
     player.cpp \
     app.cpp \
-    model.cpp
+    model.cpp \
+    gameapp.cpp
 
 HEADERS += \
     networkclient.h \
     player.h \
-    model.h
+    model.h \
+    gameapp.h
 
  QT += \
     network \

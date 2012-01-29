@@ -11,7 +11,7 @@ public:
     explicit NetworkClient(QObject *parent = 0);
     void setName(QString name);
     void startOn(QString host, qint16 port);
-    void modifications(QList<QPair<QString, bool> > keys);
+    void modifications(QList<QPair<QString, QVariant> > keys);
 
 signals:
 
