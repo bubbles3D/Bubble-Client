@@ -44,7 +44,6 @@ void Model::setUpdatedPlayers(QString json)
 
     foreach(QVariant obj, result["players"].toList()){
         QVariantMap map = obj.toMap();
-        qDebug() << map;
         Player p(map["name"].toString(), map["x"].toInt(), map["y"].toInt(), map["z"].toInt());
         addUpdatedPlayer(p);
     }
