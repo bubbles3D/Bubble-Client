@@ -280,9 +280,10 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
              node->setPosition(p.getX(),55,p.getZ());
          }catch (Ogre::Exception ex){
-             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "BoxTest.mesh");
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum.mesh");
              Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
              cubeNode->setPosition(p.getX(),55,p.getZ());
+             cubeNode->scale(20,20,20);
 
              cubeNode->attachObject(cube);
          }
