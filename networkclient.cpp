@@ -42,7 +42,8 @@ void NetworkClient::modifications(QList<QPair<QString, bool> > keys)
         QPair<QString, bool> pair = keys.at(i);
         qDebug() << pair;
         QVariantMap v;
-        v.insert(pair.first, pair.second);
+        v.insert("name", pair.first);
+        v.insert("state", pair.second);
         list.append(v);
     }
     map.insert("modifications", list);
@@ -70,7 +71,7 @@ void NetworkClient::processIncommingData()
 
     //DEBUG
 //    QList<QPair<QString, bool> > list;
-//    QPair<QString, bool> pair("up", true);
+//    QPair<QString, bool> pair("UP", true);
 //    list.append(pair);
 //    qDebug() << "Sending list";
 //    this->modifications(list);
