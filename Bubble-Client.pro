@@ -14,8 +14,9 @@ HEADERS += \
 
  QT += \
     network \
-    script \
     core
 
 QT -= \
     gui
+
+unix|win32: LIBS += -lqjson

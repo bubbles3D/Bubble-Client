@@ -2,7 +2,10 @@
 #include <QtScript/QScriptValue>
 #include <QtScript/QScriptValueIterator>
 
+#include <qjson/serializer.h>
+
 #include "networkclient.h"
+#include "model.h"
 #include "player.h"
 
 NetworkClient::NetworkClient(QObject *parent) :
@@ -19,9 +22,37 @@ void NetworkClient::startOn(QString host, qint16 port)
     sock->connectToHost(host, port);
 }
 
+void NetworkClient::setName(QString name)
+{
+    this->name = name;
+}
+
 void NetworkClient::init()
 {
-    sock->write("init naruto$$");
+    sock->write("init "+name.toAscii()+"$$");
+}
+
+void NetworkClient::modifications(QList<QPair<QString, bool> > keys)
+{
+    QVariantMap map;
+    QVariantList list;
+
+    for(int i = 0; i < keys.size(); ++i)
+    {
+        QPair<QString, bool> pair = keys.at(i);
+        qDebug() << pair;
+        QVariantMap v;
+        v.insert(pair.first, pair.second);
+        list.append(v);
+    }
+    map.insert("modifications", list);
+
+    QJson::Serializer serializer;
+    QByteArray json = serializer.serialize(map);
+
+    qDebug() << json;
+
+    sock->write(json+"$$");
 }
 
 void NetworkClient::processIncommingData()
@@ -34,24 +65,13 @@ void NetworkClient::processIncommingData()
 
     str.remove("$$");
 
-    //if (mess[mess.size()] == '$')
-    QScriptValue sc;
-    QScriptEngine engine;
+    Model * m = Model::getInstance();
+    m->setUpdatedPlayers(str);
 
-    sc = engine.evaluate("(" + str + ")");
-
-    qDebug("evaluated crap : %s", sc.toString().toStdString().c_str());
-
-    if (sc.property("players").isArray())
-    {
-        QScriptValueIterator it(sc.property("players"));
-        while (it.hasNext()) {
-            it.next();
-            Player p(it.value().property("name").toString(),
-                     it.value().property("x").toInt32(),
-                     it.value().property("y").toInt32(),
-                     it.value().property("z").toInt32());
-            qDebug("%s", p.toString().toStdString().c_str());
-        }
-    }
+    //DEBUG
+//    QList<QPair<QString, bool> > list;
+//    QPair<QString, bool> pair("up", true);
+//    list.append(pair);
+//    qDebug() << "Sending list";
+//    this->modifications(list);
 }
