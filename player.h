@@ -7,12 +7,16 @@
 class Player
 {
 public:
-    Player(QString name="player", qint32 x=0, qint32 y=0, qint32 z=0);
+    Player(QString name="player", float x=0, float y=0, float z=0);
     QString toString();
+    float getX();
+    float getY();
+    float getZ();
+    QString getName();
 
 private:
     QString name;
-    qint32 x, y, z;
+    float x, y, z;
 };
 
 #endif // PLAYER_H

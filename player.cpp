@@ -1,7 +1,7 @@
 #include "player.h"
 
 
-Player::Player(QString name, qint32 x, qint32 y, qint32 z)
+Player::Player(QString name, float x, float y, float z)
 {
     this->name = name;
     this->x = x;
@@ -15,4 +15,20 @@ QString Player::toString()
     str += "name : " + name + " x:" + x + " y:" + y + " z:" + z;
 
     return str;
+}
+
+QString Player::getName(){
+    return name;
+}
+
+float Player::getX(){
+    return x;
+}
+
+float Player::getY(){
+    return y;
+}
+
+float Player::getZ(){
+    return z;
 }

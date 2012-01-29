@@ -213,6 +213,22 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      Model * model = Model::getInstance();
      QList<Player> playerList = model->getUpdatedPlayers();
 
+     foreach(Player p, playerList){
+
+         Ogre::Node* node;
+         try{
+             node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
+             node->setPosition(p.getX(),55,p.getZ());
+         }catch (Ogre::Exception ex){
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "BoxTest.mesh");
+             Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
+             cubeNode->setPosition(p.getX(),55,p.getZ());
+
+             cubeNode->attachObject(cube);
+         }
+     }
+
+
  }
 
 /*
