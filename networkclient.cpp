@@ -53,8 +53,9 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
     QJson::Serializer serializer;
     QByteArray json = serializer.serialize(map);
 
-    qDebug() << json;
+    qDebug() << "Sent " << json;
 
+    sock->flush();
     sock->write(json+"$$");
 }
 
