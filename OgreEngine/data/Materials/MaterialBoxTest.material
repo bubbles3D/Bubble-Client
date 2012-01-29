@@ -1,0 +1,40 @@
+
+// blender material: MaterialBoxTest
+material MaterialBoxTest 
+{
+    receive_shadows on
+    technique b2ogre_1326812864.438925
+    {
+        pass b2ogre_1326812864.439014
+        {
+            ambient 0.5424138903617859 0.800000011920929 0.49288150668144226 1.0
+            diffuse 0.43393111875550616 0.6400000190734865 0.39430521122075923 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+            texture_unit b2ogre_1326812864.44015
+            {
+                texture De.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                tex_coord_set 0
+                colour_op replace
+            }
+        }
+    }
+}
