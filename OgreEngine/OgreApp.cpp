@@ -27,6 +27,10 @@ void OgreApp::createScene(void)
     mCamera->setPosition(40, 100, 580);
     mCamera->pitch(Ogre::Degree(0));
     mCamera->yaw(Ogre::Degree(0));
+    setupViewport(mSceneMgr,mCamera->getName());
+
+    //Initialise playerCamera
+    playerCamera = mSceneMgr->createCamera("playerCamera");
 
     //Scene
 
@@ -275,11 +279,31 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              cubeNode->setPosition(p.getX(),55,p.getZ());
              cubeNode->scale(20,20,20);
 
+             if(model->getName() == p.getName()){
+                 //Si c'est notre joueur
+                 cubeNode->attachObject(playerCamera);
+                 cubeNode->setVisible(false,true);
+                 playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
+                 setupViewport(mSceneMgr,playerCamera->getName());
+             }
+
              cubeNode->attachObject(cube);
          }
      }
 
 
+ }
+
+ void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)
+ {
+     mWindow->removeAllViewports();
+
+     Ogre::Camera *cam = curr->getCamera(camera_Name);
+         cam->setNearClipDistance(5);
+     Ogre::Viewport *vp = mWindow->addViewport(cam);
+
+     vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+     cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
  }
 
 /*
