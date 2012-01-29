@@ -16,8 +16,7 @@ NetworkClient::NetworkClient(QObject *parent) :
 
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));
-    connect(m, SIGNAL(keys(QList<QPair<QString,QVariant> >)), this, SLOT(modifications(QList<QPair<QString,QVariant> >)));
-
+    connect(m, SIGNAL(keyChanged(QString,bool)), this, SLOT(sendKeyState(QString,bool)));
 }
 
 void NetworkClient::startOn(QString host, qint16 port)
@@ -39,8 +38,6 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
 {
     QVariantMap map;
     QVariantList list;
-
-    qDebug() << "In modifications Slot";
 
     for(int i = 0; i < keys.size(); ++i)
     {
@@ -75,17 +72,26 @@ void NetworkClient::processIncommingData()
     m->setUpdatedPlayers(str);
 
     //DEBUG
+//    QList<QPair<QString, QVariant> > list;
+//    QVariantMap point;
+//    point.insert("x", 10);
+//    point.insert("y", 10);
+//    point.insert("z", -10);
+//    QPair<QString, QVariant> pair("MOUSE", point);
+//    list.append(pair);
+
+//    QPair<QString, QVariant> pair2("UP", true);
+//    list.append(pair2);
+
+//    qDebug() << "Sending list";
+//    this->modifications(list);
+}
+
+void NetworkClient::sendKeyState(QString name, bool state)
+{
+    qDebug() << "In sendKeyState Slot";
     QList<QPair<QString, QVariant> > list;
-    QVariantMap point;
-    point.insert("x", 10);
-    point.insert("y", 10);
-    point.insert("z", -10);
-    QPair<QString, QVariant> pair("MOUSE", point);
+    QPair<QString, QVariant> pair(name, state);
     list.append(pair);
-
-    QPair<QString, QVariant> pair2("UP", true);
-    list.append(pair2);
-
-    qDebug() << "Sending list";
-    this->modifications(list);
+    modifications(list);
 }

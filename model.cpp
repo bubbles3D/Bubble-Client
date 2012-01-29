@@ -56,8 +56,8 @@ void Model::addUpdatedPlayer(Player p)
     players.append(p);
 }
 
-void Model::updateKeys(QList<QPair<QString, QVariant> > k)
+void Model::updateKeys(QString name, bool state)
 {
-    emit keys(k);
+    emit keyChanged(name, state);
     qDebug() << "Emited keys signal";
 }

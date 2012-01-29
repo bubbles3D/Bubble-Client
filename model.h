@@ -18,7 +18,7 @@ public:
     void setUpdatedPlayers(QString json);
     void addUpdatedPlayer(Player);
     QList<Player> getUpdatedPlayers();
-    void updateKeys(QList<QPair<QString, QVariant> > k);
+    void updateKeys(QString name, bool state);
 
 private:
     static Model * instance;
@@ -27,7 +27,7 @@ private:
     mutable QMutex mutex;
 
 signals:
-    void keys(QList<QPair<QString, QVariant> > k);
+    void keyChanged(QString name, bool state);
 
 };
 
