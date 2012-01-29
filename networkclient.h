@@ -11,13 +11,13 @@ public:
     explicit NetworkClient(QObject *parent = 0);
     void setName(QString name);
     void startOn(QString host, qint16 port);
-    void modifications(QList<QPair<QString, QVariant> > keys);
 
 signals:
 
 public slots:
     void init();
     void processIncommingData();
+    void modifications(QList<QPair<QString, QVariant> > keys);
 
 private:
     QTcpSocket * sock;

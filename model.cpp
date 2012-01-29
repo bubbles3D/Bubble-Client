@@ -56,3 +56,7 @@ void Model::addUpdatedPlayer(Player p)
     players.append(p);
 }
 
+void Model::updateKeys(QList<QPair<QString, QVariant> > k)
+{
+    emit keys(k);
+}

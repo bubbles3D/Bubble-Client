@@ -12,9 +12,12 @@ NetworkClient::NetworkClient(QObject *parent) :
     QObject(parent)
 {
     sock = new QTcpSocket(this);
+    Model * m = Model::getInstance();
 
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));
+    connect(m, SIGNAL(keys(QList<QPair<QString,QVariant> >)), this, SLOT(modifications(QList<QPair<QString,QVariant> >)));
+
 }
 
 void NetworkClient::startOn(QString host, qint16 port)
