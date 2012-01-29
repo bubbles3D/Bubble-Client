@@ -16,7 +16,7 @@ NetworkClient::NetworkClient(QObject *parent) :
 
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));
-    connect(m, SIGNAL(keys(QList<QPair<QString,QVariant> > k)), this, SLOT(modifications(QList<QPair<QString,QVariant> > k)));
+    connect(m, SIGNAL(keys(QList<QPair<QString,QVariant> >)), this, SLOT(modifications(QList<QPair<QString,QVariant> >)));
 
 }
 
@@ -39,6 +39,8 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
 {
     QVariantMap map;
     QVariantList list;
+
+    qDebug() << "In modifications Slot";
 
     for(int i = 0; i < keys.size(); ++i)
     {
