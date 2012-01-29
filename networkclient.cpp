@@ -42,7 +42,6 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
     for(int i = 0; i < keys.size(); ++i)
     {
         QPair<QString, QVariant> pair = keys.at(i);
-        qDebug() << pair;
         QVariantMap v;
         v.insert("name", pair.first);
         v.insert("state", pair.second);
@@ -63,7 +62,7 @@ void NetworkClient::processIncommingData()
 {
     QByteArray mess = sock->readAll();
 
-    qDebug("Total json string %s", QString(mess).toStdString().c_str());
+    qDebug() << "Received " <<  mess;
 
     QString str(mess);
 
@@ -71,21 +70,6 @@ void NetworkClient::processIncommingData()
 
     Model * m = Model::getInstance();
     m->setUpdatedPlayers(str);
-
-    //DEBUG
-//    QList<QPair<QString, QVariant> > list;
-//    QVariantMap point;
-//    point.insert("x", 10);
-//    point.insert("y", 10);
-//    point.insert("z", -10);
-//    QPair<QString, QVariant> pair("MOUSE", point);
-//    list.append(pair);
-
-//    QPair<QString, QVariant> pair2("UP", true);
-//    list.append(pair2);
-
-//    qDebug() << "Sending list";
-//    this->modifications(list);
 }
 
 void NetworkClient::sendKeyState(QString name, bool state)
