@@ -173,14 +173,74 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
     {
         mShutDown = true;
     }
+    Model  * model = Model::getInstance();
+    QList<QPair<QString,QVariant> > list;
+    QPair<QString,QVariant> qpair;
+    qpair.second = true;
+    //Send action to the Server
+    switch (arg.key) {
+    case OIS::KC_UP:
+        qpair.first = "UP";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    case OIS::KC_DOWN:
+        qpair.first = "DOWN";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    case OIS::KC_RIGHT:
+        qpair.first = "RIGHT";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    case OIS::KC_LEFT:
+        qpair.first = "LEFT";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    default:
+            break;
+    }
 
-    mCameraMan->injectKeyDown(arg);
+    //mCameraMan->injectKeyDown(arg);
     return true;
 }
 
 bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+    //mCameraMan->injectKeyUp(arg);
+
+    Model  * model = Model::getInstance();
+    QList<QPair<QString,QVariant> > list;
+    QPair<QString,QVariant> qpair;
+    qpair.second = false;
+    //Send action to the Server
+    switch (arg.key) {
+    case OIS::KC_UP:
+        qpair.first = "UP";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    case OIS::KC_DOWN:
+        qpair.first = "DOWN";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    case OIS::KC_RIGHT:
+        qpair.first = "RIGHT";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    case OIS::KC_LEFT:
+        qpair.first = "LEFT";
+        list.append(qpair);
+            model->updateKeys(list);
+            break;
+    default:
+            break;
+    }
+
     return true;
 }
 

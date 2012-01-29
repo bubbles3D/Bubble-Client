@@ -73,17 +73,17 @@ void NetworkClient::processIncommingData()
     m->setUpdatedPlayers(str);
 
     //DEBUG
-    QList<QPair<QString, QVariant> > list;
-    QVariantMap point;
-    point.insert("x", 10);
-    point.insert("y", 10);
-    point.insert("z", -10);
-    QPair<QString, QVariant> pair("MOUSE", point);
-    list.append(pair);
+//    QList<QPair<QString, QVariant> > list;
+//    QVariantMap point;
+//    point.insert("x", 10);
+//    point.insert("y", 10);
+//    point.insert("z", -10);
+//    QPair<QString, QVariant> pair("MOUSE", point);
+//    list.append(pair);
 
-    QPair<QString, QVariant> pair2("UP", true);
-    list.append(pair2);
+//    QPair<QString, QVariant> pair2("UP", true);
+//    list.append(pair2);
 
-    qDebug() << "Sending list";
-    this->modifications(list);
+//    qDebug() << "Sending list";
+//    this->modifications(list);
 }
