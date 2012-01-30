@@ -31,15 +31,13 @@ void OgreApp::createScene(void)
 
     //Initialise playerCamera
     playerCamera = mSceneMgr->createCamera("playerCamera");
+    mRotateSpeed = .1;
 
     //Scene
-
     Ogre::Entity* cube = mSceneMgr->createEntity("cube", "BoxTest.mesh");
     Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     cubeNode->setPosition(0,55,0);
-
     cubeNode->attachObject(cube);
-
 
     Ogre::Entity* plan = mSceneMgr->createEntity("plano", "Plane.mesh");
     Ogre::SceneNode* planNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -50,6 +48,9 @@ void OgreApp::createScene(void)
     // Create a light
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
     l->setPosition(20,80,50);
+
+    //Init mode
+    mode = FREE;
 
 }
 
@@ -178,70 +179,98 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-
+    //Local touch
     Model  * model = Model::getInstance();
     QString keyName;
 
-    switch (arg.key) {
-    case OIS::KC_UP:
-        keyName = "UP";
-        model->updateKeys(keyName, true);
-        break;
-    case OIS::KC_DOWN:
-        keyName = "DOWN";
-        model->updateKeys(keyName, true);
-        break;
-    case OIS::KC_RIGHT:
-        keyName = "RIGHT";
-        model->updateKeys(keyName, true);
-        break;
-    case OIS::KC_LEFT:
-        keyName = "LEFT";
-        model->updateKeys(keyName, true);
-        break;
-    default:
-        break;
+    switch(mode){
+    case FREE:
+        mCameraMan->injectKeyDown(arg);
+             break;
+    case FIRST:
+        switch (arg.key) {
+        case OIS::KC_UP:
+            keyName = "UP";
+            model->updateKeys(keyName, true);
+            break;
+        case OIS::KC_DOWN:
+            keyName = "DOWN";
+            model->updateKeys(keyName, true);
+            break;
+        case OIS::KC_RIGHT:
+            keyName = "RIGHT";
+            model->updateKeys(keyName, true);
+            break;
+        case OIS::KC_LEFT:
+            keyName = "LEFT";
+            model->updateKeys(keyName, true);
+            break;
+         case OIS::KC_F3 :
+            mode = FREE;
+        default:
+            break;
+        }
+             break;
     }
 
-    //mCameraMan->injectKeyDown(arg);
     return true;
 }
 
 bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
 {
-    //mCameraMan->injectKeyUp(arg);
-
     Model  * model = Model::getInstance();
     QString keyName;
-
-    switch (arg.key) {
-    case OIS::KC_UP:
-        keyName = "UP";
-        model->updateKeys(keyName, false);
-        break;
-    case OIS::KC_DOWN:
-        keyName = "DOWN";
-        model->updateKeys(keyName, false);
-        break;
-    case OIS::KC_RIGHT:
-        keyName = "RIGHT";
-        model->updateKeys(keyName, false);
-        break;
-    case OIS::KC_LEFT:
-        keyName = "LEFT";
-        model->updateKeys(keyName, false);
-        break;
-    default:
-        break;
+    //
+    switch(mode){
+    case FREE:
+        mCameraMan->injectKeyUp(arg);
+             break;
+    case FIRST:
+        switch (arg.key) {
+        case OIS::KC_UP:
+            keyName = "UP";
+            model->updateKeys(keyName, false);
+            break;
+        case OIS::KC_DOWN:
+            keyName = "DOWN";
+            model->updateKeys(keyName, false);
+            break;
+        case OIS::KC_RIGHT:
+            keyName = "RIGHT";
+            model->updateKeys(keyName, false);
+            break;
+        case OIS::KC_LEFT:
+            keyName = "LEFT";
+            model->updateKeys(keyName, false);
+            break;
+        default:
+            break;
+        }
+             break;
     }
+
+
+
+
+
 
     return true;
 }
 
 bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 {
-    if (mTrayMgr->injectMouseMove(arg)) return true;
-    mCameraMan->injectMouseMove(arg);
+    //if (mTrayMgr->injectMouseMove(arg)) return true;
+
+    switch(mode){
+    case FREE:
+        mCameraMan->injectMouseMove(arg);
+             break;
+    case FIRST:
+        playerCameraNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
+        playerNode->pitch(Ogre::Degree(-arg.state.Y.rel * mRotateSpeed));
+             break;
+    }
+
     return true;
 }
 
@@ -267,13 +296,16 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      Model * model = Model::getInstance();
      QList<Player> playerList = model->getUpdatedPlayers();
 
+     //Update elements position
      foreach(Player p, playerList){
 
          Ogre::Node* node;
          try{
+             //MAJ position des joueurs
              node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
              node->setPosition(p.getX(),55,p.getZ());
          }catch (Ogre::Exception ex){
+             //Si le joueur n'existe pas
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum.mesh");
              Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
              cubeNode->setPosition(p.getX(),55,p.getZ());
@@ -281,10 +313,13 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
-                 cubeNode->attachObject(playerCamera);
+                 playerCameraNode = cubeNode->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,1));
+                 playerCameraNode->attachObject(playerCamera);
                  cubeNode->setVisible(false,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
                  setupViewport(mSceneMgr,playerCamera->getName());
+                 playerNode = cubeNode;
+                 mode = FIRST;
              }
 
              cubeNode->attachObject(cube);

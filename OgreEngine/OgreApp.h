@@ -18,6 +18,10 @@
 
 using namespace Ogre;
 
+enum MODE {
+    FIRST,FREE
+};
+
 class OgreApp : public BaseApplication, public QThread
 {
 public:
@@ -29,6 +33,12 @@ public:
 
 protected:
     Ogre::Camera* playerCamera;
+    Ogre::SceneNode* playerNode;
+    Ogre::SceneNode* playerCameraNode;
+    enum MODE mode;
+
+
+    float mRotateSpeed;
 
     virtual void createScene(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
