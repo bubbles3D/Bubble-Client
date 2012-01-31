@@ -105,3 +105,9 @@ void Model::updateMouse(float x, float y, float z)
         mouseTimeout.restart();
     }
 }
+
+void Model::shot(float x, float y, float z)
+{
+    emit shotEvent(x, y, z);
+    qDebug() << "shotEvent sent";
+}

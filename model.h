@@ -26,6 +26,7 @@ public:
     QString getName();
     void updateKeys(QString name, bool state);
     void updateMouse(float x, float y, float z);
+    void shot(float x, float y, float z);
 
 private:
     static Model * instance;
@@ -39,7 +40,7 @@ private:
 signals:
     void keyChanged(QString name, bool state);
     void mouseChanged(float x, float y, float z);
-
+    void shotEvent(float x, float y, float z);
 };
 
 #endif // MODEL_H
