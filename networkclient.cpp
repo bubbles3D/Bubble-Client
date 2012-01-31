@@ -53,10 +53,15 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
     QJson::Serializer serializer;
     QByteArray json = serializer.serialize(map);
 
-    qDebug() << "Sent " << json;
+    send(json);
+}
+
+void NetworkClient::send(QString mess)
+{
+    qDebug() << "Sent " << mess;
 
     sock->flush();
-    sock->write(json+"$$");
+    sock->write((mess+"$$").toAscii());
 }
 
 void NetworkClient::processIncommingData()
@@ -95,3 +100,23 @@ void NetworkClient::sendMouseState(float x, float y, float z)
     list.append(pair);
     modifications(list);
 }
+
+void NetworkClient::sendShot(float x, float y, float z)
+{
+    QVariantMap obj;
+    QVariantMap shoot;
+    QVariantMap state;
+
+    state["x"] = x;
+    state["y"] = y;
+    state["z"] = z;
+    shoot["state"] = state;
+    obj["shoot"] = shoot;
+
+    QJson::Serializer serializer;
+    QByteArray json = serializer.serialize(obj);
+
+    send(json);
+}
+
+
