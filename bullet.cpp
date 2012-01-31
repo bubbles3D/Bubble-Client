@@ -1,5 +1,7 @@
 #include "bullet.h"
 
-Bullet::Bullet()
+Bullet::Bullet(QVariantMap map)
+    : Actor(map)
 {
+    player = map["player"].toString();
 }

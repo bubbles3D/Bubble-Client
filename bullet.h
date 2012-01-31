@@ -6,7 +6,11 @@
 class Bullet : public Actor
 {
 public:
-    Bullet();
+    Bullet(QString name = "");
+    Bullet(QVariantMap map);
+
+private:
+    QString player;
 };
 
 #endif // BULLET_H
