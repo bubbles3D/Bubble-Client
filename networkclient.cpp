@@ -90,7 +90,7 @@ void NetworkClient::sendMouseState(float x, float y, float z)
     obj["x"] = x;
     obj["y"] = y;
     obj["z"] = z;
-    QPair<QString, QVariant> pair("mouse", obj);
+    QPair<QString, QVariant> pair("MOUSE", obj);
     list.append(pair);
     modifications(list);
 }
