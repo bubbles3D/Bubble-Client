@@ -189,7 +189,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         switch (arg.key) {
          case OIS::KC_F1 :
                 mode = FIRST;
-                setupViewport(mSceneMgr,mCamera->getName());
+                setupViewport(mSceneMgr,playerCamera->getName());
 
             break;
         default:
