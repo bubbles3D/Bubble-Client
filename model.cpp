@@ -9,7 +9,6 @@ Model* Model::instance = NULL;
 
 Model::Model()
 {
-
 }
 
 Model* Model::getInstance()
@@ -71,4 +70,18 @@ void Model::updateKeys(QString name, bool state)
 {
     emit keyChanged(name, state);
     qDebug() << "Emited keys signal";
+}
+
+void Model::updateMouse(float x, float y, float z)
+{
+    if(mouseTimeout.isNull())
+    {
+        mouseTimeout.start();
+    }
+    else if (mouseTimeout.elapsed() > 50)
+    {
+        emit mouseChanged(x, y, z);
+        qDebug() << "Sent mouseEvent after " << mouseTimeout.elapsed();
+        mouseTimeout.restart();
+    }
 }

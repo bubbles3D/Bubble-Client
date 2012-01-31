@@ -6,6 +6,7 @@
 #include <QMutex>
 #include <QObject>
 #include <QVariant>
+#include <QTime>
 
 #include "player.h"
 
@@ -21,6 +22,7 @@ public:
     void setName(QString n);
     QString getName();
     void updateKeys(QString name, bool state);
+    void updateMouse(float x, float y, float z);
 
 private:
     static Model * instance;
@@ -28,9 +30,11 @@ private:
     QList<Player> players;
     QString name;
     mutable QMutex mutex;
+    QTime mouseTimeout;
 
 signals:
     void keyChanged(QString name, bool state);
+    void mouseChanged(float x, float y, float z);
 
 };
 
