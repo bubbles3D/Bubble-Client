@@ -35,6 +35,7 @@ protected:
     Ogre::Camera* playerCamera;
     Ogre::SceneNode* playerNode;
     Ogre::SceneNode* playerCameraNode;
+    Ogre::SceneNode* playerTargetNode;
     enum MODE mode;
 
 

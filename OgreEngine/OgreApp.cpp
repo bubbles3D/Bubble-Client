@@ -185,8 +185,17 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 
     switch(mode){
     case FREE:
-        mCameraMan->injectKeyDown(arg);
-             break;
+        mCameraMan->injectKeyDown(arg);       
+        switch (arg.key) {
+         case OIS::KC_F1 :
+                mode = FIRST;
+                setupViewport(mSceneMgr,mCamera->getName());
+
+            break;
+        default:
+            break;
+        }
+        break;
     case FIRST:
         switch (arg.key) {
         case OIS::KC_UP:
@@ -207,6 +216,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
          case OIS::KC_F3 :
             mode = FREE;
+            setupViewport(mSceneMgr,playerCamera->getName());
         default:
             break;
         }
@@ -249,11 +259,6 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
              break;
     }
 
-
-
-
-
-
     return true;
 }
 
@@ -266,8 +271,12 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
         mCameraMan->injectMouseMove(arg);
              break;
     case FIRST:
-        playerCameraNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
-        playerNode->pitch(Ogre::Degree(-arg.state.Y.rel * mRotateSpeed));
+
+        playerCameraNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
+        playerNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
+        Model * mod = Model::getInstance();
+        mod->updateMouse(playerTargetNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z);
+
              break;
     }
 
@@ -313,7 +322,8 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
-                 playerCameraNode = cubeNode->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,1));
+                 playerCameraNode = cubeNode->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+                 playerTargetNode = playerCameraNode->createChildSceneNode(p.getName().toStdString() + "_target", Ogre::Vector3(0,0,1));
                  playerCameraNode->attachObject(playerCamera);
                  cubeNode->setVisible(false,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
