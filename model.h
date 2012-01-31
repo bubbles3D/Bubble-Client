@@ -9,16 +9,19 @@
 #include <QTime>
 
 #include "player.h"
+#include "bullet.h"
 
 class Model: public QObject
 {
     Q_OBJECT
 public:
     static Model * getInstance();
-    void setUpdatedPlayers(QList<Player> p);
-    void setUpdatedPlayers(QString json);
     void addUpdatedPlayer(Player);
+    void setUpdatedPlayers(QString json);
     QList<Player> getUpdatedPlayers();
+    void addUpdatedBullet(Bullet);
+    void setUpdatedBullets(QString json);
+    QList<Bullet> getUpdatedBullets();
     void setName(QString n);
     QString getName();
     void updateKeys(QString name, bool state);
@@ -28,6 +31,7 @@ private:
     static Model * instance;
     Model();
     QList<Player> players;
+    QList<Bullet> bullets;
     QString name;
     mutable QMutex mutex;
     QTime mouseTimeout;

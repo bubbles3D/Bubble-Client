@@ -31,9 +31,13 @@ QList<Player> Model::getUpdatedPlayers()
     return ret;
 }
 
-void Model::setUpdatedPlayers(QList<Player> p)
+QList<Bullet> Model::getUpdatedBullets()
 {
-    players = p;
+    QMutexLocker locker(&mutex);
+    QList<Bullet> ret(bullets);
+    bullets.clear();
+
+    return ret;
 }
 
 void Model::setUpdatedPlayers(QString json)
@@ -47,10 +51,27 @@ void Model::setUpdatedPlayers(QString json)
     }
 }
 
+void Model::setUpdatedBullets(QString json)
+{
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+
+    foreach(QVariant obj, result["bullets"].toList()){
+        Player p(obj.toMap());
+        addUpdatedPlayer(p);
+    }
+}
+
 void Model::addUpdatedPlayer(Player p)
 {
     QMutexLocker locker(&mutex);
     players.append(p);
+}
+
+void Model::addUpdatedBullet(Bullet b)
+{
+    QMutexLocker locker(&mutex);
+    bullets.append(b);
 }
 
 void Model::setName(QString n)
