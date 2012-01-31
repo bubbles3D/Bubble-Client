@@ -216,7 +216,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
          case OIS::KC_F3 :
             mode = FREE;
-            setupViewport(mSceneMgr,playerCamera->getName());
+            setupViewport(mSceneMgr,mCamera->getName());
         default:
             break;
         }
@@ -275,7 +275,7 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
         playerCameraNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
         playerNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
         Model * mod = Model::getInstance();
-        mod->updateMouse(playerTargetNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z);
+        mod->updateMouse(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
 
              break;
     }
