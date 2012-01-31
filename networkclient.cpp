@@ -17,7 +17,7 @@ NetworkClient::NetworkClient(QObject *parent) :
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));
     connect(m, SIGNAL(keyChanged(QString,bool)), this, SLOT(sendKeyState(QString,bool)));
-    connect(m, SIGNAL(mouseChanged(QString,bool)), this, SLOT(sendMouseState(QString,float, float, float)));
+    connect(m, SIGNAL(mouseChanged(float,float,float)), this, SLOT(sendMouseState(float,float,float)));
 }
 
 void NetworkClient::startOn(QString host, qint16 port)
