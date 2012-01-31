@@ -71,6 +71,7 @@ void NetworkClient::processIncommingData()
 
     Model * m = Model::getInstance();
     m->setUpdatedPlayers(str);
+    m->setUpdatedBullets(str);
 }
 
 void NetworkClient::sendKeyState(QString name, bool state)
