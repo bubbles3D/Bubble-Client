@@ -17,7 +17,7 @@ public slots:
     void init();
     void processIncommingData();
     void sendKeyState(QString name, bool state);
-    //void sendMouseState();
+    void sendMouseState(float x, float y, float z);
 
 private:
     QTcpSocket * sock;

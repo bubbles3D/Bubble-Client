@@ -17,6 +17,7 @@ NetworkClient::NetworkClient(QObject *parent) :
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));
     connect(m, SIGNAL(keyChanged(QString,bool)), this, SLOT(sendKeyState(QString,bool)));
+    connect(m, SIGNAL(keyChanged(QString,bool)), this, SLOT(sendMouseState(QString,float, float, float)));
 }
 
 void NetworkClient::startOn(QString host, qint16 port)
@@ -77,6 +78,19 @@ void NetworkClient::sendKeyState(QString name, bool state)
     qDebug() << "In sendKeyState Slot";
     QList<QPair<QString, QVariant> > list;
     QPair<QString, QVariant> pair(name, state);
+    list.append(pair);
+    modifications(list);
+}
+
+void NetworkClient::sendMouseState(float x, float y, float z)
+{
+    qDebug() << "In sendMouseState Slot";
+    QList<QPair<QString, QVariant> > list;
+    QVariantMap obj;
+    obj["x"] = x;
+    obj["y"] = y;
+    obj["z"] = z;
+    QPair<QString, QVariant> pair("mouse", obj);
     list.append(pair);
     modifications(list);
 }
