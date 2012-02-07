@@ -9,7 +9,10 @@ SOURCES += \
     gameapp.cpp \
     OgreEngine/TutorialApplication.cpp \
     OgreEngine/OgreApp.cpp \
-    OgreEngine/BaseApplication.cpp
+    OgreEngine/BaseApplication.cpp \
+    actor.cpp \
+    bullet.cpp \
+    appdialog.cpp
 
 HEADERS += \
     networkclient.h \
@@ -21,7 +24,10 @@ HEADERS += \
     /usr/include/OIS \ 
     OgreEngine/TutorialApplication.h \
     OgreEngine/OgreApp.h \
-    OgreEngine/BaseApplication.h
+    OgreEngine/BaseApplication.h \
+    actor.h \
+    bullet.h \
+    appdialog.h
 
 LIBS += \
     -L usr/lib \
@@ -31,9 +37,6 @@ LIBS += \
  QT += \
     network \
     core
-
-QT -= \
-    gui
 
 unix|win32: LIBS += -lqjson
 
@@ -55,3 +58,6 @@ OTHER_FILES += \
     OgreEngine/data/Materials/cubi.material \
     OgreEngine/data/Materials/BoxTest.mesh.xml \
     OgreEngine/data/Materials/BoxTest.mesh
+
+FORMS += \
+    appdialog.ui

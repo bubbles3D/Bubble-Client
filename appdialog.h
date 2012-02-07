@@ -15,6 +15,10 @@ public:
     explicit AppDialog(QWidget *parent = 0);
     ~AppDialog();
 
+public slots:
+    void accept();
+    void reject();
+
 private:
     Ui::AppDialog *ui;
 };

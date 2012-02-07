@@ -8,6 +8,16 @@ AppDialog::AppDialog(QWidget *parent) :
     ui->setupUi(this);
 }
 
+void AppDialog::accept()
+{
+
+}
+
+void AppDialog::reject()
+{
+
+}
+
 AppDialog::~AppDialog()
 {
     delete ui;
