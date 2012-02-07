@@ -15,9 +15,9 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="TotalLayout">
      <item>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="PlayerInfo">
        <property name="title">
         <string>Player</string>
        </property>
@@ -30,7 +30,7 @@
           <height>28</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="PlayerLayout">
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
@@ -39,19 +39,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit"/>
+          <widget class="QLineEdit" name="PlayerName"/>
          </item>
         </layout>
        </widget>
-       <zorder>layoutWidget</zorder>
-       <zorder>groupBox_2</zorder>
-       <zorder>label_2</zorder>
-       <zorder>groupBox_2</zorder>
-       <zorder>groupBox_2</zorder>
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="AdvancedInfo">
        <property name="title">
         <string>Advanced</string>
        </property>
@@ -64,7 +59,7 @@
           <height>62</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QHBoxLayout" name="AdvancedLayout">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
@@ -86,17 +81,22 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QLineEdit" name="lineEdit_2"/>
+            <widget class="QLineEdit" name="ServerAddr"/>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox"/>
+            <widget class="QSpinBox" name="ServerPort">
+             <property name="minimum">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <number>65000</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
         </layout>
        </widget>
-       <zorder>layoutWidget</zorder>
-       <zorder>buttonBox</zorder>
       </widget>
      </item>
      <item>
@@ -112,10 +112,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>layoutWidget</zorder>
-  <zorder>groupBox_2</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>groupBox_2</zorder>
  </widget>
  <resources/>
  <connections>
@@ -148,6 +144,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AppDialog</sender>
+   <signal>finished(int)</signal>
+   <receiver>AppDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>

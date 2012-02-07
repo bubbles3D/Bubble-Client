@@ -1,23 +1,19 @@
 #include <QtCore/QCoreApplication>
+#include <QApplication>
 #include <QMetaType>
 #include <QDebug>
 
-#include "networkclient.h"
-#include "model.h"
-#include "gameapp.h"
+#include "appdialog.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
 
     Model * m = Model::getInstance();
-    m->setName("naruto69");
 
-    NetworkClient nc;
-    nc.startOn("134.214.167.50", 9001);
+    AppDialog app;
 
-    GameApp ga;
-    ga.run();
+    app.setVisible(true);
 
     return a.exec();
 }

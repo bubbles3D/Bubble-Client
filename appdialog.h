@@ -3,6 +3,10 @@
 
 #include <QDialog>
 
+#include "networkclient.h"
+#include "model.h"
+#include "gameapp.h"
+
 namespace Ui {
     class AppDialog;
 }
@@ -21,6 +25,8 @@ public slots:
 
 private:
     Ui::AppDialog *ui;
+    GameApp * ga;
+    Model * m;
 };
 
 #endif // APPDIALOG_H
