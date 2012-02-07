@@ -11,11 +11,9 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     Model * m = Model::getInstance();
+    m->setName("naruto69");
+
     NetworkClient nc;
-    nc.setName("naruto42");
-    m->setName("naruto42");
-
-
     nc.startOn("134.214.167.50", 9001);
 
     GameApp ga;
