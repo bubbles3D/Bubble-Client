@@ -111,3 +111,10 @@ void Model::shot(float x, float y, float z)
     emit shotEvent(x, y, z);
     qDebug() << "shotEvent sent";
 }
+
+QList<Player> Model::getAllPlayers()
+{
+    QMutexLocker locker(&mutex);
+    QList<Player> cp(players);
+    return cp;
+}

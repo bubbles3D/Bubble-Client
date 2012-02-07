@@ -19,6 +19,7 @@ public:
     void addUpdatedPlayer(Player);
     void setUpdatedPlayers(QString json);
     QList<Player> getUpdatedPlayers();
+    QList<Player> getAllPlayers();
     void addUpdatedBullet(Bullet);
     void setUpdatedBullets(QString json);
     QList<Bullet> getUpdatedBullets();
