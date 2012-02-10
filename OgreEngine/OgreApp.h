@@ -10,6 +10,7 @@
 #include "OGRE/ExampleFrameListener.h"
 #include <string.h>
 #include <stdio.h>
+#include "OGRE/OgreNode.h"
 #include "BaseApplication.h"
 #include "model.h"
 
