@@ -12,11 +12,11 @@ int main(int argc, char *argv[])
 
     Model * m = Model::getInstance();
     NetworkClient nc;
-    nc.setName("naruto42");
-    m->setName("naruto42");
+    nc.setName("naruto92");
+    m->setName("naruto92");
 
 
-    nc.startOn("134.214.167.50", 9001);
+    nc.startOn("10.42.43.58", 9001);
 
     GameApp ga;
     ga.run();

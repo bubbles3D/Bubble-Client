@@ -1,5 +1,7 @@
 #include "OgreApp.h"
-
+#include "OGRE/Ogre.h"
+#include <QDebug>
+#include <string>
 using namespace Ogre;
 
 //-------------------------------------------------------------------------------------
@@ -303,26 +305,86 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
  void OgreApp::updatePositions(){
      Model * model = Model::getInstance();
-     QList<Player> playerList = model->getUpdatedPlayers();
+     QList<Player> playerList = model->getAllPlayers();//getUpdatedPlayers();
 
      //Update elements position
      foreach(Player p, playerList){
 
          Ogre::Node* node;
+         Ogre::Node* cameraNode;
          try{
              //MAJ position des joueurs
              node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
-             node->setPosition(p.getX(),55,p.getZ());
+             node->setPosition(p.getX(),p.getY(),p.getZ());
+             //MAJ orientation des joueurs
+             cameraNode = node->getChild(p.getName().toStdString()+"_cam");
+
+             if(model->getName() != p.getName()){
+                Ogre::Vector3 directionToLookAt =Ogre::Vector3(p.getVx() ,p.getVy() ,p.getVz());
+
+                Ogre::Vector3 directionToLookAtHorizontal = directionToLookAt;
+                directionToLookAtHorizontal.y = 0;
+                directionToLookAtHorizontal.normalise();
+
+                Ogre::Vector3 directionToLookAtVertical = directionToLookAt;
+                directionToLookAtVertical.x = 0;
+                directionToLookAtVertical.normalise();
+
+                Ogre::Vector3 srcH = node->getOrientation()* Ogre::Vector3::UNIT_Z;
+                Ogre::Vector3 srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
+                /*qDebug()<<"get Source direction --------------------------------------------" ;
+                qDebug()<<src.x;
+                qDebug()<<src.y;
+                qDebug()<<src.z;
+                qDebug()<<"end get Source direction  --------------------------------------------" ;
+                */
+                Ogre::Vector3 srcHorizontal = srcH;
+                srcHorizontal.y = 0;
+                srcHorizontal.normalise();
+
+                Ogre::Vector3 srcVertical = srcV;
+                srcVertical.x = 0;
+                srcVertical.normalise();
+
+
+                if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
+                {
+                 node->yaw(Ogre::Degree(180));
+                }
+                else
+                {
+                 Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal);
+                 node->yaw(quat.getYaw());
+                }
+
+                /*
+                if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
+                {
+                 node->pitch(Ogre::Degree(180));
+                }
+                else
+                {
+                 Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical);
+                 const char * c = Ogre::StringConverter::toString((quat.getYaw().valueDegrees())).c_str();
+                 //qDebug()<<c ;
+                 //node->pitch(quat.getPitch());
+                 cameraNode->pitch(quat.getPitch());
+                }
+                */
+
+             }
+
          }catch (Ogre::Exception ex){
              //Si le joueur n'existe pas
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum.mesh");
              Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
-             cubeNode->setPosition(p.getX(),55,p.getZ());
+             cubeNode->setPosition(p.getX(),p.getY(),p.getZ());
              cubeNode->scale(20,20,20);
+             Ogre::SceneNode* cameraNode = cubeNode->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
 
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
-                 playerCameraNode = cubeNode->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+                 playerCameraNode = cameraNode;
                  playerTargetNode = playerCameraNode->createChildSceneNode(p.getName().toStdString() + "_target", Ogre::Vector3(0,0,1));
                  playerCameraNode->attachObject(playerCamera);
                  cubeNode->setVisible(false,true);
@@ -332,7 +394,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  mode = FIRST;
              }
 
-             cubeNode->attachObject(cube);
+             cameraNode->attachObject(cube);
          }
      }
 

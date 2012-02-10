@@ -7,6 +7,7 @@ SOURCES += \
     app.cpp \
     model.cpp \
     gameapp.cpp \
+    actor.cpp \
     OgreEngine/TutorialApplication.cpp \
     OgreEngine/OgreApp.cpp \
     OgreEngine/BaseApplication.cpp
@@ -16,6 +17,7 @@ HEADERS += \
     player.h \
     model.h \
     gameapp.h \
+    actor.h \
     /usr/include \
     /usr/include/OGRE \
     /usr/include/OIS \ 
