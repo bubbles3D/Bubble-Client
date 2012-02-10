@@ -13,6 +13,7 @@ NetworkClient::NetworkClient(QObject *parent) :
 {
     sock = new QTcpSocket(this);
     Model * m = Model::getInstance();
+    name = m->getName();
 
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));

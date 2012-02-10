@@ -3,6 +3,10 @@
 
 #include <QDialog>
 
+#include "networkclient.h"
+#include "model.h"
+#include "gameapp.h"
+
 namespace Ui {
     class AppDialog;
 }
@@ -15,8 +19,14 @@ public:
     explicit AppDialog(QWidget *parent = 0);
     ~AppDialog();
 
+public slots:
+    void accept();
+    void reject();
+
 private:
     Ui::AppDialog *ui;
+    GameApp * ga;
+    Model * m;
 };
 
 #endif // APPDIALOG_H
