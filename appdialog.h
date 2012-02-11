@@ -27,6 +27,7 @@ private:
     Ui::AppDialog *ui;
     GameApp * ga;
     Model * m;
+    QFile * hosts;
 };
 
 #endif // APPDIALOG_H
