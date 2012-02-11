@@ -41,6 +41,13 @@ void OgreApp::createScene(void)
     cubeNode->setPosition(0,55,0);
     cubeNode->attachObject(cube);
 
+    //Ball
+    Ogre::Entity* bullet = mSceneMgr->createEntity("ball", "Bullet.mesh");
+    Ogre::SceneNode* bulletNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    bulletNode->setPosition(200,55,200);
+    bulletNode->scale(40,40,40);
+    bulletNode->attachObject(bullet);
+
     Ogre::Entity* plan = mSceneMgr->createEntity("plano", "Plane.mesh");
     Ogre::SceneNode* planNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     planNode->setPosition(0,0,0);
@@ -304,8 +311,14 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
  }
 
  void OgreApp::updatePositions(){
+      Model * model = Model::getInstance();
+     updatePlayersPositions();
+     updateObjectsPositions("Bullet.mesh", model->getUpdatedBullets());
+ }
+
+ void OgreApp::updatePlayersPositions(){
      Model * model = Model::getInstance();
-     QList<Player> playerList = model->getAllPlayers();//getUpdatedPlayers();
+     QList<Player> playerList = model->getUpdatedPlayers();//getAllPlayers();
 
      //Update elements position
      foreach(Player p, playerList){
@@ -315,90 +328,118 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          try{
              //MAJ position des joueurs
              node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
-             node->setPosition(p.getX(),p.getY(),p.getZ());
              //MAJ orientation des joueurs
              cameraNode = node->getChild(p.getName().toStdString()+"_cam");
-
-             if(model->getName() != p.getName()){
-                Ogre::Vector3 directionToLookAt =Ogre::Vector3(p.getVx() ,p.getVy() ,p.getVz());
-
-                Ogre::Vector3 directionToLookAtHorizontal = directionToLookAt;
-                directionToLookAtHorizontal.y = 0;
-                directionToLookAtHorizontal.normalise();
-
-                Ogre::Vector3 directionToLookAtVertical = directionToLookAt;
-                directionToLookAtVertical.x = 0;
-                directionToLookAtVertical.normalise();
-
-                Ogre::Vector3 srcH = node->getOrientation()* Ogre::Vector3::UNIT_Z;
-                Ogre::Vector3 srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
-                /*qDebug()<<"get Source direction --------------------------------------------" ;
-                qDebug()<<src.x;
-                qDebug()<<src.y;
-                qDebug()<<src.z;
-                qDebug()<<"end get Source direction  --------------------------------------------" ;
-                */
-                Ogre::Vector3 srcHorizontal = srcH;
-                srcHorizontal.y = 0;
-                srcHorizontal.normalise();
-
-                Ogre::Vector3 srcVertical = srcV;
-                srcVertical.x = 0;
-                srcVertical.normalise();
-
-
-                if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
-                {
-                 node->yaw(Ogre::Degree(180));
-                }
-                else
-                {
-                 Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal);
-                 node->yaw(quat.getYaw());
-                }
-
-                /*
-                if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
-                {
-                 node->pitch(Ogre::Degree(180));
-                }
-                else
-                {
-                 Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical);
-                 const char * c = Ogre::StringConverter::toString((quat.getYaw().valueDegrees())).c_str();
-                 //qDebug()<<c ;
-                 //node->pitch(quat.getPitch());
-                 cameraNode->pitch(quat.getPitch());
-                }
-                */
-
-             }
 
          }catch (Ogre::Exception ex){
              //Si le joueur n'existe pas
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum.mesh");
-             Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
-             cubeNode->setPosition(p.getX(),p.getY(),p.getZ());
-             cubeNode->scale(20,20,20);
-             Ogre::SceneNode* cameraNode = cubeNode->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
+             node->setPosition(p.getX(),p.getY(),p.getZ());
+             node->scale(20,20,20);
+             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
 
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
-                 playerCameraNode = cameraNode;
+                 playerCameraNode = ((Ogre::SceneNode*)cameraNode);
                  playerTargetNode = playerCameraNode->createChildSceneNode(p.getName().toStdString() + "_target", Ogre::Vector3(0,0,1));
                  playerCameraNode->attachObject(playerCamera);
-                 cubeNode->setVisible(false,true);
+                 ((Ogre::SceneNode*)node)->setVisible(false,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
                  setupViewport(mSceneMgr,playerCamera->getName());
-                 playerNode = cubeNode;
+                 playerNode = ((Ogre::SceneNode*)node);
                  mode = FIRST;
              }
-
-             cameraNode->attachObject(cube);
+             ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
          }
+
+         if(model->getName() != p.getName()){
+            updateObjectPosition(node,cameraNode,p);
+         }
+
+     }
+ }
+
+ void OgreApp::updateObjectsPositions(const char * meshName, QList<Bullet> objectsList){
+
+     //Update elements position
+     foreach(Actor p, objectsList){
+
+         Ogre::Node* node;
+         Ogre::Node* cameraNode;
+         try{
+             //Get object's nodes if they already exist
+             node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
+             cameraNode = node->getChild(p.getName().toStdString()+"_cam");
+
+         }catch (Ogre::Exception ex){
+             //If the object doesn't already exist we create it
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), meshName);
+             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
+             node->setPosition(p.getX(),p.getY(),p.getZ());
+             node->scale(20,20,20);
+             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+             ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
+         }
+         updateObjectPosition(node,cameraNode,p);
+     }
+ }
+
+ void OgreApp::updateObjectPosition(Node* node,Node* cameraNode, Actor p){
+     //Now we update nodes' positions
+     node->setPosition(p.getX(),p.getY(),p.getZ());
+     Ogre::Vector3 directionToLookAt =Ogre::Vector3(p.getVx() ,p.getVy() ,p.getVz());
+
+     Ogre::Vector3 directionToLookAtHorizontal = directionToLookAt;
+     directionToLookAtHorizontal.y = 0;
+     directionToLookAtHorizontal.normalise();
+
+     Ogre::Vector3 directionToLookAtVertical = directionToLookAt;
+     directionToLookAtVertical.x = 0;
+     directionToLookAtVertical.normalise();
+
+     Ogre::Vector3 srcH = node->getOrientation()* Ogre::Vector3::UNIT_Z;
+     Ogre::Vector3 srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
+
+     /*qDebug()<<"get Source direction --------------------------------------------" ;
+     qDebug()<<src.x;
+     qDebug()<<src.y;
+     qDebug()<<src.z;
+     qDebug()<<"end get Source direction  --------------------------------------------" ;
+     */
+     Ogre::Vector3 srcHorizontal = srcH;
+     srcHorizontal.y = 0;
+     srcHorizontal.normalise();
+
+     Ogre::Vector3 srcVertical = srcV;
+     srcVertical.x = 0;
+     srcVertical.normalise();
+
+
+     if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
+     {
+      node->yaw(Ogre::Degree(180));
+     }
+     else
+     {
+      Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal);
+      node->yaw(quat.getYaw());
      }
 
-
+     /*
+     if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
+     {
+      node->pitch(Ogre::Degree(180));
+     }
+     else
+     {
+      Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical);
+      const char * c = Ogre::StringConverter::toString((quat.getYaw().valueDegrees())).c_str();
+      //qDebug()<<c ;
+      //node->pitch(quat.getPitch());
+      cameraNode->pitch(quat.getPitch());
+     }
+     */
  }
 
  void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)

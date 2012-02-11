@@ -51,6 +51,9 @@ protected:
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual void setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name);
     void updatePositions();
+    void updatePlayersPositions();
+    void updateObjectsPositions(const char * meshName, QList<Bullet> objectsList);
+    void updateObjectPosition(Node* node,Node* cameraNode, Actor p);
 
 };
 #endif // APP_H
