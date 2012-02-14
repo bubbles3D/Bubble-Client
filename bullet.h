@@ -9,6 +9,8 @@ public:
     Bullet(QString name = "");
     Bullet(QVariantMap map);
 
+    int getId();
+
 private:
     QString player;
     int id;
