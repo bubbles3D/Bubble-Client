@@ -21,6 +21,7 @@ Actor::Actor(QVariantMap map)
     vx = map["vx"].toInt();
     vy = map["vy"].toInt();
     vz = map["vz"].toInt();
+    ratio = map["ratio"].toInt();
 }
 
 QString Actor::toString()
@@ -58,3 +59,8 @@ float Actor::getVy(){
 float Actor::getVz(){
     return vz;
 }
+
+float Actor::getRatio(){
+    return ratio;
+}
+
