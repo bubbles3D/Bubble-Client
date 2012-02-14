@@ -44,7 +44,7 @@ void OgreApp::createScene(void)
     //Ball
     Ogre::Entity* bullet = mSceneMgr->createEntity("ball", "Bullet.mesh");
     Ogre::SceneNode* bulletNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    bulletNode->setPosition(200,55,200);
+    bulletNode->setPosition(200,55,0);
     bulletNode->scale(40,40,40);
     bulletNode->attachObject(bullet);
 
@@ -385,7 +385,8 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), meshName);
              node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
              node->setPosition(p.getX(),p.getY(),p.getZ());
-             node->scale(20,20,20);
+             float ratio = p.getRatio();
+             node->scale(ratio,ratio,ratio);
              cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
              ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
          }
@@ -410,6 +411,14 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
      Ogre::Vector3 srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
 
+     Ogre::Vector3 srcHorizontal = srcH;
+     srcHorizontal.y = 0;
+     srcHorizontal.normalise();
+
+     Ogre::Vector3 srcVertical = srcV;
+     srcVertical.x = 0;
+     srcVertical.normalise();
+
      qDebug()<<"get Source direction --------------------------------------------" ;
      qDebug()<<srcV.x;
      qDebug()<<srcV.y;
@@ -422,33 +431,30 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      qDebug()<<directionToLookAt.z;
      qDebug()<<"get direction to look at  --------------------------------------------" ;
 
-     Ogre::Vector3 srcHorizontal = srcH;
-     srcHorizontal.y = 0;
-     srcHorizontal.normalise();
-
-     Ogre::Vector3 srcVertical = srcV;
-     srcVertical.x = 0;
-     srcVertical.normalise();
-
      if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
      {
-      node->yaw(Ogre::Degree(180));
+      //node->yaw(Ogre::Degree(180));
      }
      else
      {
       Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
-      node->yaw(quat.getYaw());
+      //node->yaw(quat.getYaw());
      }
 
      if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
      {
-      //cameraNode->pitch(Ogre::Degree(180));
+      cameraNode->pitch(Ogre::Degree(180));
      }
      else
      {
       Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
       cameraNode->pitch(quat.getPitch());
      }
+
+     qDebug()<<"Before scale";
+     float ratio = p.getRatio();
+     node->setScale(ratio,ratio,ratio);
+     qDebug()<<"After scale";
  }
 
  void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)
