@@ -11,7 +11,6 @@ SOURCES += \
     OgreEngine/TutorialApplication.cpp \
     OgreEngine/OgreApp.cpp \
     OgreEngine/BaseApplication.cpp \
-    actor.cpp \
     bullet.cpp \
     appdialog.cpp
 
@@ -27,7 +26,6 @@ HEADERS += \
     OgreEngine/TutorialApplication.h \
     OgreEngine/OgreApp.h \
     OgreEngine/BaseApplication.h \
-    actor.h \
     bullet.h \
     appdialog.h
 
