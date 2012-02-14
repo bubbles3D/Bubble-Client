@@ -11,6 +11,7 @@ public:
 
 private:
     QString player;
+    int id;
 };
 
 #endif // BULLET_H
