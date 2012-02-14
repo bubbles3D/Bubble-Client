@@ -57,8 +57,8 @@ void Model::setUpdatedBullets(QString json)
     QVariantMap result = parser.parse(json.toAscii()).toMap();
 
     foreach(QVariant obj, result["bullets"].toList()){
-        Player p(obj.toMap());
-        addUpdatedPlayer(p);
+        Bullet b(obj.toMap());
+        addUpdatedBullet(b);
     }
 }
 
