@@ -113,6 +113,7 @@ void NetworkClient::sendShot(float x, float y, float z)
     state["y"] = y;
     state["z"] = z;
     shoot["state"] = state;
+    shoot["name"] = "MOUSE";
     obj["shoot"] = shoot;
 
     QJson::Serializer serializer;
