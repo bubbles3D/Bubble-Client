@@ -296,6 +296,12 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
     if (mTrayMgr->injectMouseDown(arg, id)) return true;
     mCameraMan->injectMouseDown(arg, id);
+    Model *mod = Model::getInstance();
+
+    if(mode == FIRST){
+        mod->shot(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
+    }
+
     return true;
 }
 
@@ -401,6 +407,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      directionToLookAtVertical.normalise();
 
      Ogre::Vector3 srcH = node->getOrientation()* Ogre::Vector3::UNIT_Z;
+
      Ogre::Vector3 srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
 
      qDebug()<<"get Source direction --------------------------------------------" ;
@@ -435,7 +442,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
      if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
      {
-      cameraNode->pitch(Ogre::Degree(180));
+      //cameraNode->pitch(Ogre::Degree(180));
      }
      else
      {
