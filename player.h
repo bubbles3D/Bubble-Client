@@ -18,7 +18,6 @@ public:
     int getDeaths();
     int getKills();
 
-private:
     int life, deaths, kills;
 
 };

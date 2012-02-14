@@ -20,7 +20,6 @@ public:
     QString getName();
     float getRatio();
 
-private:
     QString name;
     float x, y, z;
     float vx, vy, vz;

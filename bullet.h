@@ -11,7 +11,6 @@ public:
 
     int getId();
 
-private:
     QString player;
     int id;
 };
