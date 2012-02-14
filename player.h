@@ -13,6 +13,8 @@ public:
     Player(QString name, float x, float y, float z,
                    float vx, float vy, float vz);
     Player(QVariantMap map);
+private:
+    int life, deaths, kills;
 
 };
 

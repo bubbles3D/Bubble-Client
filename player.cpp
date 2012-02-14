@@ -10,4 +10,8 @@ Player::Player(QString name, float x, float y, float z,
 
 Player::Player(QVariantMap map)
     :Actor(map)
-{}
+{
+    life = map["life"].toInt();
+    deaths = map["deaths"].toInt();
+    kills = map["kills"].toInt();
+}
