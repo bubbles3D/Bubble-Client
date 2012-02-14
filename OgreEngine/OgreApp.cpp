@@ -433,28 +433,26 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
      if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
      {
-      //node->yaw(Ogre::Degree(180));
+      node->yaw(Ogre::Degree(180));
      }
      else
      {
       Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
-      //node->yaw(quat.getYaw());
+     node->yaw(quat.getYaw());
      }
 
      if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
      {
-      cameraNode->pitch(Ogre::Degree(180));
+      //cameraNode->pitch(Ogre::Degree(180));
      }
      else
      {
       Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
-      cameraNode->pitch(quat.getPitch());
+      //cameraNode->pitch(quat.getPitch());
      }
 
-     qDebug()<<"Before scale";
      float ratio = p.getRatio();
      node->setScale(ratio,ratio,ratio);
-     qDebug()<<"After scale";
  }
 
  void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)
