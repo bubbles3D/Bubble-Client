@@ -13,6 +13,11 @@ public:
     Player(QString name, float x, float y, float z,
                    float vx, float vy, float vz);
     Player(QVariantMap map);
+
+    int getLife();
+    int getDeaths();
+    int getKills();
+
 private:
     int life, deaths, kills;
 

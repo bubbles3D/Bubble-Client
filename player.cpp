@@ -15,3 +15,19 @@ Player::Player(QVariantMap map)
     deaths = map["deaths"].toInt();
     kills = map["kills"].toInt();
 }
+
+int Player::getLife()
+{
+    return life;
+}
+
+int Player::getKills()
+{
+    return kills;
+}
+
+
+int Player::getDeaths()
+{
+    return deaths;
+}
