@@ -15,13 +15,15 @@ AppDialog::AppDialog(QWidget *parent) :
         QString str = hosts->readLine();
         QStringList host = str.split(':');
 
-        ui->ServerAddr->setText(host[0]);
+        ui->PlayerName->setText(host[0]);
+        ui->ServerAddr->setText(host[1]);
+        hosts->close();
     }
 
     m = Model::getInstance();
     ga = new GameApp();
 
-    connect(ga, SIGNAL(finished), this, SLOT(reject()));
+    connect(ga, SIGNAL(destroyed()), this, SLOT(reject()));
 }
 
 void AppDialog::accept()
@@ -35,7 +37,8 @@ void AppDialog::accept()
     else
     {
         QTextStream out(hosts);
-        out << ui->ServerAddr->text() << ":" << ui->ServerPort->value();
+        out << ui->PlayerName->text() << ":" << ui->ServerAddr->text() << ":" << ui->ServerPort->value();
+        hosts->close();
     }
 
     NetworkClient * nc = new NetworkClient();
