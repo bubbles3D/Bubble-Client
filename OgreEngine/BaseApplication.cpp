@@ -53,19 +53,17 @@ bool BaseApplication::configure(void)
     // Show the configuration dialog and initialise the system
     // You can skip this and use root.restoreConfig() to load configuration
     // settings if you were sure there are valid ones saved in ogre.cfg
-    //if(mRoot->showConfigDialog())
-    //{
-        // If returned true, user clicked OK so initialise
-        // Here we choose to let the system create a default rendering window by passing 'true'
-	mRoot->setRenderSystem(mRoot->getAvailableRenderers().front());
+
+    if(!(mRoot->restoreConfig() || mRoot->showConfigDialog()))
+    {
+        mRoot->setRenderSystem(mRoot->getAvailableRenderers().front());
+        mWindow->setFullscreen(false,800,600);
+    }
+
     mWindow = mRoot->initialise(true, "Bubble Render Window");
-mWindow->setFullscreen(false,800,600);
-        return true;
-    //}
-    //else
-    //{
-    //    return false;
-    //}
+
+
+     return true;
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::chooseSceneManager(void)

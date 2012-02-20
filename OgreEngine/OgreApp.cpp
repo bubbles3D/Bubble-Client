@@ -404,6 +404,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      directionToLookAtHorizontal.normalise();
 
      Ogre::Vector3 directionToLookAtVertical = directionToLookAt;
+     directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
      directionToLookAtVertical.x = 0;
      directionToLookAtVertical.normalise();
 
@@ -418,7 +419,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      Ogre::Vector3 srcVertical = srcV;
      srcVertical.x = 0;
      srcVertical.normalise();
-
+/*
      qDebug()<<"get Source direction --------------------------------------------" ;
      qDebug()<<srcV.x;
      qDebug()<<srcV.y;
@@ -430,7 +431,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      qDebug()<<directionToLookAt.y;
      qDebug()<<directionToLookAt.z;
      qDebug()<<"get direction to look at  --------------------------------------------" ;
-
+*/
      if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
      {
       node->yaw(Ogre::Degree(180));
@@ -443,12 +444,12 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
      if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
      {
-      //cameraNode->pitch(Ogre::Degree(180));
+      cameraNode->pitch(Ogre::Degree(180));
      }
      else
      {
       Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
-      //cameraNode->pitch(quat.getPitch());
+      cameraNode->pitch(quat.getPitch());
      }
 
      float ratio = p.getRatio();
