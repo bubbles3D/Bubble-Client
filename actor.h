@@ -24,6 +24,8 @@ public:
     float x, y, z;
     float vx, vy, vz;
     float ratio;
+
+    bool operator ==(const Actor& a) const;
 };
 
 #endif // ACTOR_H

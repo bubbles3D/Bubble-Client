@@ -64,3 +64,7 @@ float Actor::getRatio(){
     return ratio;
 }
 
+bool Actor::operator ==(const Actor& a) const{
+    return (name == a.name);
+}
+

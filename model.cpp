@@ -25,53 +25,65 @@ Model* Model::getInstance()
 QList<Player> Model::getUpdatedPlayers()
 {
     QMutexLocker locker(&mutex);
-    QList<Player> ret(players);
-    players.clear();
 
-    return ret;
+    return players.values();
 }
 
 QList<Bullet> Model::getUpdatedBullets()
 {
     QMutexLocker locker(&mutex);
-    QList<Bullet> ret(bullets);
-    bullets.clear();
 
-    return ret;
+    return bullets.values();
 }
 
 void Model::setUpdatedPlayers(QString json)
 {
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QSet<QString> diff = players.keys().toSet();
 
     foreach(QVariant obj, result["players"].toList()){
         Player p(obj.toMap());
         addUpdatedPlayer(p);
+        diff.remove(p.name);
     }
+
+    foreach(QString s, diff){
+        players.remove(s);
+    }
+
+    toClear.unite(diff);
 }
 
 void Model::setUpdatedBullets(QString json)
 {
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QSet<QString> diff = players.keys().toSet();
 
     foreach(QVariant obj, result["bullets"].toList()){
         Bullet b(obj.toMap());
         addUpdatedBullet(b);
+        diff.remove(b.name);
     }
+
+    foreach(QString s, diff){
+        bullets.remove(s);
+    }
+
+    toClear.unite(diff);
 }
 
 void Model::addUpdatedPlayer(Player p)
 {
     QMutexLocker locker(&mutex);
-    players.append(p);
+    players.insert(p.name, p);
 }
 
 void Model::addUpdatedBullet(Bullet b)
 {
     QMutexLocker locker(&mutex);
-    bullets.append(b);
+    bullets.insert(b.name, b);
 }
 
 void Model::setName(QString n)
@@ -112,9 +124,17 @@ void Model::shot(float x, float y, float z)
     qDebug() << "shotEvent sent";
 }
 
+/* Deprecated */
 QList<Player> Model::getAllPlayers()
 {
     QMutexLocker locker(&mutex);
-    QList<Player> cp(players);
+    QList<Player> cp(players.values());
     return cp;
 }
+
+QList<QString> Model::getClearedActors(){
+    QMutexLocker locker(&mutex);
+    QList<QString> cp(toClear.toList());
+    return cp;
+}
+

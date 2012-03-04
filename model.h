@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QPair>
+#include <QSet>
 #include <QMutex>
 #include <QObject>
 #include <QVariant>
@@ -28,15 +29,18 @@ public:
     void updateKeys(QString name, bool state);
     void updateMouse(float x, float y, float z);
     void shot(float x, float y, float z);
+    QList<QString> getClearedActors();
 
 private:
     static Model * instance;
     Model();
-    QList<Player> players;
-    QList<Bullet> bullets;
+    QMap<QString, Player> players;
+    QMap<QString, Bullet> bullets;
     QString name;
+    QSet<QString> toClear;
     mutable QMutex mutex;
     QTime mouseTimeout;
+    void update();
 
 signals:
     void keyChanged(QString name, bool state);
