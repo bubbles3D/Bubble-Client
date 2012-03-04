@@ -134,7 +134,9 @@ QList<Player> Model::getAllPlayers()
 
 QList<QString> Model::getClearedActors(){
     QMutexLocker locker(&mutex);
-    QList<QString> cp(toClear.toList());
-    return cp;
+    QList<QString> ret = toClear.toList();
+    toClear.clear();
+
+    return ret;
 }
 
