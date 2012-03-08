@@ -65,7 +65,7 @@ void Model::setUpdatedBullets(QString json)
     //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
-    QSet<QString> diff = players.keys().toSet();
+    QSet<QString> diff = bullets.keys().toSet();
 
     toClear.clear();
 
@@ -80,6 +80,8 @@ void Model::setUpdatedBullets(QString json)
     }
 
     toClear.unite(diff);
+
+    qDebug() << "plopbullets " << toClear;
 }
 
 void Model::addUpdatedPlayer(Player p)
