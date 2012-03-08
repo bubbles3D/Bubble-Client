@@ -38,6 +38,7 @@ QList<Bullet> Model::getUpdatedBullets()
 
 void Model::setUpdatedPlayers(QString json)
 {
+    //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
     QSet<QString> diff = players.keys().toSet();
@@ -55,10 +56,13 @@ void Model::setUpdatedPlayers(QString json)
     }
 
     toClear.unite(diff);
+
+    qDebug() << "plop " << toClear;
 }
 
 void Model::setUpdatedBullets(QString json)
 {
+    //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
     QSet<QString> diff = players.keys().toSet();
@@ -139,6 +143,8 @@ QList<Player> Model::getAllPlayers()
 QList<QString> Model::getClearedActors(){
     QMutexLocker locker(&mutex);
     QList<QString> ret = toClear.toList();
+
+    qDebug() << "getClearedActors " << ret;
 
     return ret;
 }

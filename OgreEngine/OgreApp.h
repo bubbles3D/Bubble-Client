@@ -8,11 +8,12 @@
 #include <QVariant>
 #include <OGRE/Ogre.h>
 #include "OGRE/ExampleFrameListener.h"
-#include <string.h>
+#include <QString>
 #include <stdio.h>
-#include "OGRE/OgreNode.h"
+#include "OGRE/Ogre.h"
 #include "BaseApplication.h"
 #include "model.h"
+#include "OgreEngine/Utils.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
@@ -54,6 +55,11 @@ protected:
     void updatePlayersPositions();
     void updateObjectsPositions(const char * meshName, QList<Bullet> objectsList);
     void updateObjectPosition(Node* node,Node* cameraNode, Actor p);
+    void updateObjectAnimation(Actor p, const char * animation);
+    void updateObjectsAnimations(QList<Player> objectsList);
+    void initScale(Ogre::Entity* entity, Ogre::Node * node);
+    void removeObject(QString p);
+    void removeObjects( QList<QString> names);
 
 };
 #endif // APP_H

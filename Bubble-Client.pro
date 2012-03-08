@@ -12,7 +12,8 @@ SOURCES += \
     OgreEngine/OgreApp.cpp \
     OgreEngine/BaseApplication.cpp \
     bullet.cpp \
-    appdialog.cpp
+    appdialog.cpp \
+    OgreEngine/Utils.cpp
 
 HEADERS += \
     networkclient.h \
@@ -22,12 +23,14 @@ HEADERS += \
     actor.h \
     /usr/include \
     /usr/include/OGRE \
+    /usr/include/OGRE/Ogre.h \
     /usr/include/OIS \ 
     OgreEngine/TutorialApplication.h \
     OgreEngine/OgreApp.h \
     OgreEngine/BaseApplication.h \
     bullet.h \
-    appdialog.h
+    appdialog.h \
+    OgreEngine/Utils.h
 
 LIBS += \
     -L usr/lib \

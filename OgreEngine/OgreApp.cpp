@@ -2,6 +2,7 @@
 #include "OGRE/Ogre.h"
 #include <QDebug>
 #include <string>
+
 using namespace Ogre;
 
 //-------------------------------------------------------------------------------------
@@ -60,6 +61,19 @@ void OgreApp::createScene(void)
 
     //Init mode
     mode = FREE;
+
+
+    Ogre::Entity* cube41 = mSceneMgr->createEntity("cube41", "Cube.mesh");
+            Ogre::SceneNode* cubeNode41 =
+                            mSceneMgr->getRootSceneNode()->createChildSceneNode();
+            cubeNode41->setPosition(400, 55, 0);
+            cubeNode41->attachObject(cube41);
+            initScale(cube41,cubeNode41);
+            cubeNode41->scale(20,20,20);
+
+            Ogre::Entity* cube74 = mSceneMgr->createEntity("ezr", "Bubble-Gum-Anim.mesh");
+             qDebug()<<"BUBBLE";
+              qDebug()<<Utils::getEdgeLength(cube74);
 
 }
 
@@ -320,6 +334,10 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
       Model * model = Model::getInstance();
      updatePlayersPositions();
      updateObjectsPositions("Bullet.mesh", model->getUpdatedBullets());
+
+     //qDebug()<<model->getAllPlayers().length();
+     //updateObjectsAnimations(model->getAllPlayers());
+     removeObjects(model->getClearedActors());
  }
 
  void OgreApp::updatePlayersPositions(){
@@ -339,7 +357,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
          }catch (Ogre::Exception ex){
              //Si le joueur n'existe pas
-             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum.mesh");
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum-Anim.mesh");
              node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
              node->scale(20,20,20);
              cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
@@ -394,6 +412,27 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      }
  }
 
+void OgreApp::removeObjects(QList<QString> names){
+    qDebug()<<names;
+    foreach(QString name, names){
+        removeObject(name);
+    }
+}
+
+void OgreApp::removeObject(QString p){
+
+        Entity * entity;
+        try{
+            entity = mSceneMgr->getEntity(p.toStdString());
+            SceneNode* parent = entity->getParentSceneNode();
+            parent->detachObject(entity->getName());
+           // mSceneMgr->destroyEntity(entity->getName());
+            //mSceneMgr->destroySceneNode(parent->getName());
+
+        }catch (Ogre::Exception ex){
+          qDebug()<<"ERROR REMOVING NODE";
+        }
+}
  void OgreApp::updateObjectPosition(Node* node,Node* cameraNode, Actor p){
      //Now we update nodes' positions
      node->setPosition(p.getX(),p.getY(),p.getZ());
@@ -419,6 +458,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      Ogre::Vector3 srcVertical = srcV;
      srcVertical.x = 0;
      srcVertical.normalise();
+
 /*
      qDebug()<<"get Source direction --------------------------------------------" ;
      qDebug()<<srcV.x;
@@ -456,6 +496,37 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      node->setScale(ratio,ratio,ratio);
  }
 
+ void OgreApp::updateObjectAnimation(Actor p, const char * animation){
+     Ogre::AnimationState *animationState;
+     try{
+         qDebug()<<"Ogre EXception not append 1 :: ::--------------------------------------------" ;
+         Ogre::Entity* entity = mSceneMgr->getEntity(p.getName().toStdString());
+         qDebug()<<"Ogre EXception not append 2  ::- ::--------------------------------------------" ;
+         animationState = entity->getAnimationState(animation);
+         qDebug()<<"Ogre EXception not append 3  ::- ::--------------------------------------------" ;
+         if (animationState->getEnabled() == false){
+            animationState->setLoop(true);
+            animationState->setEnabled(true);
+         }
+         animationState->addTime(0.05);
+
+     }catch(Ogre::Exception ex){
+         qDebug()<<"Ogre EXception animation ::--------------------------------------------" ;
+         //qDebug()<<QString(ex.getFullDescription());
+         //qDebug()<<QString((int)(ex.getLine()));
+     }
+
+ }
+
+ void OgreApp::updateObjectsAnimations(QList<Player> objectsList){
+qDebug()<<"Ogre EXception animation -1::--------------------------------------------" ;
+     //Update elements position
+     foreach(Actor p, objectsList){
+         qDebug()<<"Ogre EXception animation -0::--------------------------------------------" ;
+         updateObjectAnimation(p,"my_animation");
+     }
+ }
+
  void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)
  {
      mWindow->removeAllViewports();
@@ -467,6 +538,20 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
      cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
  }
+
+ void OgreApp::initScale(Ogre::Entity* entity, Ogre::Node * node){
+     Real length = Utils::getEdgeLength(entity);
+     Real ratio = 4.98725/length;
+
+
+
+     qDebug()<<"RATIO";
+     qDebug()<<ratio;
+     qDebug()<<length;
+     node->scale(ratio,ratio,ratio);
+
+ }
+
 
 /*
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
