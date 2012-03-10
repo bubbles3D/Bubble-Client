@@ -36,14 +36,20 @@ QList<Bullet> Model::getUpdatedBullets()
     return bullets.values();
 }
 
+QList<Obstacles> Model::getUpdatedObstacles()
+{
+    QMutexLocker locker(&mutex);
+
+    return obstacles.values();
+}
+
+
 void Model::setUpdatedPlayers(QString json)
 {
     //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
     QSet<QString> diff = players.keys().toSet();
-
-    toClear.clear();
 
     foreach(QVariant obj, result["players"].toList()){
         Player p(obj.toMap());
@@ -56,8 +62,6 @@ void Model::setUpdatedPlayers(QString json)
     }
 
     toClear.unite(diff);
-
-    qDebug() << "plop " << toClear;
 }
 
 void Model::setUpdatedBullets(QString json)
@@ -66,8 +70,6 @@ void Model::setUpdatedBullets(QString json)
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
     QSet<QString> diff = bullets.keys().toSet();
-
-    toClear.clear();
 
     foreach(QVariant obj, result["bullets"].toList()){
         Bullet b(obj.toMap());
@@ -80,8 +82,26 @@ void Model::setUpdatedBullets(QString json)
     }
 
     toClear.unite(diff);
+}
 
-    qDebug() << "plopbullets " << toClear;
+void Model::setUpdatedObstacles(QString json)
+{
+    //QMutexLocker locker(&mutex);
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QSet<QString> diff = obstacles.keys().toSet();
+
+    foreach(QVariant obj, result["obstacles"].toList()){
+        Obstacles o(obj.toMap());
+        addUpdatedObstacles(o);
+        diff.remove(o.id);
+    }
+
+    foreach(QString s, diff){
+        obstacles.remove(s);
+    }
+
+    toClear.unite(diff);
 }
 
 void Model::addUpdatedPlayer(Player p)
@@ -94,6 +114,12 @@ void Model::addUpdatedBullet(Bullet b)
 {
     QMutexLocker locker(&mutex);
     bullets.insert(b.id, b);
+}
+
+void Model::addUpdatedObstacles(Obstacles o)
+{
+    QMutexLocker locker(&mutex);
+    obstacles.insert(o.id, o);
 }
 
 void Model::setName(QString n)
@@ -148,7 +174,7 @@ QList<QString> Model::getClearedActors(){
 
     qDebug() << "getClearedActors " << ret;
 
-
+    toClear.clear();
 
     return ret;
 }

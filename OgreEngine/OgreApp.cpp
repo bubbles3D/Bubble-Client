@@ -403,8 +403,8 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), meshName);
              node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
              node->setPosition(p.getX(),p.getY(),p.getZ());
-             float ratio = p.getRatio();
-             node->scale(ratio,ratio,ratio);
+             //float ratio = p.getRatio();
+             node->scale(p.getWidth(),p.getHeight(),p.getLength());
              cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
              ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
          }
@@ -495,8 +495,7 @@ void OgreApp::removeObject(QString p){
       cameraNode->pitch(quat.getPitch());
      }
 
-     float ratio = p.getRatio();
-     node->setScale(ratio,ratio,ratio);
+     node->setScale(p.getWidth(),p.getHeight(),p.getLength());
  }
 
  void OgreApp::updateObjectAnimation(Actor p, const char * animation){

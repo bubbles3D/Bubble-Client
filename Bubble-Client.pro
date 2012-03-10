@@ -13,7 +13,8 @@ SOURCES += \
     OgreEngine/BaseApplication.cpp \
     bullet.cpp \
     appdialog.cpp \
-    OgreEngine/Utils.cpp
+    OgreEngine/Utils.cpp \
+    obstacles.cpp
 
 HEADERS += \
     networkclient.h \
@@ -30,7 +31,8 @@ HEADERS += \
     OgreEngine/BaseApplication.h \
     bullet.h \
     appdialog.h \
-    OgreEngine/Utils.h
+    OgreEngine/Utils.h \
+    obstacles.h
 
 
 LIBS += \

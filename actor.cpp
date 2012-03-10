@@ -21,7 +21,9 @@ Actor::Actor(QVariantMap map)
     vx = map["vx"].toInt();
     vy = map["vy"].toInt();
     vz = map["vz"].toInt();
-    ratio = map["ratio"].toInt();
+    width = map["w"].toFloat();
+    height = map["h"].toFloat();
+    length = map["l"].toFloat();
 }
 
 QString Actor::toString()
@@ -59,8 +61,16 @@ float Actor::getVz(){
     return vz;
 }
 
-float Actor::getRatio(){
-    return ratio;
+float Actor::getWidth(){
+    return width;
+}
+
+float Actor::getLength(){
+    return length;
+}
+
+float Actor::getHeight(){
+    return height;
 }
 
 bool Actor::operator ==(const Actor& a) const{

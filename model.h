@@ -11,6 +11,7 @@
 
 #include "player.h"
 #include "bullet.h"
+#include "obstacles.h"
 
 class Model: public QObject
 {
@@ -24,6 +25,9 @@ public:
     void addUpdatedBullet(Bullet);
     void setUpdatedBullets(QString json);
     QList<Bullet> getUpdatedBullets();
+    void addUpdatedObstacles(Obstacles);
+    void setUpdatedObstacles(QString json);
+    QList<Obstacles> getUpdatedObstacles();
     void setName(QString n);
     QString getName();
     void updateKeys(QString name, bool state);
@@ -31,11 +35,13 @@ public:
     void shot(float x, float y, float z);
     QList<QString> getClearedActors();
 
+
 private:
     static Model * instance;
     Model();
     QMap<QString, Player> players;
     QMap<QString, Bullet> bullets;
+    QMap<QString, Obstacles> obstacles;
     QString name;
     QSet<QString> toClear;
     mutable QMutex mutex;

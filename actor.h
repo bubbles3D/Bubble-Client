@@ -19,12 +19,15 @@ public:
     float getVz();
     QString getId();
     QString getName();
-    float getRatio();
+    float getWidth();
+    float getLength();
+    float getHeight();
 
     QString id;
     float x, y, z;
     float vx, vy, vz;
     float ratio;
+    float width, length, height;
 
     bool operator ==(const Actor& a) const;
 };
