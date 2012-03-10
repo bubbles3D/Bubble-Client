@@ -1,16 +1,16 @@
 
-// blender material: Bullet
-material Bullet 
+// blender material: White-Bubble
+material White-Bubble 
 {
     receive_shadows on
-    technique b2ogre_1328980136.524781
+    technique b2ogre_1327875831.501778
     {
-        pass b2ogre_1328980136.524862
+        pass b2ogre_1327875831.501859
         {
-            ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
-            diffuse 0.6400000190734865 0.6400000190734865 0.6400000190734865 1.0
+            ambient 0.19613099098205566 0.25304892659187317 0.800000011920929 1.0
+            diffuse 0.15690479512370814 0.2024391442900768 0.6400000190734865 1.0
             specular 0.5 0.5 0.5 1.0 12.5
-            emissive 0.0 0.0 0.0 1.0
+            emissive 0.0 0.1 0.0 1.0
             alpha_to_coverage off
             colour_write on
             cull_hardware clockwise
@@ -27,12 +27,10 @@ material Bullet
             scene_blend_op add
             shading gouraud
             transparent_sorting on
-            texture_unit b2ogre_1328980136.525978
+            texture_unit b2ogre_1327875831.502729
             {
-                //texture Flames.jpg
-                anim_texture Flames.jpg Yoda-green-flames-awesome.jpg 2.5
-                alpha_op_ex source1 src_manual src_current 0.2
-                tex_address_mode wrap
+                texture White-Eyes.png
+                tex_address_mode clamp
                 scale 1.0 1.0
                 colour_op replace
             }
