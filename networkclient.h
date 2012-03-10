@@ -24,6 +24,7 @@ public slots:
 private:
     QTcpSocket * sock;
     QString name;
+    QString messages;
 };
 
 #endif // NETWORKCLIENT_H

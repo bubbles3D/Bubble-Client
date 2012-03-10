@@ -68,17 +68,26 @@ void NetworkClient::send(QString mess)
 
 void NetworkClient::processIncommingData()
 {
-    QByteArray mess = sock->readAll();
+    QByteArray received = sock->readAll();
+    qDebug() << "Received " <<  received;
 
-    qDebug() << "Received " <<  mess;
+    QString curr(received);
 
-    QString str(mess);
+    messages += curr;
 
-    str.remove("$$");
+    if (messages.contains("$$"))
+    {
+        QList<QString> toProcess = messages.split("$$");
 
-    Model * m = Model::getInstance();
-    m->setUpdatedPlayers(str);
-    m->setUpdatedBullets(str);
+        for(int i=0; i < toProcess.size() - 1; i++)
+        {
+            Model * m = Model::getInstance();
+            m->setUpdatedPlayers(toProcess[i]);
+            m->setUpdatedBullets(toProcess[i]);
+        }
+
+        messages = toProcess[toProcess.size() - 1];
+    }
 }
 
 void NetworkClient::sendKeyState(QString name, bool state)
