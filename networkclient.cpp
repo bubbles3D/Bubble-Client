@@ -84,6 +84,7 @@ void NetworkClient::processIncommingData()
             Model * m = Model::getInstance();
             m->setUpdatedPlayers(toProcess[i]);
             m->setUpdatedBullets(toProcess[i]);
+            m->setUpdatedObstacles(toProcess[i]);
         }
 
         messages = toProcess[toProcess.size() - 1];
