@@ -54,6 +54,7 @@ protected:
     void updatePositions();
     void updatePlayersPositions();
     void updateObjectsPositions(const char * meshName, QList<Bullet> objectsList);
+    void updateObjectsPositions(const char * meshName, QList<Obstacles> objectsList);
     void updateObjectPosition(Node* node,Node* cameraNode, Actor p);
     void updateObjectAnimation(Actor p, const char * animation);
     void updateObjectsAnimations(QList<Player> objectsList);
