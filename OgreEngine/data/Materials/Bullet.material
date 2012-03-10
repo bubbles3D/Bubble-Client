@@ -29,9 +29,7 @@ material Bullet
             transparent_sorting on
             texture_unit b2ogre_1328980136.525978
             {
-                //texture Flames.jpg
-                anim_texture Flames.jpg Yoda-green-flames-awesome.jpg 2.5
-                alpha_op_ex source1 src_manual src_current 0.2
+                texture Flames.jpg
                 tex_address_mode wrap
                 scale 1.0 1.0
                 colour_op replace
