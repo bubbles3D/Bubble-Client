@@ -422,12 +422,15 @@ void OgreApp::removeObjects(QList<QString> names){
 void OgreApp::removeObject(QString p){
 
         Entity * entity;
+        SceneNode * node;
         try{
+            qDebug()<<"Start REMOVING NODE";
             entity = mSceneMgr->getEntity(p.toStdString());
-            SceneNode* parent = entity->getParentSceneNode();
-            parent->detachObject(entity->getName());
-           // mSceneMgr->destroyEntity(entity->getName());
+            node = (SceneNode *) mSceneMgr->getRootSceneNode()->getChild(p.toStdString());
+            node->removeAndDestroyAllChildren();
+            mSceneMgr->destroyEntity(entity->getName());
             //mSceneMgr->destroySceneNode(parent->getName());
+            qDebug()<<"End REMOVING NODE";
 
         }catch (Ogre::Exception ex){
           qDebug()<<"ERROR REMOVING NODE";
