@@ -2,15 +2,10 @@
 
 
 
-
-Player::Player(QString name, float x, float y, float z,
-               float vx, float vy, float vz)
-    : Actor(name, x, y, z, vx, vy, vz)
-{}
-
 Player::Player(QVariantMap map)
     :Actor(map)
 {
+    name = map["name"].toString();
     life = map["life"].toInt();
     deaths = map["deaths"].toInt();
     kills = map["kills"].toInt();
@@ -30,4 +25,9 @@ int Player::getKills()
 int Player::getDeaths()
 {
     return deaths;
+}
+
+QString Player::getName()
+{
+    return name;
 }

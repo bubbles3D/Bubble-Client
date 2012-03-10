@@ -7,8 +7,8 @@
 class Actor
 {
 public:
-    Actor(QString name="player", float x=0, float y=0, float z=0,
-           float vx=0, float vy=0, float vz=0);
+    Actor(QString id, float x, float y, float z,
+                   float vx, float vy, float vz);
     Actor(QVariantMap dict);
     QString toString();
     float getX();
@@ -17,10 +17,11 @@ public:
     float getVx();
     float getVy();
     float getVz();
+    QString getId();
     QString getName();
     float getRatio();
 
-    QString name;
+    QString id;
     float x, y, z;
     float vx, vy, vz;
     float ratio;

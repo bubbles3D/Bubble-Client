@@ -1,9 +1,9 @@
 #include "actor.h"
 
-Actor::Actor(QString name, float x, float y, float z,
+Actor::Actor(QString id, float x, float y, float z,
                float vx, float vy, float vz)
 {
-    this->name = name;
+    this->id = id;
     this->x = x;
     this->y = y;
     this->z = z;
@@ -14,7 +14,7 @@ Actor::Actor(QString name, float x, float y, float z,
 
 Actor::Actor(QVariantMap map)
 {
-    name = map["name"].toString();
+    id = map["id"].toString();
     x = map["x"].toInt();
     y = map["y"].toInt();
     z = map["z"].toInt();
@@ -26,14 +26,13 @@ Actor::Actor(QVariantMap map)
 
 QString Actor::toString()
 {
-    QString str;
-    str += "name : " + name + " x:" + x + " y:" + y + " z:" + z;
+    QString str = "name : " + id + " x:" + x + " y:" + y + " z:" + z;
 
     return str;
 }
 
-QString Actor::getName(){
-    return name;
+QString Actor::getId(){
+    return id;
 }
 
 float Actor::getX(){
@@ -65,6 +64,6 @@ float Actor::getRatio(){
 }
 
 bool Actor::operator ==(const Actor& a) const{
-    return (name == a.name);
+    return (id == a.id);
 }
 

@@ -395,17 +395,17 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          Ogre::Node* cameraNode;
          try{
              //Get object's nodes if they already exist
-             node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
-             cameraNode = node->getChild(p.getName().toStdString()+"_cam");
+             node = mSceneMgr->getRootSceneNode()->getChild(p.getId().toStdString());
+             cameraNode = node->getChild(p.getId().toStdString()+"_cam");
 
          }catch (Ogre::Exception ex){
              //If the object doesn't already exist we create it
-             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), meshName);
-             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), meshName);
+             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
              node->setPosition(p.getX(),p.getY(),p.getZ());
              float ratio = p.getRatio();
              node->scale(ratio,ratio,ratio);
-             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
              ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
          }
          updateObjectPosition(node,cameraNode,p);
@@ -500,7 +500,7 @@ void OgreApp::removeObject(QString p){
      Ogre::AnimationState *animationState;
      try{
          qDebug()<<"Ogre EXception not append 1 :: ::--------------------------------------------" ;
-         Ogre::Entity* entity = mSceneMgr->getEntity(p.getName().toStdString());
+         Ogre::Entity* entity = mSceneMgr->getEntity(p.getId().toStdString());
          qDebug()<<"Ogre EXception not append 2  ::- ::--------------------------------------------" ;
          animationState = entity->getAnimationState(animation);
          qDebug()<<"Ogre EXception not append 3  ::- ::--------------------------------------------" ;

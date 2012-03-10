@@ -48,7 +48,7 @@ void Model::setUpdatedPlayers(QString json)
     foreach(QVariant obj, result["players"].toList()){
         Player p(obj.toMap());
         addUpdatedPlayer(p);
-        diff.remove(p.name);
+        diff.remove(p.id);
     }
 
     foreach(QString s, diff){
@@ -72,7 +72,7 @@ void Model::setUpdatedBullets(QString json)
     foreach(QVariant obj, result["bullets"].toList()){
         Bullet b(obj.toMap());
         addUpdatedBullet(b);
-        diff.remove(b.name);
+        diff.remove(b.id);
     }
 
     foreach(QString s, diff){
@@ -87,13 +87,13 @@ void Model::setUpdatedBullets(QString json)
 void Model::addUpdatedPlayer(Player p)
 {
     QMutexLocker locker(&mutex);
-    players.insert(p.name, p);
+    players.insert(p.id, p);
 }
 
 void Model::addUpdatedBullet(Bullet b)
 {
     QMutexLocker locker(&mutex);
-    bullets.insert(b.name, b);
+    bullets.insert(b.id, b);
 }
 
 void Model::setName(QString n)
@@ -147,6 +147,8 @@ QList<QString> Model::getClearedActors(){
     QList<QString> ret = toClear.toList();
 
     qDebug() << "getClearedActors " << ret;
+
+
 
     return ret;
 }
