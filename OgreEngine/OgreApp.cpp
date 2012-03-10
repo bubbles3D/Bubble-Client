@@ -351,21 +351,21 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          Ogre::Node* cameraNode;
          try{
              //MAJ position des joueurs
-             node = mSceneMgr->getRootSceneNode()->getChild(p.getName().toStdString());
+             node = mSceneMgr->getRootSceneNode()->getChild(p.getId().toStdString());
              //MAJ orientation des joueurs
-             cameraNode = node->getChild(p.getName().toStdString()+"_cam");
+             cameraNode = node->getChild(p.getId().toStdString()+"_cam");
 
          }catch (Ogre::Exception ex){
              //Si le joueur n'existe pas
-             Ogre::Entity* cube = mSceneMgr->createEntity(p.getName().toStdString(), "Bubble-Gum-Anim.mesh");
-             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getName().toStdString());
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), "Bubble-Gum-Anim.mesh");
+             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
              node->scale(20,20,20);
-             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getName().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
 
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
                  playerCameraNode = ((Ogre::SceneNode*)cameraNode);
-                 playerTargetNode = playerCameraNode->createChildSceneNode(p.getName().toStdString() + "_target", Ogre::Vector3(0,0,1));
+                 playerTargetNode = playerCameraNode->createChildSceneNode(p.getId().toStdString() + "_target", Ogre::Vector3(0,0,1));
                  playerCameraNode->attachObject(playerCamera);
                  ((Ogre::SceneNode*)node)->setVisible(false,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
