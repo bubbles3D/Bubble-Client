@@ -209,6 +209,8 @@ void BaseApplication::go(void)
 //-------------------------------------------------------------------------------------
 bool BaseApplication::setup(void)
 {
+    Ogre::LogManager* logger = new Ogre::LogManager();
+    logger->createLog("ogre_log.log", true, false, false); // no output on the console only to file
     mRoot = new Ogre::Root(mPluginsCfg);
 
     setupResources();
