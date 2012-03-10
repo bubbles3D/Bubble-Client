@@ -334,10 +334,12 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
       Model * model = Model::getInstance();
      updatePlayersPositions();
      updateObjectsPositions("Bullet.mesh", model->getUpdatedBullets());
+     updateObjectsPositions("Cube.mesh", model->getUpdatedObstacles());
 
      //qDebug()<<model->getAllPlayers().length();
      //updateObjectsAnimations(model->getAllPlayers());
      removeObjects(model->getClearedActors());
+
  }
 
  void OgreApp::updatePlayersPositions(){
@@ -408,6 +410,34 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
              ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
          }
+         updateObjectPosition(node,cameraNode,p);
+     }
+ }
+
+ void OgreApp::updateObjectsPositions(const char * meshName, QList<Obstacles> objectsList){
+
+     //Update elements position
+     foreach(Actor p, objectsList){
+
+         Ogre::Node* node;
+         Ogre::Node* cameraNode;
+         try{
+             //Get object's nodes if they already exist
+             node = mSceneMgr->getRootSceneNode()->getChild(p.getId().toStdString());
+             cameraNode = node->getChild(p.getId().toStdString()+"_cam");
+
+         }catch (Ogre::Exception ex){
+             //If the object doesn't already exist we create it
+             Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), meshName);
+             node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
+             node->setPosition(p.getX(),p.getY(),p.getZ());
+             //float ratio = p.getRatio();
+             node->scale(p.getWidth(),p.getHeight(),p.getLength());
+             cameraNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
+             ((Ogre::SceneNode*)cameraNode)->attachObject(cube);
+             initScale(cube,node);
+         }
+
          updateObjectPosition(node,cameraNode,p);
      }
  }
