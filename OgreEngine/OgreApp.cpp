@@ -1,7 +1,7 @@
 #include "OgreApp.h"
 #include "OGRE/Ogre.h"
 #include <QDebug>
-#include <string>
+#include <CEGUI.h>
 
 using namespace Ogre;
 
