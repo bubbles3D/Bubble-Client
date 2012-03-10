@@ -40,6 +40,7 @@ QList<Obstacles> Model::getUpdatedObstacles()
 {
     QMutexLocker locker(&mutex);
 
+    qDebug() << "get obstacles " << obstacles.size();
     return obstacles.values();
 }
 
@@ -89,19 +90,12 @@ void Model::setUpdatedObstacles(QString json)
     //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
-    QSet<QString> diff = obstacles.keys().toSet();
+    QMap<QString, QVariant> field = result["field"].toMap();
 
-    foreach(QVariant obj, result["obstacles"].toList()){
+    foreach(QVariant obj, field["obstacles"].toList()){
         Obstacles o(obj.toMap());
         addUpdatedObstacles(o);
-        diff.remove(o.id);
     }
-
-    foreach(QString s, diff){
-        obstacles.remove(s);
-    }
-
-    toClear.unite(diff);
 }
 
 void Model::addUpdatedPlayer(Player p)
