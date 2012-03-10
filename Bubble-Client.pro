@@ -30,9 +30,7 @@ HEADERS += \
     OgreEngine/BaseApplication.h \
     bullet.h \
     appdialog.h \
-    OgreEngine/Utils.h \
-    /usr/include/CEGUI \
-    /usr/include/CEGUI/CEGUI.h
+    OgreEngine/Utils.h
 
 
 LIBS += \
