@@ -17,9 +17,32 @@ OgreApp::~OgreApp(void)
     exit();
 }
 
+/*bool OgreApp::handleQuit(const CEGUI::EventArgs &e)
+{
+    mShutDown = true;
+    return true;
+}
+*/
 //-------------------------------------------------------------------------------------
 void OgreApp::createScene(void)
 {
+    //Init CEGUI
+
+    //mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
+    /*
+    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
+
+    CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
+
+    quit->setText("Quit");
+    quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+    sheet->addChildWindow(quit);
+    CEGUI::System::getSingleton().setGUISheet(sheet);
+
+    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreApp::handleQuit, this));
+
+    */
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
     mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
@@ -77,6 +100,35 @@ void OgreApp::createScene(void)
 
 }
 
+void OgreApp::createFrameListener(void){
+    /*BaseApplication::createFrameListener();*/
+
+    Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+        OIS::ParamList pl;
+        size_t windowHnd = 0;
+        std::ostringstream windowHndStr;
+
+        mWindow->getCustomAttribute("WINDOW", &windowHnd);
+        windowHndStr << windowHnd;
+        pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+
+        mInputManager = OIS::InputManager::createInputSystem( pl );
+
+        mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
+        mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
+
+        mMouse->setEventCallback(this);
+        mKeyboard->setEventCallback(this);
+
+        //Set initial mouse clipping size
+        windowResized(mWindow);
+
+        //Register as a Window listener
+        Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
+
+        mRoot->addFrameListener(this);
+}
+
 //-------------------------------------------------------------------------------------
 bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
@@ -90,106 +142,29 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mKeyboard->capture();
     mMouse->capture();
 
-    mTrayMgr->frameRenderingQueued(evt);
+    //Need to inject timestamps to CEGUI System.
 
-    if (!mTrayMgr->isDialogVisible())
-    {
-        mCameraMan->frameRenderingQueued(evt);   // if dialog isn't up, then update the camera
-        if (mDetailsPanel->isVisible())   // if details panel is visible, then update its contents
-        {
-            mDetailsPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
-            mDetailsPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
-            mDetailsPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
-            mDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
-            mDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
-            mDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
-            mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
-        }
+    //CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+
+    switch(mode){
+    case FREE:
+        mCameraMan->frameRenderingQueued(evt); //Update free cam
+        updatePositions();
+        break;
+    case FIRST:
+        updatePositions();
+        break;
+    default:
+        break;
     }
-
-    updatePositions();
 
     return true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 {
-    if (mTrayMgr->isDialogVisible()) return true;   // don't process any more keys if dialog is up
 
-    if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
-    {
-        mTrayMgr->toggleAdvancedFrameStats();
-    }
-    else if (arg.key == OIS::KC_G)   // toggle visibility of even rarer debugging details
-    {
-        if (mDetailsPanel->getTrayLocation() == OgreBites::TL_NONE)
-        {
-            mTrayMgr->moveWidgetToTray(mDetailsPanel, OgreBites::TL_TOPRIGHT, 0);
-            mDetailsPanel->show();
-        }
-        else
-        {
-            mTrayMgr->removeWidgetFromTray(mDetailsPanel);
-            mDetailsPanel->hide();
-        }
-    }
-    else if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::TextureFilterOptions tfo;
-        unsigned int aniso;
-
-        switch (mDetailsPanel->getParamValue(9).asUTF8()[0])
-        {
-        case 'B':
-            newVal = "Trilinear";
-            tfo = Ogre::TFO_TRILINEAR;
-            aniso = 1;
-            break;
-        case 'T':
-            newVal = "Anisotropic";
-            tfo = Ogre::TFO_ANISOTROPIC;
-            aniso = 8;
-            break;
-        case 'A':
-            newVal = "None";
-            tfo = Ogre::TFO_NONE;
-            aniso = 1;
-            break;
-        default:
-            newVal = "Bilinear";
-            tfo = Ogre::TFO_BILINEAR;
-            aniso = 1;
-        }
-
-        Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
-        Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
-        mDetailsPanel->setParamValue(9, newVal);
-    }
-    else if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::PolygonMode pm;
-
-        switch (mCamera->getPolygonMode())
-        {
-        case Ogre::PM_SOLID:
-            newVal = "Wireframe";
-            pm = Ogre::PM_WIREFRAME;
-            break;
-        case Ogre::PM_WIREFRAME:
-            newVal = "Points";
-            pm = Ogre::PM_POINTS;
-            break;
-        default:
-            newVal = "Solid";
-            pm = Ogre::PM_SOLID;
-        }
-
-        mCamera->setPolygonMode(pm);
-        mDetailsPanel->setParamValue(10, newVal);
-    }
-    else if(arg.key == OIS::KC_F5)   // refresh all textures
+    if(arg.key == OIS::KC_F5)   // refresh all textures
     {
         Ogre::TextureManager::getSingleton().reloadAll();
     }
@@ -208,6 +183,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 
     switch(mode){
     case FREE:
+        qDebug()<<"PASS IT";
         mCameraMan->injectKeyDown(arg);       
         switch (arg.key) {
          case OIS::KC_F1 :
@@ -246,6 +222,12 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
              break;
     }
 
+    /*
+    CEGUI::System &sys = CEGUI::System::getSingleton();
+    sys.injectKeyDown(arg.key);
+    sys.injectChar(arg.text);
+    */
+
     return true;
 }
 
@@ -282,6 +264,8 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
              break;
     }
 
+    //CEGUI::System::getSingleton().injectKeyUp(arg.key);
+
     return true;
 }
 
@@ -303,26 +287,47 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
              break;
     }
 
+    //CEGUI::System &sys = CEGUI::System::getSingleton();
+    //sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+    // Scroll wheel.
+    if (arg.state.Z.rel)
+       // sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
+
     return true;
 }
 
 bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if (mTrayMgr->injectMouseDown(arg, id)) return true;
-    mCameraMan->injectMouseDown(arg, id);
     Model *mod = Model::getInstance();
 
-    if(mode == FIRST){
+    switch(mode){
+    case FREE:
+        mCameraMan->injectMouseDown(arg, id);
+        break;
+    case FIRST:
         mod->shot(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
+        break;
+    default:
+        break;
     }
 
+    //CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
     return true;
 }
 
 bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    if (mTrayMgr->injectMouseUp(arg, id)) return true;
-    mCameraMan->injectMouseUp(arg, id);
+    switch(mode){
+    case FREE:
+        mCameraMan->injectMouseUp(arg, id);
+        break;
+    case FIRST:
+        break;
+    default:
+        break;
+    }
+
+    //CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
     return true;
 }
 
@@ -582,6 +587,24 @@ qDebug()<<"Ogre EXception animation -1::----------------------------------------
      qDebug()<<length;
      node->scale(ratio,ratio,ratio);
 
+ }
+
+ CEGUI::MouseButton OgreApp::convertButton(OIS::MouseButtonID buttonID)
+ {
+     switch (buttonID)
+     {
+     case OIS::MB_Left:
+         return CEGUI::LeftButton;
+
+     case OIS::MB_Right:
+         return CEGUI::RightButton;
+
+     case OIS::MB_Middle:
+         return CEGUI::MiddleButton;
+
+     default:
+         return CEGUI::LeftButton;
+     }
  }
 
 

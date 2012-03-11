@@ -32,13 +32,19 @@ HEADERS += \
     bullet.h \
     appdialog.h \
     OgreEngine/Utils.h \
-    obstacles.h
+    obstacles.h \
+    /usr/local/include/CEGUI \
+    /usr/local/include/CEGUI/CEGUI.h \
+    /usr/local/include/CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h
 
 
 LIBS += \
-    -L usr/lib \
+    -L/usr/lib \
+    -L/usr/local/lib \
     -lOgreMain\
-    -lOIS
+    -lOIS \
+    -lCEGUIBase \
+    -lCEGUIOgreRenderer
 
  QT += \
     network \

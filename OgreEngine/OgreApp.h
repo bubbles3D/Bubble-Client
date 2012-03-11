@@ -7,9 +7,10 @@
 #include <QString>
 #include <QVariant>
 #include <OGRE/Ogre.h>
-#include "OGRE/ExampleFrameListener.h"
+//#include "OGRE/ExampleFrameListener.h"
 #include <QString>
-#include <stdio.h>
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include "OGRE/Ogre.h"
 #include "BaseApplication.h"
 #include "model.h"
@@ -40,11 +41,14 @@ protected:
     Ogre::SceneNode* playerTargetNode;
     enum MODE mode;
 
+    //For CEGUI
+    CEGUI::OgreRenderer* mRenderer;
 
     float mRotateSpeed;
 
     virtual void createScene(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+    virtual void createFrameListener(void);
     virtual bool keyPressed( const OIS::KeyEvent &arg );
     virtual bool keyReleased( const OIS::KeyEvent &arg );
     virtual bool mouseMoved( const OIS::MouseEvent &arg );
@@ -61,6 +65,9 @@ protected:
     void initScale(Ogre::Entity* entity, Ogre::Node * node);
     void removeObject(QString p);
     void removeObjects( QList<QString> names);
+    //bool handleQuit(const CEGUI::EventArgs &e);
+
+    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
 };
 #endif // APP_H
