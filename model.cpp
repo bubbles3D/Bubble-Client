@@ -173,3 +173,24 @@ QList<QString> Model::getClearedActors(){
     return ret;
 }
 
+void Model::setMap(QString json)
+{
+    QMutexLocker locker(&mutex);
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QMap<QString, QVariant> field = result["field"].toMap();
+
+    mapWidth = field["width"].toInt();
+    mapLength = field["height"].toInt();
+}
+
+int Model::getMapWidth()
+{
+    return mapWidth;
+}
+
+int Model::getMapLength()
+{
+    return mapLength;
+}
+

@@ -17,6 +17,8 @@ class Model: public QObject
 {
     Q_OBJECT
 public:
+    int mapWidth, mapLength;
+
     static Model * getInstance();
     void addUpdatedPlayer(Player);
     void setUpdatedPlayers(QString json);
@@ -34,6 +36,10 @@ public:
     void updateMouse(float x, float y, float z);
     void shot(float x, float y, float z);
     QList<QString> getClearedActors();
+    void setMap(QString json);
+    int getMapWidth();
+    int getMapLength();
+
 
 
 private:
