@@ -82,9 +82,15 @@ void NetworkClient::processIncommingData()
         for(int i=0; i < toProcess.size() - 1; i++)
         {
             Model * m = Model::getInstance();
+
+            if (toProcess[i].contains("field"))
+            {
+                m->setUpdatedObstacles(toProcess[i]);
+                m->setMap(toProcess[i]);
+            }
+
             m->setUpdatedPlayers(toProcess[i]);
-            m->setUpdatedBullets(toProcess[i]);
-            m->setUpdatedObstacles(toProcess[i]);
+            m->setUpdatedBullets(toProcess[i]);            
         }
 
         messages = toProcess[toProcess.size() - 1];
