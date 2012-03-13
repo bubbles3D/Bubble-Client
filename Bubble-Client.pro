@@ -39,12 +39,13 @@ HEADERS += \
 
 
 LIBS += \
-    -L/usr/lib \
     -L/usr/local/lib \
+    -L/usr/lib \
     -lOgreMain\
     -lOIS \
     -lCEGUIBase \
-    -lCEGUIOgreRenderer
+    -lCEGUIOgreRenderer \
+    -lCEGUIXercesParser
 
  QT += \
     network \

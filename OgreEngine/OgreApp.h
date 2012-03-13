@@ -22,9 +22,11 @@
 using namespace Ogre;
 
 enum MODE {
-    FIRST,FREE
+    FIRST,FREE, MENU
 };
-
+enum side {
+    BOTTOM, TOP, XSIDE, XSIDE_OP, ZSIDE, ZSIDE_OP
+};
 class OgreApp : public BaseApplication, public QThread
 {
 public:
@@ -37,9 +39,14 @@ public:
 protected:
     Ogre::Camera* playerCamera;
     Ogre::SceneNode* playerNode;
+    Ogre::SceneNode* playerRotationNode;
     Ogre::SceneNode* playerCameraNode;
     Ogre::SceneNode* playerTargetNode;
+    Ogre::SceneNode* playerEntityNode;
     enum MODE mode;
+
+    //TEST
+    enum side plane;
 
     //For CEGUI
     CEGUI::OgreRenderer* mRenderer;
@@ -59,13 +66,13 @@ protected:
     void updatePlayersPositions();
     void updateObjectsPositions(const char * meshName, QList<Bullet> objectsList);
     void updateObjectsPositions(const char * meshName, QList<Obstacles> objectsList);
-    void updateObjectPosition(Node* node,Node* cameraNode, Actor p);
+    void updateObjectPosition(Node* node,Node* cameraNode,Node* entityNode, Node* rotNode, Actor p);
     void updateObjectAnimation(Actor p, const char * animation);
     void updateObjectsAnimations(QList<Player> objectsList);
     void initScale(Ogre::Entity* entity, Ogre::Node * node);
     void removeObject(QString p);
     void removeObjects( QList<QString> names);
-    //bool handleQuit(const CEGUI::EventArgs &e);
+    bool handleQuit(const CEGUI::EventArgs &e);
 
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
