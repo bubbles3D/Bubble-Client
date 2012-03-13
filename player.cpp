@@ -9,6 +9,7 @@ Player::Player(QVariantMap map)
     life = map["life"].toInt();
     deaths = map["deaths"].toInt();
     kills = map["kills"].toInt();
+    cube = map["cube"].toInt();
 }
 
 int Player::getLife()
@@ -25,6 +26,11 @@ int Player::getKills()
 int Player::getDeaths()
 {
     return deaths;
+}
+
+int Player::getCube()
+{
+    return cube;
 }
 
 QString Player::getName()
