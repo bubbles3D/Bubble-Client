@@ -22,12 +22,14 @@ public:
     float getWidth();
     float getLength();
     float getHeight();
+    int getCube();
 
     QString id;
     float x, y, z;
     float vx, vy, vz;
     float ratio;
     float width, length, height;
+    int cube;
 
     bool operator ==(const Actor& a) const;
 };
