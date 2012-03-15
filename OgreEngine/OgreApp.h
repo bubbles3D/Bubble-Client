@@ -45,6 +45,7 @@ protected:
     Ogre::SceneNode* playerCameraNode;
     Ogre::SceneNode* playerTargetNode;
     Ogre::SceneNode* playerEntityNode;
+    enum side playerSide;
     enum MODE mode;
 
     //TEST

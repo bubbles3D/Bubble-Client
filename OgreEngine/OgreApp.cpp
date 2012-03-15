@@ -69,7 +69,6 @@ void OgreApp::createScene(void)
     //Initialise playerCamera
     playerCamera = mSceneMgr->createCamera("playerCamera");
     mRotateSpeed = 0.15f;
-    //playerCameraController = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
 
     //Scene
     Ogre::Entity* cube = mSceneMgr->createEntity("cube", "BoxTest.mesh");
@@ -262,7 +261,6 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
         updatePositions();
         break;
     case FIRST:
-        //playerCameraController->frameRenderingQueued(evt); //Update player cam
         updatePositions();
         break;
     case MENU:
@@ -345,7 +343,6 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         }
         break;
     case FIRST:
-         //playerCameraController->injectKeyDown(arg);
 
          switch (arg.key) {
         case OIS::KC_UP:
@@ -408,7 +405,6 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
         mCameraMan->injectKeyUp(arg);
              break;
     case FIRST:
-         //playerCameraController->injectKeyUp(arg);
         switch (arg.key) {
         case OIS::KC_UP:
             keyName = "UP";
@@ -449,16 +445,15 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
              break;
     case FIRST: 
-        //playerCameraController->injectMouseMove(arg);
-        //TODO
-        //playerCamera->pitch(Ogre::Degree(-arg.state.Y.rel * mRotateSpeed));
-        //playerCamera->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
-        playerCameraNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
+
         playerRotationNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
+        playerCameraNode->needUpdate();
+        playerCameraNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
 
         //Transmit to server
         mod->updateMouse(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
 
+        break;
     case MENU:
         sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
         // Scroll wheel.
@@ -482,7 +477,7 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mCameraMan->injectMouseDown(arg, id);
         break;
     case FIRST:
-        //playerCameraController->injectMouseDown(arg, id);
+
         mod->shot(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
         break;
     case MENU:
@@ -502,7 +497,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mCameraMan->injectMouseUp(arg, id);
         break;
     case FIRST:
-        //playerCameraController->injectMouseUp(arg, id);
+
         break;
     case MENU:
         CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
@@ -570,6 +565,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
                  setupViewport(mSceneMgr,playerCamera->getName());
                  playerNode = ((Ogre::SceneNode*)node);
+                 playerSide =(side) p.getCube();
                  mode = FIRST;
              }
              ((Ogre::SceneNode*)entityNode)->attachObject(cube);
@@ -580,34 +576,54 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          if(model->getName() != p.getName()){
             updateObjectPosition(node, cameraNode, rotNode,p);
          }else{ // us
-             //qDebug()<<"Y::::::"<<p.getY();
              //Set player orientation
-             switch(p.getCube()){
-             case(BOTTOM):
-                 playerNode->setOrientation(playerNode->getInitialOrientation());
-                 break;
-             case(ZSIDE_OP):
-                 playerNode->setOrientation(playerNode->getInitialOrientation());
-                 playerNode->roll(Ogre::Degree(+90));
-                 break;
-             case(TOP):
-                 playerNode->setOrientation(playerNode->getInitialOrientation());
-                 playerNode->roll(Ogre::Degree(+180));
-             break;
-             case(ZSIDE):
-                 playerNode->setOrientation(playerNode->getInitialOrientation());
-                 playerNode->roll(Ogre::Degree(-90));
-                 break;
-             case(XSIDE_OP):
-                 playerNode->setOrientation(playerNode->getInitialOrientation());
-                 playerNode->pitch(Ogre::Degree(-90));
-                 break;
-             case(XSIDE):
-                 playerNode->setOrientation(playerNode->getInitialOrientation());
-                 playerNode->pitch(Ogre::Degree(+90));
-                 break;
 
-             }
+                 switch(p.getCube()){
+                 case(BOTTOM):
+                     playerNode->setOrientation(playerNode->getInitialOrientation());
+                     break;
+                 case(ZSIDE_OP):
+                     playerNode->setOrientation(playerNode->getInitialOrientation());
+                     playerNode->roll(Ogre::Degree(+90));
+                     break;
+                 case(TOP):
+                     playerNode->setOrientation(playerNode->getInitialOrientation());
+                     playerNode->roll(Ogre::Degree(+180));
+                 break;
+                 case(ZSIDE):
+                     playerNode->setOrientation(playerNode->getInitialOrientation());
+                     playerNode->roll(Ogre::Degree(-90));
+                     break;
+                 case(XSIDE_OP):
+                     playerNode->setOrientation(playerNode->getInitialOrientation());
+                     playerNode->pitch(Ogre::Degree(-90));
+                     break;
+                 case(XSIDE):
+                     playerNode->setOrientation(playerNode->getInitialOrientation());
+                     playerNode->pitch(Ogre::Degree(+90));
+                     break;
+                 }
+
+                 /*
+                 if(playerSide != p.getCube()){
+                     Vector3 verticalLook = playerCameraNode->getOrientation() * Ogre::Vector3::UNIT_Z;
+                     Vector3 horizontalLook = playerRotationNode->getOrientation() * Ogre::Vector3::UNIT_Z;
+                     Vector3 verticalLooknew.x = horizontalLook;
+                     Vector3 verticalLooknew.y = horizontalLook;
+                     Vector3 verticalLooknew.z = horizontalLook;
+
+                     Vector3 horizontalLooknew = ;
+
+                     Ogre::Quaternion quatv = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
+
+                     //Quaternion verticalLook = playerCameraNode->getOrientation();
+                     //Quaternion horizontalLook = playerRotationNode->getOrientation();
+                     playerCameraNode->setOrientation(horizontalLook);
+                     playerRotationNode->setOrientation(verticalLook);
+                     playerSide =(side) p.getCube();
+                 }
+                */
+
              node->setPosition(p.getX(),p.getY(),p.getZ());
          }
 
