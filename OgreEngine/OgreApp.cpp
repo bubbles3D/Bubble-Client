@@ -567,84 +567,66 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              node->setOrientation(node->getInitialOrientation());
 
+             directionToLookAtHorizontal.y = 0;
+             directionToLookAtVertical.x = 0;
+
              switch(p.getCube()){
              case BOTTOM: //bas
 
-                 directionToLookAtHorizontal.y = 0;
-                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
-                 directionToLookAtVertical.x = 0;
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.x * directionToLookAt.x) ;
 
                  break;
-             case XSIDE_OP: //COTE X
-                 /*
-                 directionToLookAtHorizontal.y = 0;
+             case XSIDE_OP: //COTE X  OPP
+                 node->pitch(Ogre::Degree(90));
+
+                 directionToLookAtHorizontal.x = directionToLookAt.x;
                  directionToLookAtHorizontal.z = directionToLookAt.y;
-                 directionToLookAtHorizontal.y = directionToLookAt.y;
 
-                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
-                 directionToLookAtVertical.x = 0;
-*/
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.x * directionToLookAt.x) ;
+                 directionToLookAtVertical.y = -directionToLookAt.z;
+
                  break;
-             case XSIDE: //COTE X OPP
-                 //entityNode->setOrientation(entityNode->getInitialOrientation());
-                 //entityNode->roll(Ogre::Degree(-90));
+             case XSIDE: //COTE X
+                 node->pitch(Ogre::Degree(-90));
+
+                 directionToLookAtHorizontal.x = directionToLookAt.x;
+                 directionToLookAtHorizontal.z = -directionToLookAt.y;
+
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.x * directionToLookAt.x) ;
+                 directionToLookAtVertical.y = directionToLookAt.z;
 
                  break;
              case ZSIDE: //COTE Z
-                 //entityNode->setOrientation(entityNode->getInitialOrientation());
-                 //entityNode->pitch(Ogre::Degree(-90));
+
+                 node->roll(Ogre::Degree(-90));
+                 directionToLookAtHorizontal.x = -directionToLookAt.y;
+                 directionToLookAtHorizontal.z = directionToLookAt.z;
+
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.z * directionToLookAt.z) ;
+                 directionToLookAtVertical.y = directionToLookAt.x;
 
                  break;
              case ZSIDE_OP:
-                 node->setOrientation(node->getInitialOrientation());
+
                  node->roll(Ogre::Degree(90));
 
                  directionToLookAtHorizontal.x = directionToLookAt.y;
-
-                 directionToLookAtHorizontal.y = 0;
-                 directionToLookAtHorizontal.normalise();
+                 directionToLookAtHorizontal.z = directionToLookAt.z;
 
                  directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.y * directionToLookAt.y) ;
-                 directionToLookAtVertical.x = 0;
                  directionToLookAtVertical.y = -directionToLookAt.x;
-                 directionToLookAtVertical.normalise();
-
-                 srcHorizontal = srcH;
-                 srcHorizontal.y = 0;
-                 srcHorizontal.normalise();
-
-                 srcVertical = srcV;
-                 srcVertical.x = 0;
-                 srcVertical.normalise();
-
-                 //Rotation laterale
-                 if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
-                 {
-                  rotNode->yaw(Ogre::Degree(180));
-                 }
-                 else
-                 {
-                  Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
-                 rotNode->yaw(quat.getYaw());
-                 }
-                 //Rotation verticale
-                 if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
-                 {
-                  cameraNode->pitch(Ogre::Degree(180));
-                 }
-                 else
-                 {
-                  Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
-                  cameraNode->pitch(quat.getPitch());
-                 }
-
-                 //entityNode->setOrientation(entityNode->getInitialOrientation());
-                 //entityNode->pitch(Ogre::Degree(90));
 
                  break;
              case TOP:
-                 //entityNode->setOrientation(entityNode->getInitialOrientation());
-                 //entityNode->pitch(Ogre::Degree(180));
+
+                 node->roll(Ogre::Degree(180));
+
+                 directionToLookAtHorizontal.x = -directionToLookAt.x;
+                 directionToLookAtHorizontal.z = directionToLookAt.z;
+
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.x * directionToLookAt.x) ;
+                 directionToLookAtVertical.y = -directionToLookAt.y;
+
                  break;
              }
 
@@ -704,6 +686,15 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerNode->setOrientation(playerNode->getInitialOrientation());
                  playerNode->roll(Ogre::Degree(-90));
                  break;
+             case(XSIDE_OP):
+                 playerNode->setOrientation(playerNode->getInitialOrientation());
+                 playerNode->pitch(Ogre::Degree(-90));
+                 break;
+             case(XSIDE):
+                 playerNode->setOrientation(playerNode->getInitialOrientation());
+                 playerNode->pitch(Ogre::Degree(+90));
+                 break;
+
              }
              node->setPosition(p.getX(),p.getY(),p.getZ());
          }
