@@ -17,11 +17,9 @@ public:
     int getLife();
     int getDeaths();
     int getKills();
-    int getCube();
     QString getName();
 
     int life, deaths, kills;
-    int cube;
     QString name;
 
 };

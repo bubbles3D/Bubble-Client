@@ -24,6 +24,7 @@ Actor::Actor(QVariantMap map)
     width = map["w"].toFloat();
     height = map["h"].toFloat();
     length = map["l"].toFloat();
+    cube = map["cube"].toInt();
 }
 
 QString Actor::toString()
@@ -75,5 +76,10 @@ float Actor::getHeight(){
 
 bool Actor::operator ==(const Actor& a) const{
     return (id == a.id);
+}
+
+int Actor::getCube()
+{
+    return cube;
 }
 
