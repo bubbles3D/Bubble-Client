@@ -52,15 +52,17 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
     }
     map.insert("modifications", list);
 
+
     QJson::Serializer serializer;
     QByteArray json = serializer.serialize(map);
+    qDebug() << json;
 
     send(json);
 }
 
 void NetworkClient::send(QString mess)
 {
-    qDebug() << "Sent " << mess;
+    //qDebug() << "Sent " << mess;
 
     sock->flush();
     sock->write((mess+"$$").toAscii());
@@ -69,7 +71,7 @@ void NetworkClient::send(QString mess)
 void NetworkClient::processIncommingData()
 {
     QByteArray received = sock->readAll();
-    qDebug() << "Received " <<  received;
+    //qDebug() << "Received " <<  received;
 
     QString curr(received);
 
@@ -99,7 +101,7 @@ void NetworkClient::processIncommingData()
 
 void NetworkClient::sendKeyState(QString name, bool state)
 {
-    qDebug() << "In sendKeyState Slot";
+    //qDebug() << "In sendKeyState Slot";
     QList<QPair<QString, QVariant> > list;
     QPair<QString, QVariant> pair(name, state);
     list.append(pair);
@@ -108,12 +110,12 @@ void NetworkClient::sendKeyState(QString name, bool state)
 
 void NetworkClient::sendMouseState(float x, float y, float z)
 {
-    qDebug() << "In sendMouseState Slot";
     QList<QPair<QString, QVariant> > list;
     QVariantMap obj;
-    obj["x"] = x;
-    obj["y"] = y;
-    obj["z"] = z;
+    obj["x"] = (double)x;
+    obj["y"] = (double)y;
+    obj["z"] = (double)z;
+    qDebug() << obj["x"];
     QPair<QString, QVariant> pair("MOUSE", obj);
     list.append(pair);
     modifications(list);
@@ -125,9 +127,9 @@ void NetworkClient::sendShot(float x, float y, float z)
     QVariantMap shoot;
     QVariantMap state;
 
-    state["x"] = x;
-    state["y"] = y;
-    state["z"] = z;
+    state["x"] = (double)x;
+    state["y"] = (double)y;
+    state["z"] = (double)z;
     shoot["state"] = state;
     shoot["name"] = "MOUSE";
     obj["shoot"] = shoot;

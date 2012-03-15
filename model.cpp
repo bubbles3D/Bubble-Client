@@ -40,7 +40,7 @@ QList<Obstacles> Model::getUpdatedObstacles()
 {
     QMutexLocker locker(&mutex);
 
-    qDebug() << "get obstacles " << obstacles.size();
+    //qDebug() << "get obstacles " << obstacles.size();
     return obstacles.values();
 }
 
@@ -131,7 +131,7 @@ QString Model::getName()
 void Model::updateKeys(QString name, bool state)
 {
     emit keyChanged(name, state);
-    qDebug() << "Emited keys signal";
+    //qDebug() << "Emited keys signal";
 }
 
 void Model::updateMouse(float x, float y, float z)
@@ -150,7 +150,7 @@ void Model::updateMouse(float x, float y, float z)
 void Model::shot(float x, float y, float z)
 {
     emit shotEvent(x, y, z);
-    qDebug() << "shotEvent sent";
+    //qDebug() << "shotEvent sent";
 }
 
 /* Deprecated */
@@ -165,7 +165,7 @@ QList<QString> Model::getClearedActors(){
     QMutexLocker locker(&mutex);
     QList<QString> ret = toClear.toList();
 
-    //qDebug() << "getClearedActors " << ret;
+    ////qDebug() << "getClearedActors " << ret;
 
     toClear.clear();
 
