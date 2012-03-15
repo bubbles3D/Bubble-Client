@@ -21,4 +21,15 @@ Real Utils::getEdgeLength(Ogre::Entity * entity){
     return min;
 }
 
+Real Utils::getEdgeLength2D(Ogre::Entity * entity){
+    Real min = -1;
+    Ogre::Vector3 a = entity->getBoundingBox().getAllCorners()[0];
+    qDebug()<<"A::"<<a.x<<" "<<a.y<<" "<<a.z;
+    Ogre::Vector3 b= entity->getBoundingBox().getAllCorners()[2];
+    qDebug()<<"B::"<<b.x<<" "<<b.y<<" "<<b.z;
+    min = Ogre::Math::Sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y) + (b.z-a.z)*(b.z-a.z) );
+
+    return min;
+}
+
 

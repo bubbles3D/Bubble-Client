@@ -166,7 +166,7 @@ QList<QString> Model::getClearedActors(){
     QMutexLocker locker(&mutex);
     QList<QString> ret = toClear.toList();
 
-    qDebug() << "getClearedActors " << ret;
+    //qDebug() << "getClearedActors " << ret;
 
     toClear.clear();
 

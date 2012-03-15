@@ -25,7 +25,7 @@ enum MODE {
     FIRST,FREE, MENU
 };
 enum side {
-    BOTTOM, TOP, XSIDE, XSIDE_OP, ZSIDE, ZSIDE_OP
+    BOTTOM=1, TOP=5, XSIDE=2, XSIDE_OP=4, ZSIDE=6, ZSIDE_OP=3
 };
 class OgreApp : public BaseApplication, public QThread
 {
@@ -73,7 +73,7 @@ protected:
     void removeObject(QString p);
     void removeObjects( QList<QString> names);
     bool handleQuit(const CEGUI::EventArgs &e);
-
+    void createCube();
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
 };

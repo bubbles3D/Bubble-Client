@@ -72,6 +72,7 @@ void OgreApp::createScene(void)
 
     //Scene
     Ogre::Entity* cube = mSceneMgr->createEntity("cube", "BoxTest.mesh");
+
     Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     cubeNode->setPosition(0,55,0);
     cubeNode->attachObject(cube);
@@ -83,11 +84,29 @@ void OgreApp::createScene(void)
     bulletNode->scale(40,40,40);
     bulletNode->attachObject(bullet);
 
+    /*
+    ////
     Ogre::Entity* plan = mSceneMgr->createEntity("plano", "Plane.mesh");
     Ogre::SceneNode* planNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    //Ogre::Mesh *pMesh = plan->getMesh().getPointer();
     planNode->setPosition(0,0,0);
+    //Ogre::Material *pMaterial = (Ogre::Material *) Ogre::MaterialManager::getSingleton().getByName(((pMesh->getSubMesh(0))->getMaterialName()));
 
-    planNode->attachObject(plan);
+    //Ogre::TextureUnitState *pTex = pMaterial->getBestTechnique(0)->createPass()->createTextureUnitState();
+   //pTex->setColourOperationEx(LBX_BLEND_DIFFUSE_COLOUR, LBS_MANUAL, LBS_CURRENT, ColourValue::Red);
+   //pMaterial->setSceneBlending(SBT_TRANSPARENT_COLOUR);
+
+   Ogre::MaterialPtr m_pMat = plan->getSubEntity(0)->getMaterial();
+   m_pMat->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
+   m_pMat->getTechnique(0)->getPass(0)->setDiffuse(1, 1, 0, 0);
+   plan->setMaterialName(m_pMat->getName());
+    /////
+*/
+
+    ////
+    createCube();
+
+    //planNode->attachObject(plan);
 
     // Create a light
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
@@ -115,6 +134,63 @@ void OgreApp::createScene(void)
 
     //Test
     plane = BOTTOM;
+
+    //Plan x
+    /*
+    Ogre::Entity* planX = mSceneMgr->createEntity("planoX", "Plane.mesh");
+    Ogre::SceneNode* planNodeX = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    planNodeX->setPosition(3000,1500,1500);
+    planNodeX->roll(Ogre::Degree(90));
+    planNodeX->attachObject(planX);
+    */
+}
+
+void OgreApp::createCube(){
+    Model *model = Model::getInstance();
+    float dim = model->getMapLength();
+
+
+    //Plan x
+    Ogre::Entity* planB = mSceneMgr->createEntity("planoB", "Plane.mesh");
+    Ogre::SceneNode* planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    float realDim = Utils::getEdgeLength2D(planB);
+    planNodeB->setPosition(dim/2,0,dim/2);
+    //planNodeX->roll(Ogre::Degree(90));
+    Real ratio = dim/realDim;
+    planNodeB->attachObject(planB);
+    qDebug()<<"DIM: "<<realDim;
+    planNodeB->scale(ratio*1.02,0,ratio*1.02);
+
+    //Plan zop
+    planB = mSceneMgr->createEntity("planoZOP", "Plane.mesh");
+    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    planNodeB->setPosition(dim,dim/2,dim/2);
+    planNodeB->roll(Ogre::Degree(90));
+    planNodeB->attachObject(planB);
+    qDebug()<<"DIMzop: "<<realDim;
+    planNodeB->scale(ratio*1.02,0,ratio*1.02);
+
+    //Plan top
+    planB = mSceneMgr->createEntity("planoTOP", "Plane.mesh");
+    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    planNodeB->setPosition(dim/2,dim,dim/2);
+    planNodeB->roll(Ogre::Degree(180));
+    planNodeB->attachObject(planB);
+    qDebug()<<"DIMtop: "<<realDim;
+    planNodeB->scale(ratio*1.02,0,ratio *1.02);
+
+    //Plan z
+    planB = mSceneMgr->createEntity("planoZ", "Plane.mesh");
+    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    planNodeB->setPosition(0,dim/2,dim/2);
+    planNodeB->roll(Ogre::Degree(-90));
+    planNodeB->attachObject(planB);
+    qDebug()<<"DIMz: "<<realDim;
+    planNodeB->scale(ratio*1.02,0,ratio *1.02);
+
 }
 
 void OgreApp::createFrameListener(void){
@@ -199,28 +275,29 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
     if(arg.key == OIS::KC_F7)   //
     {
         plane = BOTTOM;
-        playerNode->pitch(Ogre::Degree(-90));
+        playerNode->setOrientation(playerNode->getInitialOrientation());
+        //playerNode->pitch(Ogre::Degree(-90));
     }
     else if (arg.key == OIS::KC_F8)   //
     {
        plane = XSIDE_OP;
-       playerNode->pitch(Ogre::Degree(+90));
+       //playerNode->pitch(Ogre::Degree(+90));
     } else if (arg.key == OIS::KC_F9)   //
     {
        plane = XSIDE;
-       playerNode->roll(Ogre::Degree(-90));
+       //playerNode->pitch(Ogre::Degree(-90));
     } else if (arg.key == OIS::KC_F10)   //
     {
        plane = ZSIDE;
-       playerNode->roll(Ogre::Degree(+90));
+       //playerNode->roll(Ogre::Degree(-90));
     }else if (arg.key == OIS::KC_F11)   //
     {
        plane = ZSIDE_OP;
-       playerNode->roll(Ogre::Degree(+90));
+       //playerNode->roll(Ogre::Degree(+90));
     }else if (arg.key == OIS::KC_F12)   //
     {
        plane = TOP;
-       playerNode->roll(Ogre::Degree(+180));
+       //playerNode->roll(Ogre::Degree(+180));
     }
 
     //Local touch
@@ -229,7 +306,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 
     switch(mode){
     case FREE:
-        qDebug()<<"PASS IT";
+        //qDebug()<<"PASS IT";
         mCameraMan->injectKeyDown(arg);       
         switch (arg.key) {
          case OIS::KC_F1 :
@@ -470,9 +547,164 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
 
          if(model->getName() != p.getName()){
-            updateObjectPosition(node,entityNode, cameraNode, rotNode,p);
-         }else{
-             qDebug()<<"Y::::::"<<p.getY();
+            //updateObjectPosition(node,entityNode, cameraNode, rotNode,p);
+
+             //TO CHANGE!!!
+             //Now we update nodes' positions
+             node->setPosition(p.getX(),p.getY(),p.getZ());
+             Ogre::Vector3 directionToLookAt =Ogre::Vector3(p.getVx() ,p.getVy() ,p.getVz());
+
+             //Which part of the cube we are
+             Ogre::Vector3 directionToLookAtHorizontal = directionToLookAt;
+             Ogre::Vector3 directionToLookAtVertical = directionToLookAt;
+             Ogre::Vector3 srcH;
+             Ogre::Vector3 srcV;
+             Ogre::Vector3 srcHorizontal;
+             Ogre::Vector3 srcVertical;
+
+             srcH = rotNode->getOrientation()* Ogre::Vector3::UNIT_Z;
+             srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
+
+             node->setOrientation(node->getInitialOrientation());
+
+             switch(p.getCube()){
+             case BOTTOM: //bas
+
+                 directionToLookAtHorizontal.y = 0;
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
+                 directionToLookAtVertical.x = 0;
+
+                 break;
+             case XSIDE_OP: //COTE X
+                 /*
+                 directionToLookAtHorizontal.y = 0;
+                 directionToLookAtHorizontal.z = directionToLookAt.y;
+                 directionToLookAtHorizontal.y = directionToLookAt.y;
+
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
+                 directionToLookAtVertical.x = 0;
+*/
+                 break;
+             case XSIDE: //COTE X OPP
+                 //entityNode->setOrientation(entityNode->getInitialOrientation());
+                 //entityNode->roll(Ogre::Degree(-90));
+
+                 break;
+             case ZSIDE: //COTE Z
+                 //entityNode->setOrientation(entityNode->getInitialOrientation());
+                 //entityNode->pitch(Ogre::Degree(-90));
+
+                 break;
+             case ZSIDE_OP:
+                 node->setOrientation(node->getInitialOrientation());
+                 node->roll(Ogre::Degree(90));
+
+                 directionToLookAtHorizontal.x = directionToLookAt.y;
+
+                 directionToLookAtHorizontal.y = 0;
+                 directionToLookAtHorizontal.normalise();
+
+                 directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.y * directionToLookAt.y) ;
+                 directionToLookAtVertical.x = 0;
+                 directionToLookAtVertical.y = -directionToLookAt.x;
+                 directionToLookAtVertical.normalise();
+
+                 srcHorizontal = srcH;
+                 srcHorizontal.y = 0;
+                 srcHorizontal.normalise();
+
+                 srcVertical = srcV;
+                 srcVertical.x = 0;
+                 srcVertical.normalise();
+
+                 //Rotation laterale
+                 if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
+                 {
+                  rotNode->yaw(Ogre::Degree(180));
+                 }
+                 else
+                 {
+                  Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
+                 rotNode->yaw(quat.getYaw());
+                 }
+                 //Rotation verticale
+                 if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
+                 {
+                  cameraNode->pitch(Ogre::Degree(180));
+                 }
+                 else
+                 {
+                  Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
+                  cameraNode->pitch(quat.getPitch());
+                 }
+
+                 //entityNode->setOrientation(entityNode->getInitialOrientation());
+                 //entityNode->pitch(Ogre::Degree(90));
+
+                 break;
+             case TOP:
+                 //entityNode->setOrientation(entityNode->getInitialOrientation());
+                 //entityNode->pitch(Ogre::Degree(180));
+                 break;
+             }
+
+             // Rotate object
+             directionToLookAtHorizontal.normalise();
+             directionToLookAtVertical.normalise();
+
+             srcHorizontal = srcH;
+             srcHorizontal.y = 0;
+             srcHorizontal.normalise();
+
+             srcVertical = srcV;
+             srcVertical.x = 0;
+             srcVertical.normalise();
+
+             //Rotation laterale
+             if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
+             {
+              rotNode->yaw(Ogre::Degree(180));
+             }
+             else
+             {
+              Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
+             node->yaw(quat.getYaw());
+             }
+             //Rotation verticale
+             if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
+             {
+              cameraNode->pitch(Ogre::Degree(180));
+             }
+             else
+             {
+              Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
+              cameraNode->pitch(quat.getPitch());
+             }
+
+             //Scale
+             node->setScale(p.getWidth(),p.getHeight(),p.getLength());
+
+             //END TO CHANGE
+         }else{ // us
+             //qDebug()<<"Y::::::"<<p.getY();
+             //Set player orientation
+             switch(p.getCube()){
+             case(BOTTOM):
+                 playerNode->setOrientation(playerNode->getInitialOrientation());
+                 break;
+             case(ZSIDE_OP):
+                 playerNode->setOrientation(playerNode->getInitialOrientation());
+                 playerNode->roll(Ogre::Degree(+90));
+                 break;
+             case(TOP):
+                 playerNode->setOrientation(playerNode->getInitialOrientation());
+                 playerNode->roll(Ogre::Degree(+180));
+             break;
+             case(ZSIDE):
+                 playerNode->setOrientation(playerNode->getInitialOrientation());
+                 playerNode->roll(Ogre::Degree(-90));
+                 break;
+             }
              node->setPosition(p.getX(),p.getY(),p.getZ());
          }
 
@@ -552,7 +784,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
  }
 
 void OgreApp::removeObjects(QList<QString> names){
-    qDebug()<<names;
+    //qDebug()<<names;
     foreach(QString name, names){
         removeObject(name);
     }
@@ -575,6 +807,7 @@ void OgreApp::removeObject(QString p){
           qDebug()<<"ERROR REMOVING NODE";
         }
 }
+
  void OgreApp::updateObjectPosition(Node* node,Node* entityNode, Node* cameraNode, Node* rotNode, Actor p){
      //Now we update nodes' positions
      node->setPosition(p.getX(),p.getY(),p.getZ());
@@ -588,17 +821,19 @@ void OgreApp::removeObject(QString p){
      Ogre::Vector3 srcHorizontal;
      Ogre::Vector3 srcVertical;
 
+     srcH = rotNode->getOrientation()* Ogre::Vector3::UNIT_Z;
+     srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
+
      switch(plane){
      case BOTTOM: //bas
+         node->setOrientation(node->getInitialOrientation());
+
          directionToLookAtHorizontal.y = 0;
          directionToLookAtHorizontal.normalise();
          directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
          directionToLookAtVertical.x = 0;
          directionToLookAtVertical.normalise();
 
-         srcH = node->getOrientation()* Ogre::Vector3::UNIT_Z;
-         srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
-
          srcHorizontal = srcH;
          srcHorizontal.y = 0;
          srcHorizontal.normalise();
@@ -610,7 +845,7 @@ void OgreApp::removeObject(QString p){
          //Rotation laterale
          if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
          {
-          node->yaw(Ogre::Degree(180));
+          rotNode->yaw(Ogre::Degree(180));
          }
          else
          {
@@ -627,18 +862,16 @@ void OgreApp::removeObject(QString p){
           Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
           cameraNode->pitch(quat.getPitch());
          }
+
          //entityNode->setOrientation(entityNode->getInitialOrientation());
          break;
      case XSIDE_OP: //COTE X
 
-         directionToLookAtHorizontal.z = 0;
+         directionToLookAtHorizontal.y = 0;
          directionToLookAtHorizontal.normalise();
-         directionToLookAtVertical.x = Ogre::Math::Sqrt(directionToLookAtVertical.x * directionToLookAtVertical.x + directionToLookAtVertical.y * directionToLookAtVertical.y) ;
-         directionToLookAtVertical.y = 0;
+         directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.x * directionToLookAtVertical.x) ;
+         directionToLookAtVertical.x = 0;
          directionToLookAtVertical.normalise();
-
-         srcH = node->getOrientation()* Ogre::Vector3::UNIT_Z;
-         srcV = cameraNode->getOrientation()* Ogre::Vector3::UNIT_Z;
 
          srcHorizontal = srcH;
          srcHorizontal.y = 0;
@@ -651,7 +884,7 @@ void OgreApp::removeObject(QString p){
          //Rotation laterale
          if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
          {
-          node->yaw(Ogre::Degree(180));
+          rotNode->yaw(Ogre::Degree(180));
          }
          else
          {
@@ -668,6 +901,8 @@ void OgreApp::removeObject(QString p){
           Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
           cameraNode->pitch(quat.getPitch());
          }
+
+
          //entityNode->setOrientation(entityNode->getInitialOrientation());
          //entityNode->roll(Ogre::Degree(90));
 
@@ -683,6 +918,47 @@ void OgreApp::removeObject(QString p){
 
          break;
      case ZSIDE_OP:
+         node->setOrientation(node->getInitialOrientation());
+         node->pitch(Ogre::Degree(90));
+
+         directionToLookAtHorizontal.x = directionToLookAt.y;
+
+         directionToLookAtHorizontal.y = 0;
+         directionToLookAtHorizontal.normalise();
+
+         directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAtVertical.z * directionToLookAtVertical.z + directionToLookAtVertical.y * directionToLookAtVertical.y) ;
+         directionToLookAtVertical.x = 0;
+         directionToLookAtVertical.normalise();
+
+         srcHorizontal = srcH;
+         srcHorizontal.y = 0;
+         srcHorizontal.normalise();
+
+         srcVertical = srcV;
+         srcVertical.x = 0;
+         srcVertical.normalise();
+
+         //Rotation laterale
+         if ((1.0f + srcHorizontal.dotProduct(directionToLookAtHorizontal)) < 0.0001f)
+         {
+          rotNode->yaw(Ogre::Degree(180));
+         }
+         else
+         {
+          Ogre::Quaternion quat = srcHorizontal.getRotationTo(directionToLookAtHorizontal, Ogre::Vector3::UNIT_Y);
+         rotNode->yaw(quat.getYaw());
+         }
+         //Rotation verticale
+         if ((1.0f + srcVertical.dotProduct(directionToLookAtVertical)) < 0.0001f)
+         {
+          cameraNode->pitch(Ogre::Degree(180));
+         }
+         else
+         {
+          Ogre::Quaternion quat = srcVertical.getRotationTo(directionToLookAtVertical, Ogre::Vector3::UNIT_X);
+          cameraNode->pitch(quat.getPitch());
+         }
+
          //entityNode->setOrientation(entityNode->getInitialOrientation());
          //entityNode->pitch(Ogre::Degree(90));
 
