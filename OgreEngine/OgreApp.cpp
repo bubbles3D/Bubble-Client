@@ -150,7 +150,7 @@ void OgreApp::createCube(){
     float dim = model->getMapLength();
 
 
-    //Plan x
+    //Plan bot
     Ogre::Entity* planB = mSceneMgr->createEntity("planoB", "Plane.mesh");
     Ogre::SceneNode* planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     float realDim = Utils::getEdgeLength2D(planB);
@@ -187,6 +187,26 @@ void OgreApp::createCube(){
 
     planNodeB->setPosition(0,dim/2,dim/2);
     planNodeB->roll(Ogre::Degree(-90));
+    planNodeB->attachObject(planB);
+    qDebug()<<"DIMz: "<<realDim;
+    planNodeB->scale(ratio*1.02,0,ratio *1.02);
+
+    //Plan x
+    planB = mSceneMgr->createEntity("planoX", "Plane.mesh");
+    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    planNodeB->setPosition(dim/2,dim/2,0);
+    planNodeB->pitch(Ogre::Degree(90));
+    planNodeB->attachObject(planB);
+    qDebug()<<"DIMz: "<<realDim;
+    planNodeB->scale(ratio*1.02,0,ratio *1.02);
+
+    //Plan xOP
+    planB = mSceneMgr->createEntity("planoXOP", "Plane.mesh");
+    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+
+    planNodeB->setPosition(dim/2,dim/2,dim);
+    planNodeB->pitch(Ogre::Degree(-90));
     planNodeB->attachObject(planB);
     qDebug()<<"DIMz: "<<realDim;
     planNodeB->scale(ratio*1.02,0,ratio *1.02);
@@ -709,7 +729,7 @@ void OgreApp::removeObject(QString p){
 
          break;
      case XSIDE_OP: //COTE X  OPP
-         node->pitch(Ogre::Degree(90));
+         node->pitch(Ogre::Degree(-90));
 
          directionToLookAtHorizontal.x = directionToLookAt.x;
          directionToLookAtHorizontal.z = directionToLookAt.y;
@@ -719,7 +739,7 @@ void OgreApp::removeObject(QString p){
 
          break;
      case XSIDE: //COTE X
-         node->pitch(Ogre::Degree(-90));
+         node->pitch(Ogre::Degree(90));
 
          directionToLookAtHorizontal.x = directionToLookAt.x;
          directionToLookAtHorizontal.z = -directionToLookAt.y;
