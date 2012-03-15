@@ -55,7 +55,7 @@ void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
 
     QJson::Serializer serializer;
     QByteArray json = serializer.serialize(map);
-    qDebug() << json;
+    //qDebug() << json;
 
     send(json);
 }
@@ -115,7 +115,7 @@ void NetworkClient::sendMouseState(float x, float y, float z)
     obj["x"] = (double)x;
     obj["y"] = (double)y;
     obj["z"] = (double)z;
-    qDebug() << obj["x"];
+    //qDebug() << obj["x"];
     QPair<QString, QVariant> pair("MOUSE", obj);
     list.append(pair);
     modifications(list);
