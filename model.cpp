@@ -143,7 +143,6 @@ void Model::updateMouse(float x, float y, float z)
     else if (mouseTimeout.elapsed() > 50)
     {
         emit mouseChanged(x, y, z);
-        qDebug() << "Sent mouseEvent after " << mouseTimeout.elapsed();
         mouseTimeout.restart();
     }
 }
