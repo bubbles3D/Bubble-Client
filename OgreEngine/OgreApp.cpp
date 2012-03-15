@@ -56,7 +56,7 @@ void OgreApp::createScene(void)
 
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-    mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+    //mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
     MeshManager::getSingleton();
 
@@ -68,7 +68,8 @@ void OgreApp::createScene(void)
 
     //Initialise playerCamera
     playerCamera = mSceneMgr->createCamera("playerCamera");
-    mRotateSpeed = .1;
+    mRotateSpeed = 0.15f;
+    //playerCameraController = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
 
     //Scene
     Ogre::Entity* cube = mSceneMgr->createEntity("cube", "BoxTest.mesh");
@@ -261,6 +262,7 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
         updatePositions();
         break;
     case FIRST:
+        //playerCameraController->frameRenderingQueued(evt); //Update player cam
         updatePositions();
         break;
     case MENU:
@@ -343,7 +345,9 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         }
         break;
     case FIRST:
-        switch (arg.key) {
+         //playerCameraController->injectKeyDown(arg);
+
+         switch (arg.key) {
         case OIS::KC_UP:
             keyName = "UP";
             model->updateKeys(keyName, true);
@@ -404,6 +408,7 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
         mCameraMan->injectKeyUp(arg);
              break;
     case FIRST:
+         //playerCameraController->injectKeyUp(arg);
         switch (arg.key) {
         case OIS::KC_UP:
             keyName = "UP";
@@ -444,7 +449,10 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
              break;
     case FIRST: 
-
+        //playerCameraController->injectMouseMove(arg);
+        //TODO
+        //playerCamera->pitch(Ogre::Degree(-arg.state.Y.rel * mRotateSpeed));
+        //playerCamera->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
         playerCameraNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
         playerRotationNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
 
@@ -474,6 +482,7 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mCameraMan->injectMouseDown(arg, id);
         break;
     case FIRST:
+        //playerCameraController->injectMouseDown(arg, id);
         mod->shot(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
         break;
     case MENU:
@@ -493,6 +502,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mCameraMan->injectMouseUp(arg, id);
         break;
     case FIRST:
+        //playerCameraController->injectMouseUp(arg, id);
         break;
     case MENU:
         CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));

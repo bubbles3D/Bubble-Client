@@ -10,6 +10,7 @@
 //#include "OGRE/ExampleFrameListener.h"
 #include <QString>
 #include <CEGUI/CEGUI.h>
+#include <OIS/OIS.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include "OGRE/Ogre.h"
 #include "BaseApplication.h"
@@ -38,6 +39,7 @@ public:
 
 protected:
     Ogre::Camera* playerCamera;
+    OgreBites::SdkCameraMan* playerCameraController;
     Ogre::SceneNode* playerNode;
     Ogre::SceneNode* playerRotationNode;
     Ogre::SceneNode* playerCameraNode;
