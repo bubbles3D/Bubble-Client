@@ -83,7 +83,7 @@ void OgreApp::createScene(void)
     bulletNode->attachObject(bullet);
 
 
-    ////
+    /*
     Ogre::Entity* plan = mSceneMgr->createEntity("plano", "Plane.mesh");
     Ogre::SceneNode* planNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     //Ogre::Mesh *pMesh = plan->getMesh().getPointer();

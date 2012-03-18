@@ -21,7 +21,7 @@
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
 
-using namespace Ogre;
+//using namespace Ogre;
 
 enum MODE {
     FIRST,FREE, MENU

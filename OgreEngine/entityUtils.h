@@ -2,13 +2,14 @@
 #define UTILS_H
 #include "OGRE/Ogre.h"
 
-using namespace Ogre;
+//using namespace Ogre;
 
 class entityUtils{
 public:
-    static Real getLengthBetweenPoints(Vector3 a, Vector3 b);
-    static Real getEdgeLength(Ogre::Entity * entity);
-    static Real getEdgeLength2D(Ogre::Entity * entity);
+
+    static Ogre::Real getLengthBetweenPoints(Ogre::Vector3 a, Ogre::Vector3 b);
+    static Ogre::Real getEdgeLength(Ogre::Entity * entity);
+    static Ogre::Real getEdgeLength2D(Ogre::Entity * entity);
     static void initScale(Ogre::Entity* entity, Ogre::Node * node);
 };
 #endif // UTILS_H
