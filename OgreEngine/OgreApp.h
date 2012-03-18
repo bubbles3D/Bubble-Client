@@ -19,7 +19,7 @@
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
 
-using namespace Ogre;
+//using namespace Ogre;
 
 enum MODE {
     FIRST,FREE, MENU
@@ -66,7 +66,7 @@ protected:
     void updatePlayersPositions();
     void updateObjectsPositions(const char * meshName, QList<Bullet> objectsList);
     void updateObjectsPositions(const char * meshName, QList<Obstacles> objectsList);
-    void updateObjectPosition(Node* node,Node* camera, Node* rotNode, Actor p);
+    void updateObjectPosition(Ogre::Node* node,Ogre::Node* camera, Ogre::Node* rotNode, Actor p);
     void updateObjectAnimation(Actor p, const char * animation);
     void updateObjectsAnimations(QList<Player> objectsList);
     void initScale(Ogre::Entity* entity, Ogre::Node * node);
