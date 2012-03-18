@@ -13,7 +13,7 @@ GameApp::GameApp(QObject *parent) :
 
 void GameApp::endOfThread()
 {
-    qDebug() << "lol";
+    //qDebug() << "lol";
     delete thread;
 }
 
