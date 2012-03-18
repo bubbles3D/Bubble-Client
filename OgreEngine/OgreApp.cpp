@@ -102,7 +102,7 @@ void OgreApp::createScene(void)
 */
 
     //Create the cube
-    //createCube();
+    createCube();
 
 
 
