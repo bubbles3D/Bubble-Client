@@ -607,12 +607,12 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              if(playerSide != p.getCube()){ // if we change of cube's face
              //if(playerSide != plane){ // test
                  Vector3 directionToLookAt = playerTargetNode->_getDerivedPosition() - playerNode->_getDerivedPosition();
-                 objectUtils::orientPlayerToDirection(playerNode, playerYawNode,playerPitchNode,plane, directionToLookAt);
+                 objectUtils::orientPlayerToDirection(playerNode, playerYawNode,playerPitchNode,(side) p.getCube(), directionToLookAt);
              }
 
              //Set our player's position
              node->setPosition(p.getX(),p.getY(),p.getZ());
-             //playerSide = plane;
+             playerSide = (side) p.getCube();
          }
 
      }
