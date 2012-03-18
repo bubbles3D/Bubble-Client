@@ -3,7 +3,7 @@
 #include <QDebug>
 
 
-using namespace Ogre;
+//using namespace Ogre;
 
 //-------------------------------------------------------------------------------------
 OgreApp::OgreApp(void)
@@ -56,7 +56,7 @@ void OgreApp::createScene(void)
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
     mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
-    MeshManager::getSingleton();
+    Ogre::MeshManager::getSingleton();
 
     // Set camera look point
     mCamera->setPosition(40, 100, 580);
@@ -153,7 +153,7 @@ void OgreApp::createCube(){
     float realDim = entityUtils::getEdgeLength2D(planB);
     planNodeB->setPosition(dim/2,0,dim/2);
     //planNodeX->roll(Ogre::Degree(90));
-    Real ratio = dim/realDim;
+    Ogre::Real ratio = dim/realDim;
     planNodeB->attachObject(planB);
     qDebug()<<"DIM: "<<ratio;
     planNodeB->scale(ratio*1.02,0,ratio*1.02);
@@ -612,7 +612,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              // Set our player's orientation on face switching
              if(playerSide != p.getCube()){ // if we change of cube's face
              //if(playerSide != plane){ // test
-                 Vector3 directionToLookAt = playerTargetNode->_getDerivedPosition() - playerNode->_getDerivedPosition();
+                 Ogre::Vector3 directionToLookAt = playerTargetNode->_getDerivedPosition() - playerNode->_getDerivedPosition();
                  objectUtils::orientPlayerToDirection(playerNode, playerYawNode,playerPitchNode,(side) p.getCube(), directionToLookAt);
              }
 

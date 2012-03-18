@@ -1,25 +1,25 @@
 #include "OgreEngine/objectUtils.h"
 #include <QDebug>
-using namespace Ogre;
+//using namespace Ogre;
 
-void objectUtils::updateObjectState(SceneNode* node, SceneNode* pitchNode, SceneNode* yawNode, Actor p){
+void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, Actor p){
     //We update object's positions
     node->setPosition(p.getX(),p.getY(),p.getZ());
     //We update object's orientation
-    Vector3 directionToLookAt = Vector3(p.getX(), p.getY(), p.getZ());
-    objectUtils::orientPlayerToDirection((SceneNode *)node,(SceneNode *)yawNode,(SceneNode *)pitchNode,(side)p.getCube(),directionToLookAt);
+    Ogre::Vector3 directionToLookAt = Ogre::Vector3(p.getX(), p.getY(), p.getZ());
+    objectUtils::orientPlayerToDirection((Ogre::SceneNode *)node,(Ogre::SceneNode *)yawNode,(Ogre::SceneNode *)pitchNode,(side)p.getCube(),directionToLookAt);
     //Scale
     node->setScale(p.getWidth(),p.getHeight(),p.getLength());
 }
 
-void objectUtils::removeObject(QString name, SceneManager* mSceneMgr){
+void objectUtils::removeObject(QString name, Ogre::SceneManager* mSceneMgr){
 
-        Entity * entity;
-        SceneNode * node;
+        Ogre::Entity * entity;
+        Ogre::SceneNode * node;
         try{
             qDebug()<<"Start REMOVING NODE";
             entity = mSceneMgr->getEntity(name.toStdString());
-            node = (SceneNode *) mSceneMgr->getRootSceneNode()->getChild(name.toStdString());
+            node = (Ogre::SceneNode *) mSceneMgr->getRootSceneNode()->getChild(name.toStdString());
             node->removeAndDestroyAllChildren();
             mSceneMgr->destroyEntity(entity->getName());
             qDebug()<<"End REMOVING NODE";
@@ -29,7 +29,7 @@ void objectUtils::removeObject(QString name, SceneManager* mSceneMgr){
         }
 }
 
-void objectUtils::orientPlayerToDirection(SceneNode * node, SceneNode * yawNode, SceneNode * pitchNode, side floor, Vector3 directionToLookAt){
+void objectUtils::orientPlayerToDirection(Ogre::SceneNode * node, Ogre::SceneNode * yawNode, Ogre::SceneNode * pitchNode, side floor, Ogre::Vector3 directionToLookAt){
 
     //Vectors representing directions to look at
     Ogre::Vector3 directionToLookAtHorizontal;
@@ -146,7 +146,7 @@ void objectUtils::orientPlayerToDirection(SceneNode * node, SceneNode * yawNode,
 
 }
 
-void objectUtils::updateObjectAnimation(Actor p, const char * animation, SceneManager * sceneMgr ){
+void objectUtils::updateObjectAnimation(Actor p, const char * animation, Ogre::SceneManager * sceneMgr ){
     Ogre::AnimationState *animationState;
     try{
         qDebug()<<"Ogre EXception not append 1 :: ::--------------------------------------------" ;
@@ -166,14 +166,14 @@ void objectUtils::updateObjectAnimation(Actor p, const char * animation, SceneMa
 
 }
 
-void objectUtils::removeObjects(QList<QString> names, SceneManager * sceneMgr){
+void objectUtils::removeObjects(QList<QString> names, Ogre::SceneManager * sceneMgr){
     //qDebug()<<names;
     foreach(QString name, names){
         objectUtils::removeObject(name,sceneMgr);
     }
 }
 
-void objectUtils::updateObjectsAnimations(QList<Player> objectsList, SceneManager * sceneMgr){
+void objectUtils::updateObjectsAnimations(QList<Player> objectsList, Ogre::SceneManager * sceneMgr){
 qDebug()<<"Ogre EXception animation -1::--------------------------------------------" ;
      //Update elements position
      foreach(Actor p, objectsList){
@@ -182,7 +182,7 @@ qDebug()<<"Ogre EXception animation -1::----------------------------------------
      }
  }
 
-void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objectsList, SceneManager * sceneManager){
+void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objectsList, Ogre::SceneManager * sceneManager){
 
     //Update elements position
     foreach(Actor p, objectsList){
@@ -215,7 +215,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
     }
 }
 
-void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> objectsList, SceneManager * sceneManager){
+void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> objectsList, Ogre::SceneManager * sceneManager){
 
     qDebug()<<"START MAP";
     //Update elements position

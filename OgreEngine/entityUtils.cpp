@@ -1,14 +1,14 @@
 
 #include "OgreEngine/entityUtils.h"
 #include <QDebug>
-using namespace Ogre;
+//using namespace Ogre;
 
-Real entityUtils::getLengthBetweenPoints(Vector3 a, Vector3 b){
+Ogre::Real entityUtils::getLengthBetweenPoints(Ogre::Vector3 a, Ogre::Vector3 b){
     return Ogre::Math::Sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y) + (b.z-a.z)*(b.z-a.z) );
 }
 
-Real entityUtils::getEdgeLength(Ogre::Entity * entity){
-    Real min = -1;
+Ogre::Real entityUtils::getEdgeLength(Ogre::Entity * entity){
+    Ogre::Real min = -1;
     Ogre::Vector3 a = entity->getBoundingBox().getAllCorners()[0];
     Ogre::Vector3 b= entity->getBoundingBox().getAllCorners()[1];
     min = Ogre::Math::Sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y) + (b.z-a.z)*(b.z-a.z) );
@@ -21,8 +21,8 @@ Real entityUtils::getEdgeLength(Ogre::Entity * entity){
     return min;
 }
 
-Real entityUtils::getEdgeLength2D(Ogre::Entity * entity){
-    Real min = -1;
+Ogre::Real entityUtils::getEdgeLength2D(Ogre::Entity * entity){
+    Ogre::Real min = -1;
     Ogre::Vector3 a = entity->getBoundingBox().getAllCorners()[0];
     qDebug()<<"A::"<<a.x<<" "<<a.y<<" "<<a.z;
     Ogre::Vector3 b= entity->getBoundingBox().getAllCorners()[2];
@@ -33,8 +33,8 @@ Real entityUtils::getEdgeLength2D(Ogre::Entity * entity){
 }
 
 void entityUtils::initScale(Ogre::Entity* entity, Ogre::Node * node){
-    Real length = entityUtils::getEdgeLength(entity);
-    Real ratio = 4.98725/length;
+    Ogre::Real length = entityUtils::getEdgeLength(entity);
+    Ogre::Real ratio = 4.98725/length;
 
     qDebug()<<"RATIO";
     qDebug()<<ratio;
