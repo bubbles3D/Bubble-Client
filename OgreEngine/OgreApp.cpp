@@ -435,6 +435,7 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 {
     Model * mod = Model::getInstance();
     CEGUI::System &sys = CEGUI::System::getSingleton();
+    Ogre::Vector3 verticalVect;
 
     switch(mode){
     case FREE:
@@ -445,8 +446,13 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
         playerYawNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
         playerPitchNode->needUpdate();
-        playerPitchNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
-
+        verticalVect = playerPitchNode->getOrientation() * Ogre::Vector3::UNIT_Z;
+        verticalVect.normalise();
+        if(arg.state.Y.rel < 0 && verticalVect.y > 0.9 || arg.state.Y.rel > 0 && verticalVect.y < -0.9){
+            //Limit camera movement (looking up and down)
+        }else{
+            playerPitchNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
+        }
         //Transmit to server
         mod->updateMouse(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
 
