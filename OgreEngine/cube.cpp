@@ -2,7 +2,7 @@
 
 Cube::Cube(float dim, Ogre::SceneManager * mSceneMgr,QString imageName, float imageScale, Ogre::ColourValue bot,Ogre::ColourValue top,Ogre::ColourValue x,Ogre::ColourValue xop,Ogre::ColourValue z,Ogre::ColourValue zop):
     botFace(Face(mSceneMgr, "BotFace", imageName, dim, BOTTOM)),
-    topFace(Face(mSceneMgr, "top", "Croix.png", dim, TOP)),
+    topFace(Face(mSceneMgr, "top", imageName, dim, TOP)),
     xFace(Face(mSceneMgr, "x", imageName, dim, XSIDE)),
     xOpFace(Face(mSceneMgr, "xOP", imageName, dim, XSIDE_OP)),
     zFace(Face(mSceneMgr, "z", imageName, dim, ZSIDE)),

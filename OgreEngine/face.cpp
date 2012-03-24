@@ -1,6 +1,8 @@
 #include "face.h"
 
-Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString textureName, Ogre::Real size, side mside ){
+Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real size, side mside ):
+    textureName(texName)
+{
     mSceneManager = sceneManager;
     mNode = mSceneManager->getRootSceneNode()->createChildSceneNode();
 
@@ -19,8 +21,11 @@ Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString textureN
     mEntity = mSceneManager->createEntity(faceName.toStdString()+"_entity", faceName.toStdString()+"_mesh");
     mMaterial = Ogre::MaterialManager::getSingleton().create(faceName.toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-    tuisTexture = mMaterial->getTechnique(0)->getPass(0)->createTextureUnitState(textureName.toStdString());
-    tuisTexture->setTextureScale(mImageScale,mImageScale); //Default
+    if(textureName != 0){
+        tuisTexture = mMaterial->getTechnique(0)->getPass(0)->createTextureUnitState(textureName.toStdString());
+        tuisTexture->setTextureScale(mImageScale,mImageScale);
+    }
+
     mEntity->setMaterialName(faceName.toStdString()+"_mat");
 
     mNode->attachObject(mEntity);
@@ -30,12 +35,16 @@ Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString textureN
 }
 
 void Face::setImageScale(Ogre::Real scale){
-    tuisTexture->setTextureScale(scale,scale);
+    if(textureName != 0){
+        tuisTexture->setTextureScale(scale,scale);
+    }
+
 }
 
-void Face::setImage(Ogre::Real scale, QString textureName){
- tuisTexture->setTextureScale(scale,scale);
- mMaterial->getTechnique(0)->getPass(0)->createTextureUnitState(textureName.toStdString());
+void Face::setImage(Ogre::Real scale, QString texName){
+     textureName = texName;
+     tuisTexture = mMaterial->getTechnique(0)->getPass(0)->createTextureUnitState(textureName.toStdString());
+     tuisTexture->setTextureScale(scale,scale);
 }
 
 void Face::setSide(side sid){

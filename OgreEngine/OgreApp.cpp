@@ -85,7 +85,7 @@ void OgreApp::createScene(void)
 
     //Create the cube
     Model * mod = Model::getInstance();
-    cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png", 0.2);
+    cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.2);
 
     //Init mode
     mode = FREE;
