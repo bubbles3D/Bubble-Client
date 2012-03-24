@@ -17,6 +17,7 @@
 #include "model.h"
 #include "OgreEngine/entityUtils.h"
 #include "OgreEngine/objectUtils.h"
+#include "OgreEngine/cube.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
@@ -46,6 +47,7 @@ protected:
     Ogre::SceneNode* playerEntityNode;
     enum side playerSide;
     enum MODE mode;
+    Cube * cubeScene;
 
     //TEST
     enum side plane;
@@ -67,7 +69,6 @@ protected:
     void updatePositions();
     void updatePlayersPositions();
     bool handleQuit(const CEGUI::EventArgs &e);
-    void createCube();
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
 };

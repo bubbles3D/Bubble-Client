@@ -1,6 +1,7 @@
 #include "OgreApp.h"
 #include "OGRE/Ogre.h"
 #include <QDebug>
+#include "face.h"
 
 
 //using namespace Ogre;
@@ -82,33 +83,9 @@ void OgreApp::createScene(void)
     bulletNode->scale(40,40,40);
     bulletNode->attachObject(bullet);
 
-
-    /*
-    Ogre::Entity* plan = mSceneMgr->createEntity("plano", "Plane.mesh");
-    Ogre::SceneNode* planNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    //Ogre::Mesh *pMesh = plan->getMesh().getPointer();
-    planNode->setPosition(0,0,0);
-    planNode->attachObject(plan);
-    //Ogre::Material *pMaterial = (Ogre::Material *) Ogre::MaterialManager::getSingleton().getByName(((pMesh->getSubMesh(0))->getMaterialName()));
-
-    //Ogre::TextureUnitState *pTex = pMaterial->getBestTechnique(0)->createPass()->createTextureUnitState();
-   //pTex->setColourOperationEx(LBX_BLEND_DIFFUSE_COLOUR, LBS_MANUAL, LBS_CURRENT, ColourValue::Red);
-   //pMaterial->setSceneBlending(SBT_TRANSPARENT_COLOUR);
-/*
-   Ogre::MaterialPtr m_pMat = plan->getSubEntity(0)->getMaterial();
-   m_pMat->getTechnique(0)->getPass(0)->setAmbient(1, 0, 0);
-   m_pMat->getTechnique(0)->getPass(0)->setDiffuse(1, 1, 0, 0);
-   plan->setMaterialName(m_pMat->getName());
-*/
-
     //Create the cube
-    createCube();
-
-
-
-    // Create a light
-    Ogre::Light* l = mSceneMgr->createLight("MainLight");
-    l->setPosition(20,80,50);
+    Model * mod = Model::getInstance();
+    cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png", 0.2);
 
     //Init mode
     mode = FREE;
@@ -128,85 +105,6 @@ void OgreApp::createScene(void)
     //Set up the scene
     Model *model = Model::getInstance();
     objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
-
-    //Test
-    ///plane = BOTTOM;
-
-    //Plan x
-    /*
-    Ogre::Entity* planX = mSceneMgr->createEntity("planoX", "Plane.mesh");
-    Ogre::SceneNode* planNodeX = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    planNodeX->setPosition(3000,1500,1500);
-    planNodeX->roll(Ogre::Degree(90));
-    planNodeX->attachObject(planX);
-    */
-}
-
-void OgreApp::createCube(){
-    Model *model = Model::getInstance();
-    float dim = model->getMapLength();
-
-
-    //Plan bot
-    Ogre::Entity* planB = mSceneMgr->createEntity("planoB", "Plane.mesh");
-    Ogre::SceneNode* planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    float realDim = entityUtils::getEdgeLength2D(planB);
-    planNodeB->setPosition(dim/2,0,dim/2);
-    //planNodeX->roll(Ogre::Degree(90));
-    Ogre::Real ratio = dim/realDim;
-    planNodeB->attachObject(planB);
-    qDebug()<<"DIM: "<<ratio;
-    planNodeB->scale(ratio*1.02,0,ratio*1.02);
-
-    //Plan zop
-    planB = mSceneMgr->createEntity("planoZOP", "Plane.mesh");
-    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    planNodeB->setPosition(dim,dim/2,dim/2);
-    planNodeB->roll(Ogre::Degree(90));
-    planNodeB->attachObject(planB);
-    qDebug()<<"DIMzop: "<<ratio;
-    planNodeB->scale(ratio*1.02,0,ratio*1.02);
-
-    //Plan top
-    planB = mSceneMgr->createEntity("planoTOP", "Plane.mesh");
-    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    planNodeB->setPosition(dim/2,dim,dim/2);
-    planNodeB->roll(Ogre::Degree(180));
-    planNodeB->attachObject(planB);
-    qDebug()<<"DIMtop: "<<realDim;
-    planNodeB->scale(ratio*1.02,0,ratio *1.02);
-
-    //Plan z
-    planB = mSceneMgr->createEntity("planoZ", "Plane.mesh");
-    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    planNodeB->setPosition(0,dim/2,dim/2);
-    planNodeB->roll(Ogre::Degree(-90));
-    planNodeB->attachObject(planB);
-    qDebug()<<"DIMz: "<<realDim;
-    planNodeB->scale(ratio*1.02,0,ratio *1.02);
-
-    //Plan x
-    planB = mSceneMgr->createEntity("planoX", "Plane.mesh");
-    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    planNodeB->setPosition(dim/2,dim/2,0);
-    planNodeB->pitch(Ogre::Degree(90));
-    planNodeB->attachObject(planB);
-    qDebug()<<"DIMz: "<<realDim;
-    planNodeB->scale(ratio*1.02,0,ratio *1.02);
-
-    //Plan xOP
-    planB = mSceneMgr->createEntity("planoXOP", "Plane.mesh");
-    planNodeB = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-
-    planNodeB->setPosition(dim/2,dim/2,dim);
-    planNodeB->pitch(Ogre::Degree(-90));
-    planNodeB->attachObject(planB);
-    qDebug()<<"DIMz: "<<realDim;
-    planNodeB->scale(ratio*1.02,0,ratio *1.02);
 
 }
 
