@@ -3,10 +3,18 @@
 FirstPerson/lens
 {
   zorder 200
-	container Panel(lens)
+	container Panel(lensContener)
 	{
+		//material     viseur1
+		
+		metrics_mode relative
+		width 0.1
+		height 0.1
+		top 0.45
+		left 0.45
+
 		material     viseur1
-		metrics_mode relative 0.5 0.5
+
 	}
 }
 
