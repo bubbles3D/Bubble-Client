@@ -45,6 +45,7 @@ protected:
     Ogre::SceneNode* playerPitchNode;
     Ogre::SceneNode* playerTargetNode;
     Ogre::SceneNode* playerEntityNode;
+    Ogre::SceneNode* playerLifeNode;
     enum side playerSide;
     enum MODE mode;
     Cube * cubeScene;
@@ -70,6 +71,7 @@ protected:
     void updatePlayersPositions();
     bool handleQuit(const CEGUI::EventArgs &e);
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
+    void attachLifeMeter();
 
 };
 #endif // APP_H

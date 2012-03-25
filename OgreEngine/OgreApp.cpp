@@ -106,35 +106,35 @@ void OgreApp::createScene(void)
     Model *model = Model::getInstance();
     objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
 
-    //TEST
-    // Create background material
- /*   MaterialPtr material = MaterialManager::getSingleton().create("Background", "General");
-    material->getTechnique(0)->getPass(0)->createTextureUnitState("rockwall.tga");
-    material->getTechnique(0)->getPass(0)->setDepthCheckEnabled(false);
-    material->getTechnique(0)->getPass(0)->setDepthWriteEnabled(false);
-    material->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+}
 
-    // Create background rectangle covering the whole screen
-    Rectangle2D* rect = new Rectangle2D(true);
-    rect->setCorners(-1.0, 1.0, 1.0, -1.0);
-    rect->setMaterial("Background");
+void OgreApp::attachLifeMeter(){
 
-    // Render the background before everything else
-    rect->setRenderQueueGroup(RENDER_QUEUE_BACKGROUND);
-
-    // Hacky, but we need to set the bounding box to something big
-    // NOTE: If you are using Eihort (v1.4), please see the note below on setting the bounding box
-    rect->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE));
-
-    // Attach background to the scene
-    SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Background");
-    node->attachObject(rect);
-
-    // Example of background scrolling
-    material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setScrollAnimation(-0.25, 0.0);
+    /*
+    Ogre::Overlay* overlay = Ogre::OverlayManager::getSingleton().getByName("MyOverlays/ANewOverlay");
+    qDebug()<<"Overlay "<<(int)overlay;
+    if(overlay)
+        overlay->show();
 */
-    //END TEST
+/*
+    Ogre::Overlay * overlay = Ogre::OverlayManager::getSingleton().create("TestOverlay");
 
+    // Create a panel.
+    Ogre::OverlayElement * panel = Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", "PanelElement");
+    // Set panel properties.
+    panel->setMaterialName("Templates/MessageBox");
+    //panel->setMetricsMode(Ogre::GuiMetricsMode::GMM_PIXELS);
+    panel->setTop(200);
+    panel->setLeft(300);
+    panel->setWidth(250);
+    panel->setHeight(150);
+
+    // Add the panel to the overlay.
+    overlay->add2D((Ogre::OverlayContainer*)panel);
+
+    // Make the overlay visible.
+    overlay->show();
+*/
 }
 
 void OgreApp::createFrameListener(void){
@@ -497,6 +497,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerNode = ((Ogre::SceneNode*)node);
                  playerSide =(side) p.getCube();
                  mode = FIRST;
+                 attachLifeMeter();
              }
              ((Ogre::SceneNode*)entityNode)->attachObject(cube);
              qDebug()<<"Created players";
