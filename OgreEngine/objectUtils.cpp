@@ -217,6 +217,17 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
             //entityUtils::initScale(cube,node);
+
+            //Set the color
+/*
+            Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+            mMaterial->createTechnique()->createPass()->setPolygonMode(Ogre::PM_SOLID);
+            cube->setMaterialName(p.getId().toStdString()+"_mat");
+            mMaterial->setDiffuse(1, 0, 0,0.5);
+            mMaterial->setSelfIllumination (0.5, 0, 0);
+            mMaterial->setAmbient(0.5, 0, 0);
+*/
         }
         objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);
     }
@@ -253,6 +264,14 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
             entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
             entityUtils::initScale(cube,node);
+
+            /*
+            //Set the color
+            Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            cube->setMaterialName(p.getId().toStdString()+"_mat");
+            mMaterial->setDiffuse(1, 0, 0,0.5);
+            mMaterial->setAmbient(0.5, 0, 0);
+            */
         }
 
         objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);

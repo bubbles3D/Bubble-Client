@@ -75,7 +75,7 @@ void Face::setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z){
 
 void Face::setDiffuse(Ogre::Real r, Ogre::Real g, Ogre::Real b, Ogre::Real a){
     mMaterial->setDiffuse(r, g, b, a);
-    mMaterial->setAmbient(0.0, 0, 1.0);
+    //mMaterial->setAmbient(0.0, 0, 1.0);
 }
 
 void Face::setAmbient(Ogre::Real r, Ogre::Real g, Ogre::Real b){

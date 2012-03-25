@@ -13,11 +13,11 @@ Cube::Cube(float dim, Ogre::SceneManager * mSceneMgr,QString imageName, float im
     mainLight->setPosition(dim/2,dim/2,dim/2);
 
     cornerLight = mSceneMgr->createLight("Cornerlight");
-    cornerLight->setPosition(dim/10,dim/10,dim/10);
+    cornerLight->setPosition(0,0,0);
     cornerLight->setPowerScale(0.5);
 
     cornerOpLight = mSceneMgr->createLight("CornerlightOP");
-    cornerOpLight->setPosition(dim-dim/10,dim-dim/10,dim-dim/10);
+    cornerOpLight->setPosition(dim,dim,dim);
     cornerOpLight->setPowerScale(0.5);
 
     //Plan bot
