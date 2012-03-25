@@ -14,6 +14,10 @@ Actor::Actor(QString id, float x, float y, float z,
 
 Actor::Actor(QVariantMap map)
 {
+    //Safegard 'cause default value changes ...
+    x = y = z = vx = vy = vz = cube = 0;
+    width = height = length = 0.0;
+
     id = map["id"].toString();
     x = map["x"].toInt();
     y = map["y"].toInt();

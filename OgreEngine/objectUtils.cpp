@@ -6,6 +6,7 @@ void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitc
     //We update object's positions
     node->setPosition(p.getX(),p.getY(),p.getZ());
     //We update object's orientation
+
     Ogre::Vector3 directionToLookAt = Ogre::Vector3(p.getVx(), p.getVy(), p.getVz());
 
     if(directionToLookAt.isZeroLength()){
