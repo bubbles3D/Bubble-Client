@@ -60,8 +60,7 @@ LIBS += \
     -lOgreMain\
     -lOIS \
     -lCEGUIBase \
-    -lCEGUIOgreRenderer \
-    -lCEGUIXercesParser
+    -lCEGUIOgreRenderer
 
  QT += \
     network \
