@@ -106,6 +106,35 @@ void OgreApp::createScene(void)
     Model *model = Model::getInstance();
     objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
 
+    //TEST
+    // Create background material
+ /*   MaterialPtr material = MaterialManager::getSingleton().create("Background", "General");
+    material->getTechnique(0)->getPass(0)->createTextureUnitState("rockwall.tga");
+    material->getTechnique(0)->getPass(0)->setDepthCheckEnabled(false);
+    material->getTechnique(0)->getPass(0)->setDepthWriteEnabled(false);
+    material->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+
+    // Create background rectangle covering the whole screen
+    Rectangle2D* rect = new Rectangle2D(true);
+    rect->setCorners(-1.0, 1.0, 1.0, -1.0);
+    rect->setMaterial("Background");
+
+    // Render the background before everything else
+    rect->setRenderQueueGroup(RENDER_QUEUE_BACKGROUND);
+
+    // Hacky, but we need to set the bounding box to something big
+    // NOTE: If you are using Eihort (v1.4), please see the note below on setting the bounding box
+    rect->setBoundingBox(AxisAlignedBox(-100000.0*Vector3::UNIT_SCALE, 100000.0*Vector3::UNIT_SCALE));
+
+    // Attach background to the scene
+    SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Background");
+    node->attachObject(rect);
+
+    // Example of background scrolling
+    material->getTechnique(0)->getPass(0)->getTextureUnitState(0)->setScrollAnimation(-0.25, 0.0);
+*/
+    //END TEST
+
 }
 
 void OgreApp::createFrameListener(void){
@@ -417,6 +446,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
  void OgreApp::updatePositions(){
       Model * model = Model::getInstance();
      updatePlayersPositions();
+
      objectUtils::updateObjectsStates("Bullet.mesh", model->getUpdatedBullets(),mSceneMgr);
 
      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER

@@ -6,8 +6,14 @@ void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitc
     //We update object's positions
     node->setPosition(p.getX(),p.getY(),p.getZ());
     //We update object's orientation
-    Ogre::Vector3 directionToLookAt = Ogre::Vector3(p.getX(), p.getY(), p.getZ());
-    objectUtils::orientPlayerToDirection((Ogre::SceneNode *)node,(Ogre::SceneNode *)yawNode,(Ogre::SceneNode *)pitchNode,(side)p.getCube(),directionToLookAt);
+    Ogre::Vector3 directionToLookAt = Ogre::Vector3(p.getVx(), p.getVy(), p.getVz());
+
+    if(directionToLookAt.isZeroLength()){
+        //If there is no direction to look
+    }else{
+       objectUtils::orientPlayerToDirection((Ogre::SceneNode *)node,(Ogre::SceneNode *)yawNode,(Ogre::SceneNode *)pitchNode,(side)p.getCube(),directionToLookAt);
+    }
+
     //Scale
     node->setScale(p.getWidth(),p.getHeight(),p.getLength());
 }
