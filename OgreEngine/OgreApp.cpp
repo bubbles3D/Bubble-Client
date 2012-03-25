@@ -85,7 +85,15 @@ void OgreApp::createScene(void)
 
     //Create the cube
     Model * mod = Model::getInstance();
-    cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.2);
+    Ogre::ColourValue face1(255.0/255.0, 45.0/255.0, 45.0/255.0, 1);//Rouge
+    Ogre::ColourValue face2(255.0/255.0, 255.0/255.0, 74.0/255.0, 1);//Jaune
+    Ogre::ColourValue face3(95.0/255.0, 255.0/255.0, 74.0/255.0, 1);//Vert
+    Ogre::ColourValue face4(71.0/255.0, 255.0/255.0, 231.0/255.0);//Bleu
+    Ogre::ColourValue face5(221.0/255.0, 114.0/255.0, 247.0/255.0);//Violet
+    Ogre::ColourValue face6(255.0/255.0, 195.0/255.0, 31.0/255.0);//Orange
+
+    cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "faceCube3.jpg" , 0.2, face1, face2, face3, face4, face5, face6);
+    //cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.2);
 
     //Init mode
     mode = FREE;
