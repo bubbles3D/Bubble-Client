@@ -120,12 +120,12 @@ void OgreApp::createScene(void)
 
 void OgreApp::attachLifeMeter(){
 
-    /*
-    Ogre::Overlay* overlay = Ogre::OverlayManager::getSingleton().getByName("MyOverlays/ANewOverlay");
+
+    Ogre::Overlay* overlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/lens");
     qDebug()<<"Overlay "<<(int)overlay;
     if(overlay)
         overlay->show();
-*/
+
 /*
     Ogre::Overlay * overlay = Ogre::OverlayManager::getSingleton().create("TestOverlay");
 

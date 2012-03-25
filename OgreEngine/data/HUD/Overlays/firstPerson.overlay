@@ -1,0 +1,11 @@
+// The name of the overlay comes first
+//Example
+FirstPerson/lens
+{
+  zorder 200
+	container Panel(lens)
+	{
+		material     viseur1
+		metrics_mode relative 0.5 0.5
+	}
+}
