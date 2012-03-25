@@ -9,3 +9,19 @@ FirstPerson/lens
 		metrics_mode relative 0.5 0.5
 	}
 }
+
+FirstPerson/life
+{
+  zorder 200
+	container Panel(life)
+	{
+		material     life
+		width 0.1
+		height 0.1
+		horz_align left
+		vert_align top
+		left 0.85
+		top 0.04
+	}
+
+}

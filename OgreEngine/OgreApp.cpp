@@ -126,6 +126,11 @@ void OgreApp::attachLifeMeter(){
     if(overlay)
         overlay->show();
 
+    overlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/life");
+    qDebug()<<"Overlay "<<(int)overlay;
+    if(overlay)
+        overlay->show();
+
 /*
     Ogre::Overlay * overlay = Ogre::OverlayManager::getSingleton().create("TestOverlay");
 
