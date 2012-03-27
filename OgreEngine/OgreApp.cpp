@@ -285,18 +285,22 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 
          switch (arg.key) {
         case OIS::KC_UP:
+        case OIS::KC_Z:
             keyName = "UP";
             model->updateKeys(keyName, true);
             break;
         case OIS::KC_DOWN:
+        case OIS::KC_S:
             keyName = "DOWN";
             model->updateKeys(keyName, true);
             break;
         case OIS::KC_RIGHT:
+        case OIS::KC_D:
             keyName = "RIGHT";
             model->updateKeys(keyName, true);
             break;
         case OIS::KC_LEFT:
+        case OIS::KC_Q:
             keyName = "LEFT";
             model->updateKeys(keyName, true);
             break;
@@ -346,18 +350,22 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
     case FIRST:
         switch (arg.key) {
         case OIS::KC_UP:
+        case OIS::KC_Z:
             keyName = "UP";
             model->updateKeys(keyName, false);
             break;
         case OIS::KC_DOWN:
+        case OIS::KC_S:
             keyName = "DOWN";
             model->updateKeys(keyName, false);
             break;
         case OIS::KC_RIGHT:
+        case OIS::KC_D:
             keyName = "RIGHT";
             model->updateKeys(keyName, false);
             break;
         case OIS::KC_LEFT:
+        case OIS::KC_Q:
             keyName = "LEFT";
             model->updateKeys(keyName, false);
             break;
