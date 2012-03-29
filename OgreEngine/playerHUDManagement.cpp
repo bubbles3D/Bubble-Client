@@ -1,6 +1,8 @@
 #include "OgreEngine/playerHUDManagement.h"
 
-PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName){
+PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, float maxLifeValue, float maxLifeSize):
+    maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
+{
     lifeOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLifeName.toStdString());
     if(lifeOverlay){
          lifeOverlay->show();
@@ -30,5 +32,5 @@ void PlayerHUDManagement::setLife(float lifeValue){
 }
 
 float PlayerHUDManagement::convertLifeToSize(float lifeValue){
-    return 100 - (20 - lifeValue)/20*100;
+    return maxLifeSize - (maxLife - lifeValue)/maxLife*maxLifeSize;
 }

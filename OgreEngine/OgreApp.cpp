@@ -117,7 +117,7 @@ void OgreApp::createScene(void)
     objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
 
     //Set up HUD
-    playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens");
+    playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens",40);
 
 }
 
