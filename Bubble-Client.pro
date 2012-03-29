@@ -17,7 +17,9 @@ SOURCES += \
     OgreEngine/objectUtils.cpp \
     OgreEngine/entityUtils.cpp \
     OgreEngine/face.cpp \
-    OgreEngine/cube.cpp
+    OgreEngine/cube.cpp \
+    OgreEngine/overlayUtils.cpp \
+    OgreEngine/playerHUDManagement.cpp
 
 HEADERS += \
     networkclient.h \
@@ -50,7 +52,9 @@ HEADERS += \
     OgreEngine/entityUtils.h \
     OgreEngine/face.h \
     OgreEngine/environnement.h \
-    OgreEngine/cube.h
+    OgreEngine/cube.h \
+    OgreEngine/overlayUtils.h \
+    OgreEngine/playerHUDManagement.h
 
 
 

@@ -55,7 +55,7 @@ void OgreApp::createScene(void)
 
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-    mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+    //mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
     Ogre::MeshManager::getSingleton();
 
@@ -116,10 +116,14 @@ void OgreApp::createScene(void)
     Model *model = Model::getInstance();
     objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
 
+    //Set up HUD
+    playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens");
+
 }
 
 void OgreApp::attachLifeMeter(){
-
+/*
+    playerHUDMgt("FirstPerson/life", "FirstPerson/lens");
 
     Ogre::Overlay* overlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/lens");
     qDebug()<<"Overlay "<<(int)overlay;
@@ -130,6 +134,14 @@ void OgreApp::attachLifeMeter(){
     qDebug()<<"Overlay "<<(int)overlay;
     if(overlay)
         overlay->show();
+
+    Ogre::Overlay * lifeOverlay = overlay;
+    Ogre::OverlayContainer * lifeContainer = lifeOverlay->getChild("life");
+    lifeContainer->setWidth(50);
+    lifeContainer->setHeight(50);
+    lifeContainer->setTop(35);
+    lifeContainer->setLeft(-60);
+*/
 
 /*
     Ogre::Overlay * overlay = Ogre::OverlayManager::getSingleton().create("TestOverlay");
@@ -520,7 +532,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerNode = ((Ogre::SceneNode*)node);
                  playerSide =(side) p.getCube();
                  mode = FIRST;
-                 attachLifeMeter();
              }
              ((Ogre::SceneNode*)entityNode)->attachObject(cube);
              qDebug()<<"Created players";
@@ -571,6 +582,9 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              //Set our player's position
              node->setPosition(p.getX(),p.getY(),p.getZ());
              playerSide = (side) p.getCube();
+
+             //Update HUD
+             playerHUDMgt->setLife(p.getLife());
          }
 
      }

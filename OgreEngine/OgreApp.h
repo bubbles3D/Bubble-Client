@@ -18,6 +18,7 @@
 #include "OgreEngine/entityUtils.h"
 #include "OgreEngine/objectUtils.h"
 #include "OgreEngine/cube.h"
+#include "OgreEngine/playerHUDManagement.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
@@ -49,6 +50,7 @@ protected:
     enum side playerSide;
     enum MODE mode;
     Cube * cubeScene;
+    PlayerHUDManagement * playerHUDMgt;
 
     //TEST
     enum side plane;
