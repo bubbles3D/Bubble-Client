@@ -5,16 +5,16 @@ FirstPerson/lens
   zorder 200
 	container Panel(lensContener)
 	{
-		//material     viseur1
-		
-		metrics_mode relative
-		width 0.1
-		height 0.1
-		top 0.45
-		left 0.45
+		metrics_mode pixels
+		horz_align center
+		width 70
+		height 70
+		vert_align center
+		top -35
+		left -35
 
 		material     viseur1
-
+		
 	}
 }
 
@@ -23,13 +23,21 @@ FirstPerson/life
   zorder 200
 	container Panel(life)
 	{
+		//material     life
+		//width 0.1
+		//height 0.1
+		//horz_align left
+		//vert_align top
+		//left 0.85
+		//top 0.04
+		metrics_mode pixels
 		material     life
-		width 0.1
-		height 0.1
-		horz_align left
+		width 100
+		height 100
+		horz_align right
 		vert_align top
-		left 0.85
-		top 0.04
+		left -110
+		top 10
 	}
 
 }

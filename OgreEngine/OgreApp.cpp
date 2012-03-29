@@ -409,6 +409,7 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
         break;
     case MENU:
         sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+
         // Scroll wheel.
         if (arg.state.Z.rel){
            sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
@@ -430,7 +431,6 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mCameraMan->injectMouseDown(arg, id);
         break;
     case FIRST:
-
         mod->shot(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
         break;
     case MENU:
@@ -445,12 +445,12 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
 bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
+
     switch(mode){
     case FREE:
         mCameraMan->injectMouseUp(arg, id);
         break;
     case FIRST:
-
         break;
     case MENU:
         CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
