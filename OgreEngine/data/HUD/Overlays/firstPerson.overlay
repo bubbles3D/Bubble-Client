@@ -3,7 +3,7 @@
 FirstPerson/lens
 {
   zorder 200
-	container Panel(lensContener)
+	container Panel(lens)
 	{
 		metrics_mode pixels
 		horz_align center
@@ -40,4 +40,14 @@ FirstPerson/life
 		top 10
 	}
 
+}
+
+FirstPerson/blood
+{
+  zorder 100
+	container Panel(blood)
+	{
+		material     blood
+		
+	}
 }

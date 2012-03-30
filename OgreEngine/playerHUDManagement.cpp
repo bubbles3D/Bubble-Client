@@ -15,11 +15,22 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     lensOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLensName.toStdString());
     if(lensOverlay){
          lensOverlay->show();
-         lensContainer = lensOverlay->getChild("life");
+         lensContainer = lensOverlay->getChild("lens");
     }else{
         //If we have not succed to retreive the life overlay
         lensContainer = 0;
     }
+  /*
+    lensOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/blood");
+    if(lensOverlay){
+         lensOverlay->show();
+         lensContainer = lensOverlay->getChild("blood");
+
+    }else{
+        //If we have not succed to retreive the life overlay
+        lensContainer = 0;
+    }
+    */
 }
 
 void PlayerHUDManagement::updateLife(){
