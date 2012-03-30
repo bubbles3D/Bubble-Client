@@ -6,9 +6,11 @@
 
 class PlayerHUDManagement{
 public:
-    PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, float maxLifeValue = 40, float maxLifeSize = 200);
+    PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue = 40, float maxLifeSize = 200);
     void updateLife();
     void setLife(float lifeValue);
+
+    // pop up the blood screen
     void touched();
     void setAlphaBlood(float alpha);
     void updateHUD(float timeSinceLastFrame);

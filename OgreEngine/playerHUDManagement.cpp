@@ -1,6 +1,6 @@
 #include "OgreEngine/playerHUDManagement.h"
 
-PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, float maxLifeValue, float maxLifeSize):
+PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
 {
     lifeOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLifeName.toStdString());
@@ -23,7 +23,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 
     //Initialize blood screen
     alphaBlood = 0;
-    bloodOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/blood");
+    bloodOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayBloodName.toStdString());
     if(bloodOverlay){
          bloodContainer = bloodOverlay->getChild("blood");
          Ogre::MaterialPtr mat = bloodContainer->getMaterial();
