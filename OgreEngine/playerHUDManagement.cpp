@@ -42,17 +42,16 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 
 void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
+    updateLife(timeSinceLastFrame);
+}
+
+void PlayerHUDManagement::updateLife(float timeSinceLastFrame){
     if(PlayerHUDManagement::alphaBlood > 0){
         setAlphaBlood(PlayerHUDManagement::alphaBlood);
         PlayerHUDManagement::alphaBlood = PlayerHUDManagement::alphaBlood - PlayerHUDManagement::alphaBlood * timeSinceLastFrame * 0.5;
     }else{
        PlayerHUDManagement::alphaBlood = 0;
     }
-
-}
-
-void PlayerHUDManagement::updateLife(){
-//TODO
 }
 
 void PlayerHUDManagement::setLife(float lifeValue){
