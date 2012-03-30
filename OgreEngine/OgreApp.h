@@ -73,7 +73,6 @@ protected:
     void updatePlayersPositions();
     bool handleQuit(const CEGUI::EventArgs &e);
     CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
-    void attachLifeMeter();
 
 };
 #endif // APP_H

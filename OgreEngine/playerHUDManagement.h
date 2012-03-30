@@ -9,15 +9,22 @@ public:
     PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, float maxLifeValue = 40, float maxLifeSize = 200);
     void updateLife();
     void setLife(float lifeValue);
+    void touched();
+    void setAlphaBlood(float alpha);
+    void updateHUD(float timeSinceLastFrame);
 
 protected:
     Ogre::Overlay* lifeOverlay;
     Ogre::OverlayContainer * lifeContainer;
     Ogre::Overlay* lensOverlay;
     Ogre::OverlayContainer * lensContainer;
+    Ogre::Overlay* bloodOverlay;
+    Ogre::OverlayContainer * bloodContainer;
+    Ogre::TextureUnitState * bloodTexture;
     float convertLifeToSize(float lifeValue);
     float maxLife;
     float maxLifeSize;
+    float alphaBlood;
 };
 
 #endif // PLAYERHUDMANAGEMENT_H

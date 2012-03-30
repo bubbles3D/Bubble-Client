@@ -121,49 +121,6 @@ void OgreApp::createScene(void)
 
 }
 
-void OgreApp::attachLifeMeter(){
-/*
-    playerHUDMgt("FirstPerson/life", "FirstPerson/lens");
-
-    Ogre::Overlay* overlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/lens");
-    qDebug()<<"Overlay "<<(int)overlay;
-    if(overlay)
-        overlay->show();
-
-    overlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/life");
-    qDebug()<<"Overlay "<<(int)overlay;
-    if(overlay)
-        overlay->show();
-
-    Ogre::Overlay * lifeOverlay = overlay;
-    Ogre::OverlayContainer * lifeContainer = lifeOverlay->getChild("life");
-    lifeContainer->setWidth(50);
-    lifeContainer->setHeight(50);
-    lifeContainer->setTop(35);
-    lifeContainer->setLeft(-60);
-*/
-
-/*
-    Ogre::Overlay * overlay = Ogre::OverlayManager::getSingleton().create("TestOverlay");
-
-    // Create a panel.
-    Ogre::OverlayElement * panel = Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", "PanelElement");
-    // Set panel properties.
-    panel->setMaterialName("Templates/MessageBox");
-    //panel->setMetricsMode(Ogre::GuiMetricsMode::GMM_PIXELS);
-    panel->setTop(200);
-    panel->setLeft(300);
-    panel->setWidth(250);
-    panel->setHeight(150);
-
-    // Add the panel to the overlay.
-    overlay->add2D((Ogre::OverlayContainer*)panel);
-
-    // Make the overlay visible.
-    overlay->show();
-*/
-}
-
 void OgreApp::createFrameListener(void){
     /*BaseApplication::createFrameListener();*/
 
@@ -213,6 +170,7 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
         break;
     case FIRST:
         updatePositions();
+        playerHUDMgt->updateHUD(evt.timeSinceLastFrame);
         break;
     case MENU:
         //Need to inject timestamps to CEGUI System.
