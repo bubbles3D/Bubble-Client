@@ -1,5 +1,6 @@
 #include "OgreEngine/playerHUDManagement.h"
 
+float PlayerHUDManagement::alphaBlood = 0;
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
 {
@@ -22,7 +23,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     }
 
     //Initialize blood screen
-    alphaBlood = 0;
+    PlayerHUDManagement::alphaBlood = 0;
     bloodOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayBloodName.toStdString());
     if(bloodOverlay){
          bloodContainer = bloodOverlay->getChild("blood");
@@ -41,11 +42,11 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 
 void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
-    if(alphaBlood > 0){
-        setAlphaBlood(alphaBlood);
-        alphaBlood = alphaBlood - alphaBlood * timeSinceLastFrame * 0.5;
+    if(PlayerHUDManagement::alphaBlood > 0){
+        setAlphaBlood(PlayerHUDManagement::alphaBlood);
+        PlayerHUDManagement::alphaBlood = PlayerHUDManagement::alphaBlood - PlayerHUDManagement::alphaBlood * timeSinceLastFrame * 0.5;
     }else{
-       alphaBlood = 0;
+       PlayerHUDManagement::alphaBlood = 0;
     }
 
 }
@@ -64,11 +65,11 @@ float PlayerHUDManagement::convertLifeToSize(float lifeValue){
 }
 
 void PlayerHUDManagement::touched(){
-    setAlphaBlood(1);
+    PlayerHUDManagement::alphaBlood = 1;
 }
 
 void PlayerHUDManagement::setAlphaBlood(float alpha){
-    alphaBlood = alpha;
+    PlayerHUDManagement::alphaBlood = alpha;
     if(bloodOverlay){
          bloodOverlay->show();
            bloodTexture->setAlphaOperation(

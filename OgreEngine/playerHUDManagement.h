@@ -11,11 +11,14 @@ public:
     void setLife(float lifeValue);
 
     // pop up the blood screen
-    void touched();
+    static void touched();
     void setAlphaBlood(float alpha);
     void updateHUD(float timeSinceLastFrame);
 
+
 protected:
+    static float alphaBlood;
+    static PlayerHUDManagement * instance;
     Ogre::Overlay* lifeOverlay;
     Ogre::OverlayContainer * lifeContainer;
     Ogre::Overlay* lensOverlay;
@@ -26,7 +29,8 @@ protected:
     float convertLifeToSize(float lifeValue);
     float maxLife;
     float maxLifeSize;
-    float alphaBlood;
+
+
 };
 
 #endif // PLAYERHUDMANAGEMENT_H
