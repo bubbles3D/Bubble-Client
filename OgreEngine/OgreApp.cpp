@@ -2,6 +2,8 @@
 #include "OGRE/Ogre.h"
 #include <QDebug>
 #include "face.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 //using namespace Ogre;
@@ -121,6 +123,10 @@ void OgreApp::createScene(void)
 
     //Set up HUD
     playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
+
+    //TEST
+    /* initialize random seed: */
+      srand ( time(NULL) );
 
 }
 
@@ -284,6 +290,14 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
          case OIS::KC_F3 :
             mode = FREE;
             setupViewport(mSceneMgr,mCamera->getName());
+         case OIS::KC_TAB :
+             if(playerHUDMgt->statsAreVisible() == false){
+                 playerHUDMgt->displayStats();
+             }else{
+                 playerHUDMgt->hideStats();
+             }
+
+             break;
         default:
             break;
         }
@@ -342,6 +356,9 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
             keyName = "LEFT";
             model->updateKeys(keyName, false);
             break;
+        case OIS::KC_TAB:
+
+            break;
         default:
             break;
         }
@@ -397,6 +414,7 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
 bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
+
     Model *mod = Model::getInstance();
     switch(mode){
     case FREE:

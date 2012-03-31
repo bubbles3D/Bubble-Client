@@ -3,6 +3,7 @@
 #include <OGRE/OgreTextAreaOverlayElement.h>
 
 float PlayerHUDManagement::alphaBlood = 0;
+
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
 {
@@ -39,7 +40,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     //Score
     scoreOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/score");
     //qDebug()<<"SCORE: "<<(int)scoreOverlay;
-    if(bloodOverlay){
+    if(scoreOverlay){
         scoreOverlay->show();
         killValueContainer = scoreOverlay->getChild("killValue");
         deathValueContainer = scoreOverlay->getChild("deathValue");
@@ -50,7 +51,23 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
         qDebug()<<"ERROR";
     }
 
-/*//Dynamic creation example
+    //Stats
+    statsOverlay = Ogre::OverlayManager::getSingleton().getByName("Stats/stats");
+    if(statsOverlay){
+        playersNamesContainer = statsOverlay->getChild("statsPanel")->getChild("playersNames");
+        playersKillsContainer = statsOverlay->getChild("statsPanel")->getChild("playersKills");
+        playersDeathsContainer = statsOverlay->getChild("statsPanel")->getChild("playersDeaths");
+    }else{
+        //If we have not succed to retreive the life overlay
+        playersNamesContainer = 0;
+        playersKillsContainer = 0;
+        playersDeathsContainer = 0;
+        qDebug()<<"ERROR";
+    }
+
+
+    /*
+//Dynamic creation example
     Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
 
     // Create a panel
@@ -68,9 +85,9 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
           textArea->setDimensions(100, 100);
           textArea->setCharHeight(16);
           // set the font name to the font resource that you just created.
-          textArea->setFontName("BlackFont");//StarWars
+          textArea->setFontName("StarWars");//StarWars
           // say something
-          textArea->setCaption("0 Celllo ff");
+          textArea->setCaption("0 Celllo ff \n blaaaa");
 
           // Add the text area to the panel
             panel->addChild(textArea);
@@ -84,10 +101,10 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 
 void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
-    updateLife(timeSinceLastFrame);
+    updateBlood(timeSinceLastFrame);
 }
 
-void PlayerHUDManagement::updateLife(float timeSinceLastFrame){
+void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
     if(PlayerHUDManagement::alphaBlood > 0){
         setAlphaBlood(PlayerHUDManagement::alphaBlood);
         PlayerHUDManagement::alphaBlood = PlayerHUDManagement::alphaBlood - PlayerHUDManagement::alphaBlood * timeSinceLastFrame * 0.5;
@@ -126,4 +143,29 @@ void PlayerHUDManagement::setKillsValue(int nbKill){
 }
 void PlayerHUDManagement::setDeathValue(int nbDeath){
     deathValueContainer->setCaption(Ogre::StringConverter::toString(nbDeath));
+}
+
+void PlayerHUDManagement::displayStats(){
+    Model * mod = Model::getInstance();
+    QString players = "";
+    QString kills = "";
+    QString deaths = "";
+    foreach(Player p, mod->getAllPlayers()){
+        players += p.getName() + "\n";
+        kills += QString::number(p.getKills()) + "\n";
+        deaths += QString::number(p.getDeaths())+ "\n";
+    }
+
+    playersKillsContainer->setCaption(kills.toStdString());
+    playersDeathsContainer->setCaption(deaths.toStdString());
+    playersNamesContainer->setCaption(players.toStdString());
+    statsOverlay->show();
+}
+
+void PlayerHUDManagement::hideStats(){
+    statsOverlay->hide();
+}
+
+bool PlayerHUDManagement::statsAreVisible(){
+    return statsOverlay->isVisible();
 }

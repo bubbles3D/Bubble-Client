@@ -1,0 +1,95 @@
+Stats/stats
+{
+	zorder 300	
+   	
+  container Panel(statsPanel)
+	{
+		metrics_mode pixels
+		material     bluePanel
+		width 700
+		height 400
+		horz_align center
+		vert_align center
+		left -350
+		top -200
+	
+		container TextArea(playersNamesLabel)
+		{	
+			left         30
+		  top          30
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  30
+		  space_width  7
+		  colour 0 0 0
+			alignment left
+			caption Players:
+		}
+		
+		container TextArea(playersNames)
+		{	
+			left         30
+		  top          70
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  20
+		  space_width  4
+		  colour 0 0 0
+			alignment left
+			caption None
+		}
+		
+		container TextArea(playersKillsLabel)
+		{	
+			left         300
+		  top          30
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  30
+		  space_width  7
+		  colour 0 0 0
+			alignment left
+			caption Kills:
+		}
+		
+		container TextArea(playersKills)
+		{	
+			left         400
+		  top          70
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  20
+		  space_width  4
+		  colour 0 0 0
+			alignment right
+			caption None
+		}
+		
+		container TextArea(playersDeathsLabel)
+		{	
+			left         450
+		  top          30
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  30
+		  space_width  7
+		  colour 0 0 0
+			alignment left
+			caption Deaths:
+		}
+		
+		container TextArea(playersDeaths)
+		{	
+			left         595
+		  top          70
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  20
+		  space_width  4
+		  colour 0 0 0
+			alignment right
+			caption None
+		}
+	}
+}
+

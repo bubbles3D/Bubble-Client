@@ -1,5 +1,8 @@
 #include "OgreEngine/objectUtils.h"
 #include <QDebug>
+#include <stdlib.h>
+#include <time.h>
+
 //using namespace Ogre;
 
 void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, Actor p){
@@ -265,13 +268,17 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
             entityUtils::initScale(cube,node);
 
-            /*
+
             //Set the color
+/*
             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             cube->setMaterialName(p.getId().toStdString()+"_mat");
-            mMaterial->setDiffuse(1, 0, 0,0.5);
-            mMaterial->setAmbient(0.5, 0, 0);
-            */
+            float r =1.0/(rand() % 5 + 1);
+            float g =1.0/(rand() % 5 + 1);
+            float b =1.0/(rand() % 5 + 1);
+            mMaterial->setDiffuse(r, g, b,0.5);
+            mMaterial->setAmbient(r, g, b);
+*/
         }
 
         objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);
