@@ -1,4 +1,6 @@
 #include "OgreEngine/playerHUDManagement.h"
+#include <QDebug>
+#include <OGRE/OgreTextAreaOverlayElement.h>
 
 float PlayerHUDManagement::alphaBlood = 0;
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
@@ -16,28 +18,68 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     lensOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLensName.toStdString());
     if(lensOverlay){
          lensOverlay->show();
-         lensContainer = lensOverlay->getChild("lens");
     }else{
         //If we have not succed to retreive the life overlay
-        lensContainer = 0;
     }
 
     //Initialize blood screen
     PlayerHUDManagement::alphaBlood = 0;
     bloodOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayBloodName.toStdString());
     if(bloodOverlay){
-         bloodContainer = bloodOverlay->getChild("blood");
-         Ogre::MaterialPtr mat = bloodContainer->getMaterial();
+         Ogre::MaterialPtr mat = bloodOverlay->getChild("blood")->getMaterial();
          Ogre::Pass * pPass = mat->getTechnique(0)->getPass(0);
          pPass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
          pPass->setTransparentSortingEnabled(true);
          bloodTexture = pPass->getTextureUnitState(0);
     }else{
         //If we have not succed to retreive the life overlay
-        bloodContainer = 0;
         bloodTexture = 0;
     }
 
+    //Score
+    scoreOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/score");
+    //qDebug()<<"SCORE: "<<(int)scoreOverlay;
+    if(bloodOverlay){
+        scoreOverlay->show();
+        killValueContainer = scoreOverlay->getChild("killValue");
+        deathValueContainer = scoreOverlay->getChild("deathValue");
+    }else{
+        //If we have not succed to retreive the life overlay
+        killValueContainer = 0;
+        deathValueContainer = 0;
+        qDebug()<<"ERROR";
+    }
+
+/*//Dynamic creation example
+    Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
+
+    // Create a panel
+          Ogre::OverlayContainer* panel = static_cast<Ogre::OverlayContainer*>(
+             overlayManager.createOverlayElement("Panel", "PanelName"));
+          panel->setMetricsMode(Ogre::GMM_PIXELS);
+          panel->setPosition(10, 10);
+          panel->setDimensions(100, 100);
+
+    // Create a text area
+          Ogre::TextAreaOverlayElement* textArea = static_cast<Ogre::TextAreaOverlayElement*>(
+             overlayManager.createOverlayElement("TextArea", "TextAreaName"));
+          textArea->setMetricsMode(Ogre::GMM_PIXELS);
+          textArea->setPosition(100, 100);
+          textArea->setDimensions(100, 100);
+          textArea->setCharHeight(16);
+          // set the font name to the font resource that you just created.
+          textArea->setFontName("BlackFont");//StarWars
+          // say something
+          textArea->setCaption("0 Celllo ff");
+
+          // Add the text area to the panel
+            panel->addChild(textArea);
+            // Create an overlay, and add the panel
+            Ogre::Overlay* overlay = overlayManager.create("OverlayName");
+            overlay->add2D(panel);
+            // Show the overlay
+            overlay->show();
+*/
 }
 
 void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
@@ -77,4 +119,11 @@ void PlayerHUDManagement::setAlphaBlood(float alpha){
             Ogre::LBS_MANUAL,
             alpha,alpha);
     }
+}
+
+void PlayerHUDManagement::setKillsValue(int nbKill){
+    killValueContainer->setCaption(Ogre::StringConverter::toString(nbKill));
+}
+void PlayerHUDManagement::setDeathValue(int nbDeath){
+    deathValueContainer->setCaption(Ogre::StringConverter::toString(nbDeath));
 }

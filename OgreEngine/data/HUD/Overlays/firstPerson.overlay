@@ -36,7 +36,7 @@ FirstPerson/life
 		height 100
 		horz_align right
 		vert_align top
-		left -110
+		left -120
 		top 10
 	}
 
@@ -51,3 +51,66 @@ FirstPerson/blood
 		
 	}
 }
+
+FirstPerson/score
+{
+	zorder 300	
+   	
+		container TextArea(killLabel)
+		{	
+			horz_align right
+			vert_align top
+			left         -300
+		  top          10
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  20
+		  space_width  6
+		  colour 0 0 0
+			alignment left
+			caption Kills    :
+		}
+		container TextArea(killValue)
+		{	
+			horz_align right
+			vert_align top
+			left         -210
+		  top          6
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  30
+		  space_width  7
+			alignment left
+			colour 1 0 0
+			caption 0
+		}
+		container TextArea(deathLabel)
+		{	
+			horz_align right
+			vert_align top
+			left         -300
+		  top          35
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  20
+		  space_width  7
+		  colour 0 0 0
+			alignment left
+			caption Death :
+		}
+		container TextArea(deathValue)
+		{	
+			horz_align right
+			vert_align top
+			left         -210
+		  top          31
+		  metrics_mode pixels
+		  font_name    StarWars
+		  char_height  30
+		  space_width  7
+			alignment left
+			colour 1 0 0
+			caption 0
+		}
+}
+

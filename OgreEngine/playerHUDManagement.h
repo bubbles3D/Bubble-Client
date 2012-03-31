@@ -14,6 +14,8 @@ public:
     static void touched();
     void setAlphaBlood(float alpha);
     void updateHUD(float timeSinceLastFrame);
+    void setKillsValue(int nbKill);
+    void setDeathValue(int nbDeath);
 
 
 protected:
@@ -22,10 +24,11 @@ protected:
     Ogre::Overlay* lifeOverlay;
     Ogre::OverlayContainer * lifeContainer;
     Ogre::Overlay* lensOverlay;
-    Ogre::OverlayContainer * lensContainer;
     Ogre::Overlay* bloodOverlay;
-    Ogre::OverlayContainer * bloodContainer;
     Ogre::TextureUnitState * bloodTexture;
+    Ogre::Overlay* scoreOverlay;
+    Ogre::OverlayContainer * killValueContainer;
+    Ogre::OverlayContainer * deathValueContainer;
     float convertLifeToSize(float lifeValue);
     float maxLife;
     float maxLifeSize;

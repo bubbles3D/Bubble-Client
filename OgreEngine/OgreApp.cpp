@@ -27,6 +27,9 @@ bool OgreApp::handleQuit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 void OgreApp::createScene(void)
 {
+    Ogre::ResourceManager::ResourceMapIterator iter = Ogre::FontManager::getSingleton().getResourceIterator();
+      while (iter.hasMoreElements()) { iter.getNext()->load(); }
+
     //Init CEGUI
     mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 
@@ -542,6 +545,9 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Update HUD
              playerHUDMgt->setLife(p.getLife());
+             qDebug()<<"KILLS : "<<p.getKills();
+             playerHUDMgt->setKillsValue(p.getKills());
+             playerHUDMgt->setDeathValue(p.getDeaths());
          }
 
      }

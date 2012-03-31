@@ -8,7 +8,6 @@
 #include <QVariant>
 #include <OGRE/Ogre.h>
 //#include "OGRE/ExampleFrameListener.h"
-#include <QString>
 #include <CEGUI/CEGUI.h>
 #include <OIS/OIS.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>

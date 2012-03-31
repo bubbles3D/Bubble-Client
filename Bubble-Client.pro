@@ -32,6 +32,7 @@ HEADERS += \
     /usr/include/OGRE/Ogre.h \
     /usr/include/OGRE/SdkCameraMan.h \
     /usr/include/OGRE/OgreMaterial.h \
+    /usr/include/OGRE/OgreTextAreaOverlayElement.h \
     /usr/include/OIS \ 
     /usr/include/OIS/OIS.h \
     /usr/include/OIS/OISMouse.h \

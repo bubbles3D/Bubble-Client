@@ -49,7 +49,7 @@ material blood
          texture_unit
          {
             texture      Blood.png
-            alpha_op_ex modulate src_manual src_texture 0.8 
+            #alpha_op_ex modulate src_manual src_texture 1 
          }
       }
    }
