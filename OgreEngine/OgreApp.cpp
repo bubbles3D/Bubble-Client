@@ -545,7 +545,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Update HUD
              playerHUDMgt->setLife(p.getLife());
-             qDebug()<<"KILLS : "<<p.getKills();
              playerHUDMgt->setKillsValue(p.getKills());
              playerHUDMgt->setDeathValue(p.getDeaths());
          }
