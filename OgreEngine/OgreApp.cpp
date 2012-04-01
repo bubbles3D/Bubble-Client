@@ -290,6 +290,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
          case OIS::KC_F3 :
             mode = FREE;
             setupViewport(mSceneMgr,mCamera->getName());
+            break;
          case OIS::KC_TAB :
              if(playerHUDMgt->statsAreVisible() == false){
                  playerHUDMgt->displayStats();
