@@ -11,9 +11,11 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     if(lifeOverlay){
          lifeOverlay->show();
          lifeContainer = lifeOverlay->getChild("life");
+
     }else{
         //If we have not succed to retreive the life overlay
         lifeContainer = 0;
+
     }
 
     lensOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLensName.toStdString());
@@ -107,7 +109,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
     if(PlayerHUDManagement::alphaBlood > 0){
         setAlphaBlood(PlayerHUDManagement::alphaBlood);
-        PlayerHUDManagement::alphaBlood = PlayerHUDManagement::alphaBlood - PlayerHUDManagement::alphaBlood * timeSinceLastFrame * 0.5;
+        PlayerHUDManagement::alphaBlood = PlayerHUDManagement::alphaBlood - PlayerHUDManagement::alphaBlood * timeSinceLastFrame;
     }else{
        PlayerHUDManagement::alphaBlood = 0;
     }
@@ -116,6 +118,18 @@ void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
 void PlayerHUDManagement::setLife(float lifeValue){
     float lifeSize = convertLifeToSize(lifeValue);
     OverlayUtils::setScaleKeepingCenter(lifeContainer,lifeSize,lifeSize);
+
+    qDebug()<<"LIFE:::"<<lifeValue;
+    if(lifeValue == 1){
+        setLifeColor(Ogre::ColourValue::Red);
+    }else{
+        setLifeColor(Ogre::ColourValue::White);
+    }
+}
+
+void PlayerHUDManagement::setLifeColor(Ogre::ColourValue lifeColor){
+    Ogre::TextureUnitState * lifeTex = lifeContainer->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
+    lifeTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,lifeColor);
 }
 
 float PlayerHUDManagement::convertLifeToSize(float lifeValue){

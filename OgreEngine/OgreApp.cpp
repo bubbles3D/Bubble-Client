@@ -414,7 +414,6 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
 bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-
     Model *mod = Model::getInstance();
     switch(mode){
     case FREE:

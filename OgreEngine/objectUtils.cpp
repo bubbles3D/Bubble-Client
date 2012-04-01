@@ -270,7 +270,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
 
 
             //Set the color
-/*
+
             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             cube->setMaterialName(p.getId().toStdString()+"_mat");
             float r =1.0/(rand() % 5 + 1);
@@ -278,7 +278,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
             float b =1.0/(rand() % 5 + 1);
             mMaterial->setDiffuse(r, g, b,0.5);
             mMaterial->setAmbient(r, g, b);
-*/
+
         }
 
         objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);

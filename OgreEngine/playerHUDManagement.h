@@ -58,6 +58,7 @@ protected:
 
     void setAlphaBlood(float alpha);
     void updateBlood(float timeSinceLastFrame);
+    void setLifeColor(Ogre::ColourValue lifeColor);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H
