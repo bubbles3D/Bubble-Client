@@ -119,7 +119,6 @@ void PlayerHUDManagement::setLife(float lifeValue){
     float lifeSize = convertLifeToSize(lifeValue);
     OverlayUtils::setScaleKeepingCenter(lifeContainer,lifeSize,lifeSize);
 
-    qDebug()<<"LIFE:::"<<lifeValue;
     if(lifeValue == 1){
         setLifeColor(Ogre::ColourValue::Red);
     }else{

@@ -43,12 +43,6 @@ HEADERS += \
     bullet.h \
     appdialog.h \
     obstacles.h \
-    /usr/local/include/CEGUI \
-    /usr/local/include/CEGUI/CEGUI.h \
-    /usr/local/include/CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h \
-    /usr/include/CEGUI \
-    /usr/include/CEGUI/CEGUI.h \
-    /usr/include/CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h \
     OgreEngine/objectUtils.h \
     OgreEngine/entityUtils.h \
     OgreEngine/face.h \
