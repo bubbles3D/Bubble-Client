@@ -29,8 +29,6 @@ void OgreApp::createScene(void)
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 
-    //Ogre::MeshManager::getSingleton();
-
     // Set camera look point
     mCamera->setPosition(40, 100, 580);
     mCamera->pitch(Ogre::Degree(0));
@@ -42,18 +40,18 @@ void OgreApp::createScene(void)
     mRotateSpeed = 0.15f;
 
     //Scene
-    Ogre::Entity* cube = mSceneMgr->createEntity("cube", "BoxTest.mesh");
 
-    Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    cubeNode->setPosition(0,55,0);
-    cubeNode->attachObject(cube);
-
-    //Ball
+    //Ball Test
     Ogre::Entity* bullet = mSceneMgr->createEntity("ball", "Bullet.mesh");
     Ogre::SceneNode* bulletNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     bulletNode->setPosition(200,55,0);
     bulletNode->scale(40,40,40);
     bulletNode->attachObject(bullet);
+
+    Ogre::Entity* cube74 = mSceneMgr->createEntity("ezr", "Bubble-Gum-Anim.mesh");
+    qDebug()<<entityUtils::getEdgeLength(cube74);
+
+    //End tests
 
     //Create the cube
     Model * mod = Model::getInstance();
@@ -70,18 +68,6 @@ void OgreApp::createScene(void)
     //Init mode
     mode = FREE;
 
-    Ogre::Entity* cube41 = mSceneMgr->createEntity("cube41", "Cube.mesh");
-    Ogre::SceneNode* cubeNode41 =
-    mSceneMgr->getRootSceneNode()->createChildSceneNode();
-    cubeNode41->setPosition(400, 55, 0);
-    cubeNode41->attachObject(cube41);
-    entityUtils::initScale(cube41,cubeNode41);
-    cubeNode41->scale(20,20,20);
-
-    Ogre::Entity* cube74 = mSceneMgr->createEntity("ezr", "Bubble-Gum-Anim.mesh");
-    qDebug()<<"BUBBLE";
-    qDebug()<<entityUtils::getEdgeLength(cube74);
-
     //Set up the scene
     Model *model = Model::getInstance();
     objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
@@ -89,7 +75,7 @@ void OgreApp::createScene(void)
     //Set up HUD
     playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
 
-    //TEST
+    //TEST for random color
     /* initialize random seed: */
       srand ( time(NULL) );
 
