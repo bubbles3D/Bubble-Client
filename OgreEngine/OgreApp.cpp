@@ -20,49 +20,16 @@ OgreApp::~OgreApp(void)
     exit();
 }
 
-bool OgreApp::handleQuit(const CEGUI::EventArgs &e)
-{
-    mShutDown = true;
-    return true;
-}
-
 //-------------------------------------------------------------------------------------
 void OgreApp::createScene(void)
 {
     Ogre::ResourceManager::ResourceMapIterator iter = Ogre::FontManager::getSingleton().getResourceIterator();
-      while (iter.hasMoreElements()) { iter.getNext()->load(); }
-
-    //Init CEGUI
-    mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
-
-    CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
-    CEGUI::Font::setDefaultResourceGroup("Fonts");
-    CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-    CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-    CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-
-    CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
-
-    CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
-    CEGUI::MouseCursor::getSingleton().hide();
-
-    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
-
-    CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
-
-    quit->setText("Quit");
-    quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-    sheet->addChildWindow(quit);
-    CEGUI::System::getSingleton().setGUISheet(sheet);
-
-    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreApp::handleQuit, this));
+    while (iter.hasMoreElements()) { iter.getNext()->load(); }
 
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-    //mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
-    Ogre::MeshManager::getSingleton();
+    //Ogre::MeshManager::getSingleton();
 
     // Set camera look point
     mCamera->setPosition(40, 100, 580);
@@ -99,8 +66,6 @@ void OgreApp::createScene(void)
     Ogre::ColourValue orange(255.0/255.0, 195.0/255.0, 31.0/255.0);//Orange
 
     cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.33333, orange, blanc, jaune, rouge, vert, bleu);
-    //cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.2);
-
 
     //Init mode
     mode = FREE;
@@ -182,8 +147,6 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
         playerHUDMgt->updateHUD(evt.timeSinceLastFrame);
         break;
     case MENU:
-        //Need to inject timestamps to CEGUI System.
-        CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 
         break;
     default:
@@ -244,7 +207,6 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 
     switch(mode){
     case FREE:
-        //qDebug()<<"PASS IT";
         mCameraMan->injectKeyDown(arg);       
         switch (arg.key) {
          case OIS::KC_F1 :
@@ -254,7 +216,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
         case OIS::KC_F2 :
            mode = MENU;
-           CEGUI::MouseCursor::getSingleton().show();
+
             break;
         default:
             break;
@@ -285,7 +247,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
          case OIS::KC_F2 :
             mode = MENU;
-            CEGUI::MouseCursor::getSingleton().show();
+
             break;
          case OIS::KC_F3 :
             mode = FREE;
@@ -295,7 +257,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
              if(playerHUDMgt->statsAreVisible() == false){
                  playerHUDMgt->displayStats();
              }else{
-                 playerHUDMgt->hideStats();
+                playerHUDMgt->hideStats();
              }
 
              break;
@@ -307,19 +269,15 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         switch (arg.key) {
         case OIS::KC_F1 :
             mode = FIRST;
-            CEGUI::MouseCursor::getSingleton().hide();
             setupViewport(mSceneMgr,playerCamera->getName());
             break;
          case OIS::KC_F3 :
             mode = FREE;
-            CEGUI::MouseCursor::getSingleton().hide();
             setupViewport(mSceneMgr,mCamera->getName());
         default:
             break;
         }
-        CEGUI::System &sys = CEGUI::System::getSingleton();
-        sys.injectKeyDown(arg.key);
-        sys.injectChar(arg.text);
+
         break;
     }
 
@@ -365,7 +323,7 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
         }
              break;
         case MENU:
-            CEGUI::System::getSingleton().injectKeyUp(arg.key);
+
         break;
     }
 
@@ -375,7 +333,7 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
 bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 {
     Model * mod = Model::getInstance();
-    CEGUI::System &sys = CEGUI::System::getSingleton();
+
     Ogre::Vector3 verticalVect;
 
     switch(mode){
@@ -389,7 +347,7 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
         playerPitchNode->needUpdate();
         verticalVect = playerPitchNode->getOrientation() * Ogre::Vector3::UNIT_Z;
         verticalVect.normalise();
-        if(arg.state.Y.rel < 0 && verticalVect.y > 0.9 || arg.state.Y.rel > 0 && verticalVect.y < -0.9){
+        if( (arg.state.Y.rel < 0 && verticalVect.y > 0.9) || (arg.state.Y.rel > 0 && verticalVect.y < -0.9)){
             //Limit camera movement (looking up and down)
         }else{
             playerPitchNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
@@ -399,12 +357,7 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
         break;
     case MENU:
-        sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
 
-        // Scroll wheel.
-        if (arg.state.Z.rel){
-           sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
-        }
         break;
     default:
         break;
@@ -424,7 +377,7 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mod->shot(playerTargetNode->_getDerivedPosition().x - playerNode->_getDerivedPosition().x,playerTargetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z);
         break;
     case MENU:
-        CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(id));
+
         break;
     default:
         break;
@@ -443,7 +396,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
     case FIRST:
         break;
     case MENU:
-        CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(id));
+
         break;
     default:
         break;
@@ -491,6 +444,39 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              //Si le joueur n'existe pas
              qDebug()<<"Creating players";
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), "Bubble-Gum-Anim.mesh");
+
+             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+
+                 Ogre::Pass * pass = mMaterial->getTechnique(0)->getPass(0);
+                 pass->setLightingEnabled(false);
+                 pass->setDepthWriteEnabled(false);
+                 pass->setPolygonMode(Ogre::PM_SOLID);
+                 pass->setAmbient(Ogre::ColourValue(0,1,0,1));
+                 pass->setDiffuse(Ogre::ColourValue(0,1,0,1));
+                 //pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+                 //pass->setAlphaRejectValue(128);
+                 pass->setDepthCheckEnabled(true);
+                 pass->setNormaliseNormals(true);
+                 //pass->setTransparentSortingEnabled(true);
+                 Ogre::TextureUnitState * texture = pass->createTextureUnitState(p.getId().toStdString()+"_tex");
+                 texture->setTextureName("White-Eyes.png");
+                 texture->setTextureAddressingMode(Ogre::TextureUnitState::TAM_CLAMP);
+                 texture->setTextureScale(1,1);
+                 //texture->setAlphaOperation();
+                 //texture->setColourOperation(Ogre::LBO_MODULATE);//
+                 //texture->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,Ogre::ColourValue(0,0,1,1));
+
+                 //Ogre::TextureUnitState * texture2 = pass->createTextureUnitState(p.getId().toStdString()+"_texEyes");
+
+                 //texture2->setColourOperationEx(Ogre::LBO_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,Ogre::ColourValue(1,0,0,1));
+
+
+             cube->setMaterialName(p.getId().toStdString()+"_mat");
+
+
+
+
              node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
              node->scale(20,20,20);
              yawNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_rot", Ogre::Vector3(0,0,0));
@@ -580,24 +566,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
      vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
      cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
- }
-
- CEGUI::MouseButton OgreApp::convertButton(OIS::MouseButtonID buttonID)
- {
-     switch (buttonID)
-     {
-     case OIS::MB_Left:
-         return CEGUI::LeftButton;
-
-     case OIS::MB_Right:
-         return CEGUI::RightButton;
-
-     case OIS::MB_Middle:
-         return CEGUI::MiddleButton;
-
-     default:
-         return CEGUI::LeftButton;
-     }
  }
 
 /*

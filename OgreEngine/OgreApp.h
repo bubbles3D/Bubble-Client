@@ -8,9 +8,7 @@
 #include <QVariant>
 #include <OGRE/Ogre.h>
 //#include "OGRE/ExampleFrameListener.h"
-#include <CEGUI/CEGUI.h>
 #include <OIS/OIS.h>
-#include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include "OGRE/Ogre.h"
 #include "BaseApplication.h"
 #include "model.h"
@@ -54,9 +52,6 @@ protected:
     //TEST
     enum side plane;
 
-    //For CEGUI
-    CEGUI::OgreRenderer* mRenderer;
-
     float mRotateSpeed;
 
     virtual void createScene(void);
@@ -70,8 +65,6 @@ protected:
     virtual void setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name);
     void updatePositions();
     void updatePlayersPositions();
-    bool handleQuit(const CEGUI::EventArgs &e);
-    CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
 };
 #endif // APP_H
