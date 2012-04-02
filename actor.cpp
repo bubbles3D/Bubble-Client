@@ -1,4 +1,10 @@
+#include <QDebug>
 #include "actor.h"
+
+Actor::Actor()
+{
+    //TODO
+}
 
 Actor::Actor(QString id, float x, float y, float z,
                float vx, float vy, float vz)
@@ -29,6 +35,30 @@ Actor::Actor(QVariantMap map)
     height = map["h"].toFloat();
     length = map["l"].toFloat();
     cube = map["cube"].toInt();
+}
+
+void Actor::update(QVariantMap map)
+{
+    if (map.contains("x"))
+        x = map["x"].toInt();
+    if (map.contains("y"))
+        y = map["y"].toInt();
+    if (map.contains("z"))
+        z = map["z"].toInt();
+    if (map.contains("vx"))
+        vx = map["vx"].toInt();
+    if (map.contains("vy"))
+        vy = map["vy"].toInt();
+    if (map.contains("vz"))
+        vz = map["vz"].toInt();
+    if (map.contains("w"))
+        width = map["w"].toFloat();
+    if (map.contains("h"))
+        height = map["h"].toFloat();
+    if (map.contains("l"))
+        length = map["l"].toFloat();
+    if (map.contains("cube"))
+        cube = map["cube"].toInt();
 }
 
 QString Actor::toString()
