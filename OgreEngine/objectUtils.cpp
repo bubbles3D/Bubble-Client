@@ -19,9 +19,9 @@ void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitc
     }
 
     //Scale
-    qDebug()<<"Width:"<<p.getWidth()/100;
-    qDebug()<<"getHeight:"<<p.getHeight();
-    qDebug()<<"getLength:"<<p.getLength();
+    //qDebug()<<"Width:"<<p.getWidth()/100;
+    //qDebug()<<"getHeight:"<<p.getHeight();
+    //qDebug()<<"getLength:"<<p.getLength();
     node->setScale(p.getWidth()/meshBasicLength,p.getHeight()/meshBasicLength,p.getLength()/meshBasicLength);
 }
 
@@ -215,7 +215,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
 
         }catch (Ogre::Exception ex){
             //If the object doesn't already exist we create it
-            Ogre::Entity* cube = sceneManager->createEntity(p.getId().toStdString(), meshName);
+            Ogre::Entity* cube = sceneManager->createEntity(p.getId().toStdString(), "Prefab_Sphere");
             node = sceneManager->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
             node->setPosition(p.getX(),p.getY(),p.getZ());
             //float ratio = p.getRatio();
@@ -223,6 +223,17 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             yawNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_rot", Ogre::Vector3(0,0,0));
             pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
             entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
+
+
+            node->scale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
+
+            //Set the color
+            Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            cube->setMaterialName(p.getId().toStdString() +"_mat");
+            mMaterial->setDiffuse(Ogre::ColourValue::Red);
+            mMaterial->setAmbient(Ogre::ColourValue::Red);
+            mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
 
             //Set the color
@@ -283,7 +294,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
 
         }
 
-        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p, 102);
+        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p, 100);
 
     }
     qDebug()<<"END MAP";

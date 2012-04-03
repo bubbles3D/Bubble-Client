@@ -555,7 +555,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerEntityNode = ((Ogre::SceneNode*)entityNode);
                  playerPitchNode = ((Ogre::SceneNode*)pitchNode);
                  playerYawNode = ((Ogre::SceneNode*)yawNode);
-                 playerTargetNode = playerPitchNode->createChildSceneNode(p.getId().toStdString() + "_target", Ogre::Vector3(0,0,1));
+                 playerTargetNode = playerPitchNode->createChildSceneNode(p.getId().toStdString() + "_target", Ogre::Vector3(0,0,20));
                  playerPitchNode->attachObject(playerCamera);
                  ((Ogre::SceneNode*)node)->setVisible(true,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
@@ -612,7 +612,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Set our player's position
              node->setPosition(p.getX(),p.getY(),p.getZ());
-             qDebug()<<p.getX()<< " "<<p.getY()<<" "<<p.getZ();
              playerSide = (side) p.getCube();
 
              entityNode->setScale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
