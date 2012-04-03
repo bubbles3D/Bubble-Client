@@ -38,7 +38,7 @@ material White-Bubble
                 tex_address_mode clamp
                 scale 1.0 1.0
                 #colour_op_ex modulate src_manual src_texture 0 0 1
-                colour_op modulate 
+                colour_op add 
                 #replace
             }
         }

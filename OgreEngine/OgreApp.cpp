@@ -48,8 +48,52 @@ void OgreApp::createScene(void)
     bulletNode->scale(40,40,40);
     bulletNode->attachObject(bullet);
 
-    Ogre::Entity* cube74 = mSceneMgr->createEntity("ezr", "Bubble-Gum-Anim.mesh");
-    qDebug()<<entityUtils::getEdgeLength(cube74);
+    Ogre::SceneNode* cubeNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    Ogre::Entity* cubeEntity = mSceneMgr->createEntity("mycube", "Prefab_Cube");
+    cubeNode->setPosition(500,50,0);cubeNode->setScale(100/100,100/100,100/100);
+    cubeNode->attachObject(cubeEntity);
+
+
+    Ogre::SceneNode * spherNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("TEST");
+    Ogre::Entity* sphere = mSceneMgr->createEntity("TEST", "Prefab_Sphere");
+    Ogre::Entity* leftEye = mSceneMgr->createEntity("TEST2", "Prefab_Sphere");
+    Ogre::Entity* rightEye = mSceneMgr->createEntity("TEST3", "Prefab_Sphere");
+
+
+    Ogre::Node * yawNode = ((Ogre::SceneNode*)spherNode)->createChildSceneNode("_rot", Ogre::Vector3(0,0,0));
+    Ogre::Node * pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode("_cam", Ogre::Vector3(0,0,0));
+    Ogre::Node * entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode("_entity", Ogre::Vector3(0,0,0));
+    Ogre::Node * leftEyesNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode("_lEye", Ogre::Vector3(-15,15,39));
+    Ogre::Node * rightEyesNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode("_rEye", Ogre::Vector3(15,15,39));
+
+    leftEyesNode->scale(0.3,0.4,0.2);
+    leftEyesNode->pitch(Ogre::Degree(-20));
+    rightEyesNode->scale(0.3,0.4,0.2);
+    rightEyesNode->pitch(Ogre::Degree(-20));
+    spherNode->scale(1.5,1.5,1.5);
+    //Set the color
+
+    Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create("_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    sphere->setMaterialName("_mat");
+    float r =1.0/(rand() % 5 + 1);
+    float g =1.0/(rand() % 5 + 1);
+    float b =1.0/(rand() % 5 + 1);
+    mMaterial->setDiffuse(Ogre::ColourValue::White);
+    mMaterial->setAmbient(Ogre::ColourValue::White);
+    mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+
+
+    Ogre::MaterialPtr mMaterial2 = Ogre::MaterialManager::getSingleton().create("_mat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+    leftEye->setMaterialName("_mat2");
+    rightEye->setMaterialName("_mat2");
+
+    mMaterial2->setDiffuse(Ogre::ColourValue::Black);
+    mMaterial2->setAmbient(Ogre::ColourValue::Black);
+
+spherNode->setPosition(700,75,100);
+    ((Ogre::SceneNode*)entityNode)->attachObject(sphere);
+((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
+((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
 
     //End tests
 
@@ -417,6 +461,8 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          Ogre::Node* pitchNode;
          Ogre::Node* yawNode;
          Ogre::Node* entityNode;
+         Ogre::Node * leftEyesNode;
+         Ogre::Node * rightEyesNode;
 
          try{
              //MAJ position des joueurs
@@ -429,8 +475,13 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          }catch (Ogre::Exception ex){
              //Si le joueur n'existe pas
              qDebug()<<"Creating players";
-             Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), "Bubble-Gum-Anim.mesh");
 
+             Ogre::Entity* sphere = mSceneMgr->createEntity(p.getId().toStdString() , "Prefab_Sphere");
+             Ogre::Entity* leftEye = mSceneMgr->createEntity(p.getId().toStdString() + "_lEye", "Prefab_Sphere");
+             Ogre::Entity* rightEye = mSceneMgr->createEntity(p.getId().toStdString() + "_rEye", "Prefab_Sphere");
+
+
+             /*
              Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
 
@@ -460,14 +511,44 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              cube->setMaterialName(p.getId().toStdString()+"_mat");
 
-
+*/
 
 
              node = mSceneMgr->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
-             node->scale(20,20,20);
+
              yawNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_rot", Ogre::Vector3(0,0,0));
              pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
              entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
+             leftEyesNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(p.getId().toStdString() +"_lEye", Ogre::Vector3(-15,15,39));
+             rightEyesNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(p.getId().toStdString() +"_rEye", Ogre::Vector3(15,15,39));
+
+             //Eyes position and scale
+             leftEyesNode->scale(0.3,0.4,0.2);
+             leftEyesNode->pitch(Ogre::Degree(-20));
+             rightEyesNode->scale(0.3,0.4,0.2);
+             rightEyesNode->pitch(Ogre::Degree(-20));
+
+             //Set colors
+             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+             sphere->setMaterialName(p.getId().toStdString() +"_mat");
+             mMaterial->setDiffuse(Ogre::ColourValue::White);
+             mMaterial->setAmbient(Ogre::ColourValue::White);
+             mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+
+
+             Ogre::MaterialPtr mMaterial2 = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+             leftEye->setMaterialName(p.getId().toStdString() +"_mat2");
+             rightEye->setMaterialName(p.getId().toStdString() +"_mat2");
+
+             mMaterial2->setDiffuse(Ogre::ColourValue::Black);
+             mMaterial2->setAmbient(Ogre::ColourValue::Black);
+
+             //Attach eyes
+             ((Ogre::SceneNode*)entityNode)->attachObject(sphere);
+             ((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
+             ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
+
+
 
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
@@ -476,20 +557,20 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerYawNode = ((Ogre::SceneNode*)yawNode);
                  playerTargetNode = playerPitchNode->createChildSceneNode(p.getId().toStdString() + "_target", Ogre::Vector3(0,0,1));
                  playerPitchNode->attachObject(playerCamera);
-                 ((Ogre::SceneNode*)node)->setVisible(false,true);
+                 ((Ogre::SceneNode*)node)->setVisible(true,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
                  setupViewport(mSceneMgr,playerCamera->getName());
                  playerNode = ((Ogre::SceneNode*)node);
                  playerSide =(side) p.getCube();
                  mode = FIRST;
              }
-             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
+
              qDebug()<<"Created players";
          }
 
 
          if(model->getName() != p.getName()){
-            objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);
+            objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p,100);
          }else{
              // It's our player:
 
@@ -531,12 +612,16 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Set our player's position
              node->setPosition(p.getX(),p.getY(),p.getZ());
+             qDebug()<<p.getX()<< " "<<p.getY()<<" "<<p.getZ();
              playerSide = (side) p.getCube();
+
+             entityNode->setScale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
 
              //Update HUD
              playerHUDMgt->setLife(p.getLife());
              playerHUDMgt->setKillsValue(p.getKills());
              playerHUDMgt->setDeathValue(p.getDeaths());
+
          }
 
      }

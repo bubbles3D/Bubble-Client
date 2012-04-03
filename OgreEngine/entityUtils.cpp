@@ -35,11 +35,13 @@ Ogre::Real entityUtils::getEdgeLength2D(Ogre::Entity * entity){
 void entityUtils::initScale(Ogre::Entity* entity, Ogre::Node * node){
     Ogre::Real length = entityUtils::getEdgeLength(entity);
     Ogre::Real ratio = 4.98725/length;
+    //Ogre::Real ratio = 1/length;
 
     qDebug()<<"RATIO";
     qDebug()<<ratio;
     qDebug()<<length;
     node->scale(ratio,ratio,ratio);
+
 }
 
 

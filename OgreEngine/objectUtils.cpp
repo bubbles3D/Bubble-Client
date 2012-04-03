@@ -5,7 +5,7 @@
 
 //using namespace Ogre;
 
-void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, Actor p){
+void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, Actor p, float meshBasicLength){
     //We update object's positions
     node->setPosition(p.getX(),p.getY(),p.getZ());
     //We update object's orientation
@@ -19,7 +19,10 @@ void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitc
     }
 
     //Scale
-    node->setScale(p.getWidth(),p.getHeight(),p.getLength());
+    qDebug()<<"Width:"<<p.getWidth()/100;
+    qDebug()<<"getHeight:"<<p.getHeight();
+    qDebug()<<"getLength:"<<p.getLength();
+    node->setScale(p.getWidth()/meshBasicLength,p.getHeight()/meshBasicLength,p.getLength()/meshBasicLength);
 }
 
 void objectUtils::removeObject(QString name, Ogre::SceneManager* mSceneMgr){
@@ -33,9 +36,11 @@ void objectUtils::removeObject(QString name, Ogre::SceneManager* mSceneMgr){
             node->removeAndDestroyAllChildren();
             mSceneMgr->destroyEntity(entity->getName());
             qDebug()<<"End REMOVING NODE";
+           mSceneMgr->destroyEntity(name.toStdString() + "_lEye");
+           mSceneMgr->destroyEntity(name.toStdString() + "_rEye");
 
         }catch (Ogre::Exception ex){
-          qDebug()<<"ERROR REMOVING NODE";
+          qDebug()<<"NO DESTROYING PLAYER";
         }
 }
 
@@ -219,7 +224,6 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
             entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
-            //entityUtils::initScale(cube,node);
 
             //Set the color
 /*
@@ -232,7 +236,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             mMaterial->setAmbient(0.5, 0, 0);
 */
         }
-        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);
+        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p,4.6);
     }
 }
 
@@ -257,20 +261,18 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
 
         }catch (Ogre::Exception ex){
             //If the object doesn't already exist we create it
-            Ogre::Entity* cube = sceneManager->createEntity(p.getId().toStdString(), meshName);
+            Ogre::Entity* cube = sceneManager->createEntity(p.getId().toStdString(), "Prefab_Cube");
+            //Ogre::Entity* cube = sceneManager->createEntity(p.getId().toStdString(), meshName);
             node = sceneManager->getRootSceneNode()->createChildSceneNode(p.getId().toStdString());
             node->setPosition(p.getX(),p.getY(),p.getZ());
             //float ratio = p.getRatio();
-            //node->scale(p.getWidth(),p.getHeight(),p.getLength());
+            //node->setScale(p.getWidth(),p.getHeight(),p.getLength());
             yawNode = ((Ogre::SceneNode*)node)->createChildSceneNode(p.getId().toStdString() + "_rot", Ogre::Vector3(0,0,0));
             pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode(p.getId().toStdString() + "_cam", Ogre::Vector3(0,0,0));
             entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
-            entityUtils::initScale(cube,node);
-
 
             //Set the color
-
             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             cube->setMaterialName(p.getId().toStdString()+"_mat");
             float r =1.0/(rand() % 5 + 1);
@@ -281,7 +283,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Obstacles> ob
 
         }
 
-        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p);
+        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p, 102);
 
     }
     qDebug()<<"END MAP";
