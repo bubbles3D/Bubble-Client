@@ -10,6 +10,7 @@
 class Player: public Actor
 {
 public:
+    Player();
     Player(QString id, float x, float y, float z,
                    float vx, float vy, float vz);
     Player(QVariantMap map);
@@ -18,6 +19,7 @@ public:
     int getDeaths();
     int getKills();
     QString getName();
+    void update(QVariantMap map);
 
     int life, deaths, kills;
     QString name;

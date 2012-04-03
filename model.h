@@ -39,17 +39,22 @@ public:
     void setMap(QString json);
     int getMapWidth();
     int getMapLength();
+    void updatePlayer(QVariant data);
+    void updateBullet(QVariant data);
+    void updateObstacle(QVariant data);
+    void setToClear(QString json);
 
 
 
 private:
     static Model * instance;
     Model();
-    QMap<QString, Player> players;
-    QMap<QString, Bullet> bullets;
-    QMap<QString, Obstacles> obstacles;
+    QMap<QString, Player*> players;
+    QMap<QString, Bullet*> bullets;
+    QMap<QString, Obstacles*> obstacles;
     QString name;
     QSet<QString> toClear;
+    int life, id;
     mutable QMutex mutex;
     QTime mouseTimeout;
     void update();

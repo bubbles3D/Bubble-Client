@@ -7,6 +7,7 @@
 class Actor
 {
 public:
+    Actor();
     Actor(QString id, float x, float y, float z,
                    float vx, float vy, float vz);
     Actor(QVariantMap dict);
@@ -23,6 +24,7 @@ public:
     float getLength();
     float getHeight();
     int getCube();
+    void update(QVariantMap map);
 
     QString id;
     float x, y, z;

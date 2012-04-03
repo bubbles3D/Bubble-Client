@@ -7,6 +7,7 @@
 class Obstacles : public Actor
 {
 public:
+    Obstacles();
     Obstacles(QVariantMap data);
 };
 

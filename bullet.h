@@ -6,7 +6,9 @@
 class Bullet : public Actor
 {
 public:
+    Bullet();
     Bullet(QVariantMap map);
+    void update(QVariantMap map);
 
     QString player;
 };

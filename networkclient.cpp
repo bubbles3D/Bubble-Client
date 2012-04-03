@@ -92,7 +92,8 @@ void NetworkClient::processIncommingData()
             }
 
             m->setUpdatedPlayers(toProcess[i]);
-            m->setUpdatedBullets(toProcess[i]);            
+            m->setUpdatedBullets(toProcess[i]);
+            m->setToClear(toProcess[i]);
         }
 
         messages = toProcess[toProcess.size() - 1];
