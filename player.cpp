@@ -1,6 +1,10 @@
+#include <QDebug>
 #include "player.h"
 
-
+Player::Player()
+{
+    //TODO
+}
 
 Player::Player(QVariantMap map)
     :Actor(map)
@@ -9,6 +13,20 @@ Player::Player(QVariantMap map)
     life = map["life"].toInt();
     deaths = map["deaths"].toInt();
     kills = map["kills"].toInt();
+}
+
+void Player::update(QVariantMap map)
+{
+    Actor::update(map);
+
+    if (map.contains("name"))
+        name = map["name"].toString();
+    if (map.contains("life"))
+        life = map["life"].toInt();
+    if (map.contains("deaths"))
+        deaths = map["deaths"].toInt();
+    if (map.contains("kills"))
+        kills = map["kills"].toInt();
 }
 
 int Player::getLife()

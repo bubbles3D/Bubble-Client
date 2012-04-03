@@ -5,6 +5,8 @@
 
 #include "model.h"
 
+#include "OgreEngine/playerHUDManagement.h"
+
 Model* Model::instance = NULL;
 
 Model::Model()
@@ -26,79 +28,91 @@ QList<Player> Model::getUpdatedPlayers()
 {
     QMutexLocker locker(&mutex);
 
-    return players.values();
+    QList<Player> ret;
+
+    foreach(Player* p, players.values()){
+        ret.append(*p);
+    }
+
+    return ret;
 }
 
 QList<Bullet> Model::getUpdatedBullets()
 {
     QMutexLocker locker(&mutex);
 
-    return bullets.values();
+    QList<Bullet> ret;
+
+    foreach(Bullet* b, bullets.values()){
+        ret.append(*b);
+    }
+
+    return ret;
 }
 
 QList<Obstacles> Model::getUpdatedObstacles()
 {
     QMutexLocker locker(&mutex);
 
+    QList<Obstacles> ret;
     //qDebug() << "get obstacles " << obstacles.size();
-    return obstacles.values();
+    foreach(Obstacles* o, obstacles.values()){
+        ret.append(*o);
+    }
+
+    return ret;
 }
 
 
 void Model::setUpdatedPlayers(QString json)
 {
-    //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
-    QSet<QString> diff = players.keys().toSet();
 
     foreach(QVariant obj, result["players"].toList()){
-        Player p(obj.toMap());
-        addUpdatedPlayer(p);
-        diff.remove(p.id);
-    }
+        if (obj.toMap()["name"].toString() == this->name)
+            this->id = obj.toMap()["id"].toInt();
 
-    foreach(QString s, diff){
-        players.remove(s);
-    }
+        if (obj.toMap()["id"] == this->id)
+        {
+            if (life != 0 && obj.toMap()["life"].toInt() < life)
+            {
+                PlayerHUDManagement::touched();
+                life = obj.toMap()["life"].toInt();
+            }
+            else if (life == 0)
+            {
+                life = obj.toMap()["life"].toInt();
+            }
 
-    toClear.unite(diff);
+        }
+
+        updatePlayer(obj);
+    }
 }
 
 void Model::setUpdatedBullets(QString json)
 {
-    //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
-    QSet<QString> diff = bullets.keys().toSet();
 
     foreach(QVariant obj, result["bullets"].toList()){
-        Bullet b(obj.toMap());
-        addUpdatedBullet(b);
-        diff.remove(b.id);
+        updateBullet(obj);
     }
-
-    foreach(QString s, diff){
-        bullets.remove(s);
-    }
-
-    toClear.unite(diff);
 }
 
 void Model::setUpdatedObstacles(QString json)
 {
-    //QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
     QMap<QString, QVariant> field = result["field"].toMap();
 
     foreach(QVariant obj, field["obstacles"].toList()){
-        Obstacles o(obj.toMap());
-        addUpdatedObstacles(o);
+        updateObstacle(obj);
     }
 }
 
-void Model::addUpdatedPlayer(Player p)
+/*void Model::addUpdatedPlayer(Player p)
 {
     QMutexLocker locker(&mutex);
     players.insert(p.id, p);
@@ -114,6 +128,55 @@ void Model::addUpdatedObstacles(Obstacles o)
 {
     QMutexLocker locker(&mutex);
     obstacles.insert(o.id, o);
+}*/
+
+void Model::updatePlayer(QVariant data)
+{
+    QMutexLocker locker(&mutex);
+    QVariantMap obj = data.toMap();
+
+    if (players.contains(obj["id"].toString()))
+    {
+        players[obj["id"].toString()]->update(obj);
+    }
+    else
+    {
+        qDebug() << "Created player with ID :" << obj["id"].toString();
+        Player* p = new Player(data.toMap());
+        players.insert(p->id, p);
+    }
+}
+
+void Model::updateBullet(QVariant data)
+{
+    QMutexLocker locker(&mutex);
+    QVariantMap obj = data.toMap();
+
+    if (bullets.contains(obj["id"].toString()))
+    {
+        bullets[obj["id"].toString()]->update(obj);
+    }
+    else
+    {
+        Bullet* b = new Bullet(data.toMap());
+        bullets.insert(b->id, b);
+    }
+}
+
+void Model::updateObstacle(QVariant data)
+{
+    QMutexLocker locker(&mutex);
+    QVariantMap obj = data.toMap();
+
+    if (obstacles.contains(obj["id"].toString()))
+    {
+        obstacles[obj["id"].toString()]->update(obj);
+    }
+    else
+    {
+        Obstacles* o = new Obstacles(data.toMap());
+        obstacles.insert(o->id, o);
+    }
 }
 
 void Model::setName(QString n)
@@ -157,19 +220,45 @@ void Model::shot(float x, float y, float z)
 QList<Player> Model::getAllPlayers()
 {
     QMutexLocker locker(&mutex);
-    QList<Player> cp(players.values());
-    return cp;
+    QList<Player> ret;
+
+    foreach(Player* p, players.values()){
+        ret.append(*p);
+    }
+
+    return ret;
 }
 
 QList<QString> Model::getClearedActors(){
     QMutexLocker locker(&mutex);
     QList<QString> ret = toClear.toList();
 
-    ////qDebug() << "getClearedActors " << ret;
-
     toClear.clear();
 
     return ret;
+}
+
+void Model::setToClear(QString json)
+{
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+
+    foreach(QVariant obj, result["toClear"].toList()){
+        toClear.insert(obj.toString());
+
+        if(players.contains(obj.toString()))
+        {
+            players.remove(obj.toString());
+        }
+        else if(bullets.contains(obj.toString()))
+        {
+            bullets.remove(obj.toString());
+        }
+        else if(obstacles.contains(obj.toString()))
+        {
+            obstacles.remove(obj.toString());
+        }
+    }
 }
 
 void Model::setMap(QString json)

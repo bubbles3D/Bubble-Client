@@ -62,7 +62,7 @@ material blood
       	 lighting off
          scene_blend alpha_blend
          depth_check off
-         alpha_rejection 255
+         alpha_rejection 128
          
          texture_unit
          {
