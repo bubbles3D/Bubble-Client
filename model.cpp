@@ -248,15 +248,15 @@ void Model::setToClear(QString json)
 
         if(players.contains(obj.toString()))
         {
-            players.remove(obj.toString());
+            delete players.take(obj.toString());
         }
         else if(bullets.contains(obj.toString()))
         {
-            bullets.remove(obj.toString());
+            delete bullets.take(obj.toString());
         }
         else if(obstacles.contains(obj.toString()))
         {
-            obstacles.remove(obj.toString());
+            delete obstacles.take(obj.toString());
         }
     }
 }
