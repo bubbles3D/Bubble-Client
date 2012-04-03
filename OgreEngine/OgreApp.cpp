@@ -70,7 +70,7 @@ void OgreApp::createScene(void)
     leftEyesNode->pitch(Ogre::Degree(-20));
     rightEyesNode->scale(0.3,0.4,0.2);
     rightEyesNode->pitch(Ogre::Degree(-20));
-    spherNode->scale(1.5,1.5,1.5);
+    spherNode->scale(20.0/100.0,20.0/100.0,20.0/100.0);
     //Set the color
 
     Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create("_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -90,7 +90,7 @@ void OgreApp::createScene(void)
     mMaterial2->setDiffuse(Ogre::ColourValue::Black);
     mMaterial2->setAmbient(Ogre::ColourValue::Black);
 
-spherNode->setPosition(700,75,100);
+spherNode->setPosition(700,20,100);
     ((Ogre::SceneNode*)entityNode)->attachObject(sphere);
 ((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
 ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
@@ -609,6 +609,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Set our player's position
              node->setPosition(p.getX(),p.getY(),p.getZ());
+             qDebug()<<p.getX()<<" "<<p.getY()<<" "<<p.getZ();
              playerSide = (side) p.getCube();
 
              entityNode->setScale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
