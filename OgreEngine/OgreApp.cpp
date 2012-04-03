@@ -431,7 +431,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              qDebug()<<"Creating players";
              Ogre::Entity* cube = mSceneMgr->createEntity(p.getId().toStdString(), "Bubble-Gum-Anim.mesh");
 
-             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+             /*Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
 
                  Ogre::Pass * pass = mMaterial->getTechnique(0)->getPass(0);
@@ -458,7 +458,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  //texture2->setColourOperationEx(Ogre::LBO_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,Ogre::ColourValue(1,0,0,1));
 
 
-             cube->setMaterialName(p.getId().toStdString()+"_mat");
+             cube->setMaterialName(p.getId().toStdString()+"_mat");*/
 
 
 
