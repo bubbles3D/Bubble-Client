@@ -28,9 +28,9 @@ Actor::Actor(QVariantMap map)
     x = map["x"].toInt();
     y = map["y"].toInt();
     z = map["z"].toInt();
-    vx = map["vx"].toInt();
-    vy = map["vy"].toInt();
-    vz = map["vz"].toInt();
+    vx = map["vx"].toFloat();
+    vy = map["vy"].toFloat();
+    vz = map["vz"].toFloat();
     width = map["w"].toFloat();
     height = map["h"].toFloat();
     length = map["l"].toFloat();
@@ -46,11 +46,11 @@ void Actor::update(QVariantMap map)
     if (map.contains("z"))
         z = map["z"].toInt();
     if (map.contains("vx"))
-        vx = map["vx"].toInt();
+        vx = map["vx"].toFloat();
     if (map.contains("vy"))
-        vy = map["vy"].toInt();
+        vy = map["vy"].toFloat();
     if (map.contains("vz"))
-        vz = map["vz"].toInt();
+        vz = map["vz"].toFloat();
     if (map.contains("w"))
         width = map["w"].toFloat();
     if (map.contains("h"))
