@@ -54,6 +54,7 @@ private:
     QMap<QString, Obstacles*> obstacles;
     QString name;
     QSet<QString> toClear;
+    int life, id;
     mutable QMutex mutex;
     QTime mouseTimeout;
     void update();

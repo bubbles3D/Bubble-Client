@@ -5,6 +5,8 @@
 
 #include "model.h"
 
+#include "OgreEngine/playerHUDManagement.h"
+
 Model* Model::instance = NULL;
 
 Model::Model()
@@ -68,6 +70,23 @@ void Model::setUpdatedPlayers(QString json)
     QVariantMap result = parser.parse(json.toAscii()).toMap();
 
     foreach(QVariant obj, result["players"].toList()){
+        if (obj.toMap()["name"].toString() == this->name)
+            this->id = obj.toMap()["id"].toInt();
+
+        if (obj.toMap()["id"] == this->id)
+        {
+            if (life != 0 && obj.toMap()["life"].toInt() < life)
+            {
+                PlayerHUDManagement::touched();
+                life = obj.toMap()["life"].toInt();
+            }
+            else if (life == 0)
+            {
+                life = obj.toMap()["life"].toInt();
+            }
+
+        }
+
         updatePlayer(obj);
     }
 }
