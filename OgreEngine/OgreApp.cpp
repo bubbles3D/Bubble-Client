@@ -439,6 +439,12 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          Ogre::Node* entityNode;
          Ogre::Node * leftEyesNode;
          Ogre::Node * rightEyesNode;
+         Ogre::MaterialPtr mMaterial ;
+
+         float r;
+         float g;
+         float b;
+         p.getColor(&r,&g,&b);
 
          try{
              //MAJ position des joueurs
@@ -447,6 +453,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              yawNode = node->getChild(p.getId().toStdString()+"_rot");
              pitchNode = yawNode->getChild(p.getId().toStdString()+"_cam");
              entityNode = pitchNode->getChild(p.getId().toStdString()+"_entity");
+             mMaterial = Ogre::MaterialManager::getSingleton().getByName(p.getId().toStdString() +"_mat");
 
          }catch (Ogre::Exception ex){
              //Si le joueur n'existe pas
@@ -502,17 +509,14 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              rightEyesNode->pitch(Ogre::Degree(-20));
 
              //Set colors
-             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+             mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
              mMaterial->setLightingEnabled(true);
              sphere->setMaterialName(p.getId().toStdString() +"_mat");
 
-             float r;
-             float g;
-             float b;
-             p.getColor(&r,&g,&b);
+
              mMaterial->setDepthWriteEnabled(false);
              mMaterial->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
-             mMaterial->setSelfIllumination(Ogre::ColourValue(r,g,b));
+
              mMaterial->setDiffuse(Ogre::ColourValue(0,0,0,1));
              mMaterial->setSpecular(Ogre::ColourValue(0,0,0,0));
              mMaterial->setAmbient(Ogre::ColourValue(0,0,0,0));
@@ -550,6 +554,9 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              qDebug()<<"Created players";
          }
 
+
+         //Set player's color
+         mMaterial->setSelfIllumination(Ogre::ColourValue(r,g,b));
 
          if(model->getName() != p.getName()){
             objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p,100);
