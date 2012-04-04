@@ -78,13 +78,8 @@ void Model::setUpdatedPlayers(QString json)
             {
                 qDebug() << "life flash" << life << " " <<obj.toMap()["life"].toInt();
                 PlayerHUDManagement::touched();
-                life = obj.toMap()["life"].toInt();
             }
-            else if (life == 0)
-            {
-                life = obj.toMap()["life"].toInt();
-            }
-
+            life = obj.toMap()["life"].toInt();
         }
 
         updatePlayer(obj);
