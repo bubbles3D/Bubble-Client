@@ -55,7 +55,6 @@ QList<Obstacles> Model::getUpdatedObstacles()
     QMutexLocker locker(&mutex);
 
     QList<Obstacles> ret;
-    //qDebug() << "get obstacles " << obstacles.size();
     foreach(Obstacles* o, obstacles.values()){
         ret.append(*o);
     }
@@ -75,8 +74,9 @@ void Model::setUpdatedPlayers(QString json)
 
         if (obj.toMap()["id"] == this->id)
         {
-            if (life != 0 && obj.toMap()["life"].toInt() < life)
+            if (life != 0 && obj.toMap().contains("life") && obj.toMap()["life"].toInt() < life)
             {
+                qDebug() << "life flash" << life << " " <<obj.toMap()["life"].toInt();
                 PlayerHUDManagement::touched();
                 life = obj.toMap()["life"].toInt();
             }
