@@ -249,7 +249,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
          case OIS::KC_F2 :
             mode = MENU;
-            playerEntityNode->setVisible(true,true);
+            playerEntityNode->setVisible(false,true);
 
             break;
          case OIS::KC_F3 :
