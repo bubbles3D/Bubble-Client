@@ -132,7 +132,7 @@ int Actor::getCube()
 
 void Actor::getColor(float* r, float* g, float* b)
 {
-    *r = this->r;
-    *g = this->g;
-    *b = this->b;
+    *r = this->r / 255.0;
+    *g = this->g / 255.0;
+    *b = this->b / 255.0;
 }
