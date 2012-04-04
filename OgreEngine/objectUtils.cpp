@@ -202,13 +202,20 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
         Ogre::Node* pitchNode;
         Ogre::Node* yawNode;
         Ogre::Node* entityNode;
+        Ogre::MaterialPtr mMaterial;
+
+        float r;
+        float g;
+        float b;
+        p.getColor(&r,&g,&b);
+
         try{
             //Get object's nodes if they already exist
             node = sceneManager->getRootSceneNode()->getChild(p.getId().toStdString());
             yawNode = node->getChild(p.getId().toStdString()+"_rot");
             pitchNode = yawNode->getChild(p.getId().toStdString()+"_cam");
             entityNode = pitchNode->getChild(p.getId().toStdString()+"_entity");
-
+            mMaterial = Ogre::MaterialManager::getSingleton().getByName(p.getId().toStdString() +"_mat");
         }catch (Ogre::Exception ex){
             //If the object doesn't already exist we create it
             Ogre::Entity* cube = sceneManager->createEntity(p.getId().toStdString(), "Prefab_Sphere");
@@ -220,14 +227,9 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
 
 
             //Set the color
-            Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+            mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             cube->setMaterialName(p.getId().toStdString() +"_mat");
             mMaterial->setDiffuse(Ogre::ColourValue(1,0,0,1));
-
-            float r;
-            float g;
-            float b;
-            p.getColor(&r,&g,&b);
 
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
             mMaterial->setDepthWriteEnabled(false);
@@ -238,6 +240,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             mMaterial->setAmbient(Ogre::ColourValue(0,0,0,0));
 
         }
+        mMaterial->setSelfIllumination(Ogre::ColourValue(r,g,b));
         objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p,100);
     }
 }
