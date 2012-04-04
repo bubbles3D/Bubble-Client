@@ -202,35 +202,6 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         mShutDown = true;
     }
 
-    //TEST plane
-    if(arg.key == OIS::KC_F7)   //
-    {
-        plane = BOTTOM;
-        //playerNode->setOrientation(playerNode->getInitialOrientation());
-        //playerNode->pitch(Ogre::Degree(-90));
-    }
-    else if (arg.key == OIS::KC_F8)   //
-    {
-       plane = XSIDE_OP;
-       //playerNode->pitch(Ogre::Degree(+90));
-    } else if (arg.key == OIS::KC_F9)   //
-    {
-       plane = XSIDE;
-       //playerNode->pitch(Ogre::Degree(-90));
-    } else if (arg.key == OIS::KC_F10)   //
-    {
-       plane = ZSIDE;
-       //playerNode->roll(Ogre::Degree(-90));
-    }else if (arg.key == OIS::KC_F11)   //
-    {
-       plane = ZSIDE_OP;
-       //playerNode->roll(Ogre::Degree(+90));
-    }else if (arg.key == OIS::KC_F12)   //
-    {
-       plane = TOP;
-       //playerNode->roll(Ogre::Degree(+180));
-    }
-
     //Local touch
     Model  * model = Model::getInstance();
     QString keyName;
@@ -241,12 +212,13 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         switch (arg.key) {
          case OIS::KC_F1 :
                 mode = FIRST;
+                playerEntityNode->setVisible(false,true);
                 setupViewport(mSceneMgr,playerCamera->getName());
 
             break;
         case OIS::KC_F2 :
            mode = MENU;
-
+           playerEntityNode->setVisible(true,true);
             break;
         default:
             break;
@@ -277,11 +249,13 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
          case OIS::KC_F2 :
             mode = MENU;
+            playerEntityNode->setVisible(true,true);
 
             break;
          case OIS::KC_F3 :
             mode = FREE;
             setupViewport(mSceneMgr,mCamera->getName());
+            playerEntityNode->setVisible(true,true);
             break;
          case OIS::KC_TAB :
              if(playerHUDMgt->statsAreVisible() == false){
@@ -300,9 +274,11 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         case OIS::KC_F1 :
             mode = FIRST;
             setupViewport(mSceneMgr,playerCamera->getName());
+            playerEntityNode->setVisible(false,true);
             break;
          case OIS::KC_F3 :
             mode = FREE;
+            playerEntityNode->setVisible(true,true);
             setupViewport(mSceneMgr,mCamera->getName());
         default:
             break;
@@ -527,11 +503,17 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Set colors
              Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+             mMaterial->setLightingEnabled(true);
              sphere->setMaterialName(p.getId().toStdString() +"_mat");
-             mMaterial->setDiffuse(Ogre::ColourValue::White);
-             mMaterial->setAmbient(Ogre::ColourValue::White);
-             mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
 
+             mMaterial->setDepthWriteEnabled(false);
+             mMaterial->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+             mMaterial->setSelfIllumination(Ogre::ColourValue::White);
+             mMaterial->setDiffuse(Ogre::ColourValue(0,0,0,1));
+             mMaterial->setSpecular(Ogre::ColourValue(0,0,0,0));
+             mMaterial->setAmbient(Ogre::ColourValue(0,0,0,0));
+
+             //Ogre::Material r; r.setSceneBlending(Ogre::SBF_SOURCE_ALPHA);
 
              Ogre::MaterialPtr mMaterial2 = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
              leftEye->setMaterialName(p.getId().toStdString() +"_mat2");
@@ -545,8 +527,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              ((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
              ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
 
-
-
              if(model->getName() == p.getName()){
                  //Si c'est notre joueur
                  playerEntityNode = ((Ogre::SceneNode*)entityNode);
@@ -554,12 +534,13 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
                  playerYawNode = ((Ogre::SceneNode*)yawNode);
                  playerTargetNode = playerPitchNode->createChildSceneNode(p.getId().toStdString() + "_target", Ogre::Vector3(0,0,20));
                  playerPitchNode->attachObject(playerCamera);
-                 ((Ogre::SceneNode*)node)->setVisible(true,true);
+                 playerEntityNode->setVisible(false,true);
                  playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
                  setupViewport(mSceneMgr,playerCamera->getName());
                  playerNode = ((Ogre::SceneNode*)node);
                  playerSide =(side) p.getCube();
                  mode = FIRST;
+
              }
 
              qDebug()<<"Created players";
@@ -609,7 +590,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
              //Set our player's position
              node->setPosition(p.getX(),p.getY(),p.getZ());
-             qDebug()<<p.getX()<<" "<<p.getY()<<" "<<p.getZ();
              playerSide = (side) p.getCube();
 
              entityNode->setScale(p.getLength()/100,p.getLength()/100,p.getLength()/100);

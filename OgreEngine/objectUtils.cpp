@@ -19,9 +19,6 @@ void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitc
     }
 
     //Scale
-    //qDebug()<<"Width:"<<p.getWidth()/100;
-    //qDebug()<<"getHeight:"<<p.getHeight();
-    //qDebug()<<"getLength:"<<p.getLength();
     node->setScale(p.getWidth()/meshBasicLength,p.getHeight()/meshBasicLength,p.getLength()/meshBasicLength);
 }
 
@@ -30,14 +27,13 @@ void objectUtils::removeObject(QString name, Ogre::SceneManager* mSceneMgr){
         Ogre::Entity * entity;
         Ogre::SceneNode * node;
         try{
-            qDebug()<<"Start REMOVING NODE";
+            qDebug()<<"REMOVING NODE";
             entity = mSceneMgr->getEntity(name.toStdString());
             node = (Ogre::SceneNode *) mSceneMgr->getRootSceneNode()->getChild(name.toStdString());
             node->removeAndDestroyAllChildren();
             mSceneMgr->destroyEntity(entity->getName());
-            qDebug()<<"End REMOVING NODE";
-           mSceneMgr->destroyEntity(name.toStdString() + "_lEye");
-           mSceneMgr->destroyEntity(name.toStdString() + "_rEye");
+            mSceneMgr->destroyEntity(name.toStdString() + "_lEye");
+            mSceneMgr->destroyEntity(name.toStdString() + "_rEye");
 
         }catch (Ogre::Exception ex){
           qDebug()<<"NO DESTROYING PLAYER";
@@ -225,17 +221,21 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(p.getId().toStdString() + "_entity", Ogre::Vector3(0,0,0));
 
 
-            node->scale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
-
             //Set the color
             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString() +"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
             cube->setMaterialName(p.getId().toStdString() +"_mat");
-            mMaterial->setDiffuse(Ogre::ColourValue::Red);
-            mMaterial->setAmbient(Ogre::ColourValue::Red);
-            mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
+            mMaterial->setDiffuse(Ogre::ColourValue(1,0,0,1));
+            //mMaterial->setAmbient(Ogre::ColourValue::Black);
+
+            //mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
 
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
-
+            mMaterial->setDepthWriteEnabled(false);
+            mMaterial->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+            mMaterial->setSelfIllumination(Ogre::ColourValue(1,0,0));
+            mMaterial->setDiffuse(Ogre::ColourValue(0,0,0,0.5));
+            mMaterial->setSpecular(Ogre::ColourValue(0,0,0,0));
+            mMaterial->setAmbient(Ogre::ColourValue(0,0,0,0));
             //Set the color
 /*
             Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create(p.getId().toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -247,7 +247,7 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             mMaterial->setAmbient(0.5, 0, 0);
 */
         }
-        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p,4.6);
+        objectUtils::updateObjectState((Ogre::SceneNode*)node,(Ogre::SceneNode*)pitchNode,(Ogre::SceneNode*)yawNode,p,100);
     }
 }
 
