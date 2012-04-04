@@ -506,9 +506,13 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              mMaterial->setLightingEnabled(true);
              sphere->setMaterialName(p.getId().toStdString() +"_mat");
 
+             float r;
+             float g;
+             float b;
+             p.getColor(&r,&g,&b);
              mMaterial->setDepthWriteEnabled(false);
              mMaterial->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
-             mMaterial->setSelfIllumination(Ogre::ColourValue::White);
+             mMaterial->setSelfIllumination(Ogre::ColourValue(r,g,b));
              mMaterial->setDiffuse(Ogre::ColourValue(0,0,0,1));
              mMaterial->setSpecular(Ogre::ColourValue(0,0,0,0));
              mMaterial->setAmbient(Ogre::ColourValue(0,0,0,0));

@@ -224,11 +224,16 @@ void objectUtils::updateObjectsStates(const char * meshName, QList<Bullet> objec
             cube->setMaterialName(p.getId().toStdString() +"_mat");
             mMaterial->setDiffuse(Ogre::ColourValue(1,0,0,1));
 
+            float r;
+            float g;
+            float b;
+            p.getColor(&r,&g,&b);
+
             ((Ogre::SceneNode*)entityNode)->attachObject(cube);
             mMaterial->setDepthWriteEnabled(false);
             mMaterial->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
-            mMaterial->setSelfIllumination(Ogre::ColourValue(1,0,0));
-            mMaterial->setDiffuse(Ogre::ColourValue(0,0,0,0.5));
+            mMaterial->setSelfIllumination(Ogre::ColourValue(r,g,b));
+            mMaterial->setDiffuse(Ogre::ColourValue(0,0,0,0.8));
             mMaterial->setSpecular(Ogre::ColourValue(0,0,0,0));
             mMaterial->setAmbient(Ogre::ColourValue(0,0,0,0));
 
