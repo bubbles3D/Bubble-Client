@@ -8,6 +8,11 @@ AppDialog::AppDialog(QWidget *parent) :
     ui(new Ui::AppDialog)
 {
     qchooser = new QColorDialog(this);
+
+    //set default color (white)
+    QColor c(0, 0, 0);
+    qchooser->setCurrentColor(c);
+
     ui->setupUi(this);
     hosts = new QFile("hosts");
 
