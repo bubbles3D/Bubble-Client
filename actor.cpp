@@ -28,6 +28,9 @@ Actor::Actor(QVariantMap map)
     x = map["x"].toInt();
     y = map["y"].toInt();
     z = map["z"].toInt();
+    r = map["r"].toInt();
+    g = map["g"].toInt();
+    b = map["b"].toInt();
     vx = map["vx"].toFloat();
     vy = map["vy"].toFloat();
     vz = map["vz"].toFloat();
@@ -39,12 +42,22 @@ Actor::Actor(QVariantMap map)
 
 void Actor::update(QVariantMap map)
 {
+    //Position
     if (map.contains("x"))
         x = map["x"].toInt();
     if (map.contains("y"))
         y = map["y"].toInt();
     if (map.contains("z"))
         z = map["z"].toInt();
+
+    //Color
+    if (map.contains("r"))
+        r = map["r"].toInt();
+    if (map.contains("g"))
+        g = map["g"].toInt();
+    if (map.contains("b"))
+        b = map["b"].toInt();
+
     if (map.contains("vx"))
         vx = map["vx"].toFloat();
     if (map.contains("vy"))
@@ -117,3 +130,9 @@ int Actor::getCube()
     return cube;
 }
 
+void Actor::getColor(float* r, float* g, float* b)
+{
+    *r = this->r / 255.0;
+    *g = this->g / 255.0;
+    *b = this->b / 255.0;
+}

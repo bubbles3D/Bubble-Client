@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QTime>
+#include <QColor>
 
 #include "player.h"
 #include "bullet.h"
@@ -32,6 +33,8 @@ public:
     QList<Obstacles> getUpdatedObstacles();
     void setName(QString n);
     QString getName();
+    void setColor(QColor c);
+    QColor getColor();
     void updateKeys(QString name, bool state);
     void updateMouse(float x, float y, float z);
     void shot(float x, float y, float z);
@@ -54,6 +57,7 @@ private:
     QMap<QString, Obstacles*> obstacles;
     QString name;
     QSet<QString> toClear;
+    QColor color;
     int life, id;
     mutable QMutex mutex;
     QTime mouseTimeout;

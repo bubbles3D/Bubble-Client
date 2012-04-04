@@ -55,7 +55,6 @@ QList<Obstacles> Model::getUpdatedObstacles()
     QMutexLocker locker(&mutex);
 
     QList<Obstacles> ret;
-    //qDebug() << "get obstacles " << obstacles.size();
     foreach(Obstacles* o, obstacles.values()){
         ret.append(*o);
     }
@@ -75,8 +74,9 @@ void Model::setUpdatedPlayers(QString json)
 
         if (obj.toMap()["id"] == this->id)
         {
-            if (life != 0 && obj.toMap()["life"].toInt() < life)
+            if (life != 0 && obj.toMap().contains("life") && obj.toMap()["life"].toInt() < life)
             {
+                qDebug() << "life flash" << life << " " <<obj.toMap()["life"].toInt();
                 PlayerHUDManagement::touched();
                 life = obj.toMap()["life"].toInt();
             }
@@ -248,15 +248,15 @@ void Model::setToClear(QString json)
 
         if(players.contains(obj.toString()))
         {
-            players.remove(obj.toString());
+            delete players.take(obj.toString());
         }
         else if(bullets.contains(obj.toString()))
         {
-            bullets.remove(obj.toString());
+            delete bullets.take(obj.toString());
         }
         else if(obstacles.contains(obj.toString()))
         {
-            obstacles.remove(obj.toString());
+            delete obstacles.take(obj.toString());
         }
     }
 }
@@ -280,5 +280,15 @@ int Model::getMapWidth()
 int Model::getMapLength()
 {
     return mapLength;
+}
+
+void Model::setColor(QColor c)
+{
+    color = c;
+}
+
+QColor Model::getColor()
+{
+    return color;
 }
 

@@ -25,8 +25,10 @@ public:
     float getHeight();
     int getCube();
     void update(QVariantMap map);
+    void getColor(float* r, float* g, float* b);
 
     QString id;
+    int r, g, b;
     float x, y, z;
     float vx, vy, vz;
     float ratio;
