@@ -53,7 +53,9 @@ void AppDialog::accept()
 
 void AppDialog::colorChosen(QColor color)
 {
-    qDebug() << "Color chosen !";
+    int r, g, b;
+    color.getRgb(&r, &g, &b);
+    m->setColor(color);
 }
 
 void AppDialog::reject()
@@ -69,6 +71,5 @@ AppDialog::~AppDialog()
 
 void AppDialog::on_toolButton_clicked()
 {
-    qDebug() << "chose color !";
     qchooser->open(this, SLOT(colorChosen(QColor)));
 }

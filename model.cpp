@@ -282,3 +282,13 @@ int Model::getMapLength()
     return mapLength;
 }
 
+void Model::setColor(QColor c)
+{
+    color = c;
+}
+
+QColor Model::getColor()
+{
+    return color;
+}
+
