@@ -41,7 +41,7 @@ void OgreApp::createScene(void)
 
     //Scene
 
-    //Ball Test
+    //Test------------------------------------------------------------------------
     Ogre::Entity* bullet = mSceneMgr->createEntity("ball", "Bullet.mesh");
     Ogre::SceneNode* bulletNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     bulletNode->setPosition(200,55,0);
@@ -90,12 +90,12 @@ void OgreApp::createScene(void)
     mMaterial2->setDiffuse(Ogre::ColourValue::Black);
     mMaterial2->setAmbient(Ogre::ColourValue::Black);
 
-spherNode->setPosition(700,20,100);
+    spherNode->setPosition(700,20,100);
     ((Ogre::SceneNode*)entityNode)->attachObject(sphere);
-((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
-((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
+    ((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
+    ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
 
-    //End tests
+    //End tests--------------------------------------------------------------------------------------------------
 
     //Create the cube
     Model * mod = Model::getInstance();
@@ -218,7 +218,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
         case OIS::KC_F2 :
            mode = MENU;
-           playerEntityNode->setVisible(true,true);
+           playerEntityNode->setVisible(false,true);
             break;
         default:
             break;
