@@ -7,6 +7,7 @@ AppDialog::AppDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AppDialog)
 {
+    qchooser = new QColorDialog(this);
     ui->setupUi(this);
     hosts = new QFile("hosts");
 
@@ -50,6 +51,11 @@ void AppDialog::accept()
     hosts->close();
 }
 
+void AppDialog::colorChosen(QColor color)
+{
+    qDebug() << "Color chosen !";
+}
+
 void AppDialog::reject()
 {
     setVisible(false);
@@ -59,4 +65,10 @@ void AppDialog::reject()
 AppDialog::~AppDialog()
 {
     delete ui;
+}
+
+void AppDialog::on_toolButton_clicked()
+{
+    qDebug() << "chose color !";
+    qchooser->open(this, SLOT(colorChosen(QColor)));
 }

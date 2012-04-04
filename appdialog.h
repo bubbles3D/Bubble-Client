@@ -2,6 +2,8 @@
 #define APPDIALOG_H
 
 #include <QDialog>
+#include <QColorDialog>
+#include <QColor>
 
 #include "networkclient.h"
 #include "model.h"
@@ -22,12 +24,17 @@ public:
 public slots:
     void accept();
     void reject();
+    void colorChosen(QColor color);
+
+private slots:
+    void on_toolButton_clicked();
 
 private:
     Ui::AppDialog *ui;
     GameApp * ga;
     Model * m;
     QFile * hosts;
+    QColorDialog * qchooser;
 };
 
 #endif // APPDIALOG_H
