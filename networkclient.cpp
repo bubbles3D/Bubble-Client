@@ -40,7 +40,9 @@ void NetworkClient::init()
 
     c.getRgb(&r, &g, &b);
 
-    QString mess = "init "+name+" "+r+" "+g+" "+b+"$$";
+    QString mess =
+            "init "+name+" "+QString::number(r)+" "+QString::number(g)
+            +" "+QString::number(b)+"$$";
     sock->write(mess.toAscii());
 }
 
