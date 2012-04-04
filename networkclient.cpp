@@ -34,7 +34,14 @@ void NetworkClient::setName(QString name)
 
 void NetworkClient::init()
 {
-    sock->write("init "+name.toAscii()+"$$");
+    Model * m = Model::getInstance();
+    QColor c = m->getColor();
+    int r, g, b;
+
+    c.getRgb(&r, &g, &b);
+
+    QString mess = "init "+name+" "+r+" "+g+" "+b+"$$";
+    sock->write(mess.toAscii());
 }
 
 void NetworkClient::modifications(QList<QPair<QString, QVariant> > keys)
