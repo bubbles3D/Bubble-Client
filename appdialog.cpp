@@ -7,13 +7,17 @@ AppDialog::AppDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AppDialog)
 {
-    qchooser = new QColorDialog(this);
+    ui->setupUi(this);
 
     //set default color (white)
     QColor c(255, 255, 255);
-    qchooser->setCurrentColor(c);
+    qchooser = new QColorDialog(c, this);
 
-    ui->setupUi(this);
+    this->ui->colorButton->setStyleSheet("* { background-color: rgb("+
+                                      QString::number(255)+","+
+                                      QString::number(255)+","+
+                                      QString::number(255)+")}");
+
     hosts = new QFile("hosts");
 
     if (hosts->open(QIODevice::ReadOnly))
