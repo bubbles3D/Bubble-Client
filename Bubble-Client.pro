@@ -19,7 +19,11 @@ SOURCES += \
     OgreEngine/face.cpp \
     OgreEngine/cube.cpp \
     OgreEngine/overlayUtils.cpp \
-    OgreEngine/playerHUDManagement.cpp
+    OgreEngine/playerHUDManagement.cpp \
+    OgreEngine/bubbleObject.cpp \
+    OgreEngine/playerObject.cpp \
+    OgreEngine/object.cpp \
+    OgreEngine/orientedObject.cpp
 
 HEADERS += \
     networkclient.h \
@@ -49,7 +53,11 @@ HEADERS += \
     OgreEngine/environnement.h \
     OgreEngine/cube.h \
     OgreEngine/overlayUtils.h \
-    OgreEngine/playerHUDManagement.h
+    OgreEngine/playerHUDManagement.h \
+    OgreEngine/bubbleObject.h \
+    OgreEngine/playerObject.h \
+    OgreEngine/object.h \
+    OgreEngine/orientedObject.h
 
 
 
