@@ -27,7 +27,7 @@ public slots:
     void colorChosen(QColor color);
 
 private slots:
-    void on_toolButton_clicked();
+    void on_colorButton_clicked();
 
 private:
     Ui::AppDialog *ui;

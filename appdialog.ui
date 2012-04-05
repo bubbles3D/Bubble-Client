@@ -21,12 +21,12 @@
        <property name="title">
         <string>Player</string>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>11</x>
-          <y>21</y>
-          <width>191</width>
+          <x>12</x>
+          <y>22</y>
+          <width>202</width>
           <height>60</height>
          </rect>
         </property>
@@ -55,9 +55,18 @@
             <widget class="QLineEdit" name="PlayerName"/>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton">
+            <widget class="QToolButton" name="colorButton">
+             <property name="minimumSize">
+              <size>
+               <width>140</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">* { background-color: rgb(255,255,255) }</string>
+             </property>
              <property name="text">
-              <string>PushButton</string>
+              <string/>
              </property>
             </widget>
            </item>

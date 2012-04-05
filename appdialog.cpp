@@ -10,7 +10,7 @@ AppDialog::AppDialog(QWidget *parent) :
     qchooser = new QColorDialog(this);
 
     //set default color (white)
-    QColor c(0, 0, 0);
+    QColor c(255, 255, 255);
     qchooser->setCurrentColor(c);
 
     ui->setupUi(this);
@@ -60,6 +60,12 @@ void AppDialog::colorChosen(QColor color)
 {
     int r, g, b;
     color.getRgb(&r, &g, &b);
+
+    this->ui->colorButton->setStyleSheet("* { background-color: rgb("+
+                                      QString::number(r)+","+
+                                      QString::number(g)+","+
+                                      QString::number(b)+")}");
+
     m->setColor(color);
 }
 
@@ -74,7 +80,7 @@ AppDialog::~AppDialog()
     delete ui;
 }
 
-void AppDialog::on_toolButton_clicked()
+void AppDialog::on_colorButton_clicked()
 {
     qchooser->open(this, SLOT(colorChosen(QColor)));
 }
