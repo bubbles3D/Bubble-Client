@@ -1,9 +1,14 @@
 #include "object.h"
 
-Object::Object(Ogre::SceneManager * sceneMgr, float initialSize)
+Object::Object(Ogre::SceneManager * sceneMgr, float size, QString name )
 {
     mSceneMgr = sceneMgr;
-    meshInitialSize = initialSize;
+
+    // The root node
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode(name.toStdString());
+
+    //Object size
+    meshInitialSize = size;
 }
 
 void Object::setPosition(float x, float y, float z){
@@ -15,6 +20,10 @@ void Object::setVisible(bool isVisible){
 }
 
 void Object::setScale(float scale){
-    entityNode->setScale(scale/meshInitialSize,scale/meshInitialSize,scale/meshInitialSize);// 100 is the default size of prefab sphere
+    node->setScale(scale/meshInitialSize,scale/meshInitialSize,scale/meshInitialSize);
+
 }
 
+Object::~Object(){
+    node->removeAndDestroyAllChildren();
+}

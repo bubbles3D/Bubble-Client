@@ -95,6 +95,8 @@ void OgreApp::createScene(void)
     ((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
     ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
 
+    BubbleObject * bubbleTest = new BubbleObject(mSceneMgr,"bubbleTest", BOTTOM, Ogre::Vector3(1000,20,50),Ogre::Vector3(0,0,1),Ogre::Vector3(40,40,40), Ogre::ColourValue(0,0,1));
+    delete(bubbleTest);
     //End tests--------------------------------------------------------------------------------------------------
 
     //Create the cube
@@ -596,7 +598,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
              if(playerSide != p.getCube()){ // if we change of cube's face
              //if(playerSide != plane){ // test
                  Ogre::Vector3 directionToLookAt = playerTargetNode->_getDerivedPosition() - playerNode->_getDerivedPosition();
-                 objectUtils::orientPlayerToDirection(playerNode, playerYawNode,playerPitchNode,(side) p.getCube(), directionToLookAt);
+                 objectUtils::orientObjectToDirection(playerNode, playerYawNode,playerPitchNode,(side) p.getCube(), directionToLookAt);
              }
 
              //Set our player's position

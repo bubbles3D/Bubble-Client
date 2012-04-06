@@ -2,21 +2,23 @@
 #define OBJECT_H
 
 #include "OGRE/Ogre.h"
-
+#include <QString>
+#include <QDebug>
 class Object
 {
 public:
-    Object(Ogre::SceneManager * sceneMgr, float initalSize = 1);
+
+    Object(Ogre::SceneManager * sceneMgr, float initialSize, QString name = "");
+    //Destroy all nodes' children
+    ~Object();
     void setPosition(float x, float y, float z);
-    void setVisible(bool isVisible = true);
-    void setScale(float scale);
+    virtual void setVisible(bool isVisible = true);
+    virtual void setScale(float scale);
 protected:
 
     // The root node
     Ogre::SceneNode* node;
 
-    // The root entity node
-    Ogre::SceneNode* entityNode;
     float meshInitialSize;
 
     //SceneManager

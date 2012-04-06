@@ -16,6 +16,8 @@
 #include "OgreEngine/objectUtils.h"
 #include "OgreEngine/cube.h"
 #include "OgreEngine/playerHUDManagement.h"
+#include "OgreEngine/bubbleObject.h"
+#include <stdlib.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif

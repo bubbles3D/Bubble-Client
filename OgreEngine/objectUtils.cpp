@@ -15,11 +15,26 @@ void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitc
     if(directionToLookAt.isZeroLength()){
         //If there is no direction to look
     }else{
-       objectUtils::orientPlayerToDirection((Ogre::SceneNode *)node,(Ogre::SceneNode *)yawNode,(Ogre::SceneNode *)pitchNode,(side)p.getCube(),directionToLookAt);
+       objectUtils::orientObjectToDirection((Ogre::SceneNode *)node,(Ogre::SceneNode *)yawNode,(Ogre::SceneNode *)pitchNode,(side)p.getCube(),directionToLookAt);
     }
 
     //Scale
     node->setScale(p.getWidth()/meshBasicLength,p.getHeight()/meshBasicLength,p.getLength()/meshBasicLength);
+}
+
+void objectUtils::updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 objectSize, float meshBasicLength){
+    //We update object's positions
+    node->setPosition(position.x,position.y,position.z);
+
+    //We update object's orientation
+    if(directionToLookAt.isZeroLength()){
+        //If there is no direction to look
+    }else{
+       objectUtils::orientObjectToDirection((Ogre::SceneNode *)node,(Ogre::SceneNode *)yawNode,(Ogre::SceneNode *)pitchNode,mside,directionToLookAt);
+    }
+
+    //Scale
+    node->setScale(objectSize.x/meshBasicLength,objectSize.y/meshBasicLength,objectSize.z/meshBasicLength);
 }
 
 void objectUtils::removeObject(QString name, Ogre::SceneManager* mSceneMgr){
@@ -40,7 +55,7 @@ void objectUtils::removeObject(QString name, Ogre::SceneManager* mSceneMgr){
         }
 }
 
-void objectUtils::orientPlayerToDirection(Ogre::SceneNode * node, Ogre::SceneNode * yawNode, Ogre::SceneNode * pitchNode, side floor, Ogre::Vector3 directionToLookAt){
+void objectUtils::orientObjectToDirection(Ogre::SceneNode * node, Ogre::SceneNode * yawNode, Ogre::SceneNode * pitchNode, side floor, Ogre::Vector3 directionToLookAt){
 
     //Vectors representing directions to look at
     Ogre::Vector3 directionToLookAtHorizontal;

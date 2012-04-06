@@ -1,13 +1,15 @@
 #ifndef ORIENTEDOBJECT_H
 #define ORIENTEDOBJECT_H
 
-#include "object.h"
+#include "OgreEngine/object.h"
 #include "environnement.h"
+#include <QString>
 
 class OrientedObject : public Object
 {
 public:
-    OrientedObject(Ogre::SceneManager * mSceneMgr);
+    OrientedObject(Ogre::SceneManager * mSceneMgr, float size, QString name);
+    ~OrientedObject();
     void setOrientation(Ogre::Vector3 directionToLookAt, side theSide = BOTTOM);
 
 protected:
