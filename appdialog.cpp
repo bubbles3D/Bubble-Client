@@ -13,6 +13,11 @@ AppDialog::AppDialog(QWidget *parent) :
     QColor c(255, 255, 255);
     qchooser = new QColorDialog(c, this);
 
+    //Default color in model
+    Model* m = Model::getInstance();
+    m->setColor(c);
+
+    //Default color on button
     this->ui->colorButton->setStyleSheet("* { background-color: rgb("+
                                       QString::number(255)+","+
                                       QString::number(255)+","+
