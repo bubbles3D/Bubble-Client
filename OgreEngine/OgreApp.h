@@ -17,7 +17,9 @@
 #include "OgreEngine/cube.h"
 #include "OgreEngine/playerHUDManagement.h"
 #include "OgreEngine/bubbleObject.h"
+#include "OgreEngine/playerObject.h"
 #include <stdlib.h>
+#include <QHash>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
@@ -38,23 +40,24 @@ public:
 
 
 protected:
-    Ogre::Camera* playerCamera;
+    //Ogre::Camera* playerCamera;
     OgreBites::SdkCameraMan* playerCameraController;
-    Ogre::SceneNode* playerNode;
-    Ogre::SceneNode* playerYawNode;
-    Ogre::SceneNode* playerPitchNode;
-    Ogre::SceneNode* playerTargetNode;
-    Ogre::SceneNode* playerEntityNode;
-    Ogre::SceneNode* playerLifeNode;
-    enum side playerSide;
+    //Ogre::SceneNode* playerNode;
+    //Ogre::SceneNode* playerYawNode;
+    //Ogre::SceneNode* playerPitchNode;
+    //Ogre::SceneNode* playerTargetNode;
+    //Ogre::SceneNode* playerEntityNode;
+    //Ogre::SceneNode* playerLifeNode;
+    //enum side playerSide;
     enum MODE mode;
     Cube * cubeScene;
-    PlayerHUDManagement * playerHUDMgt;
+    PlayerObject * player;
+    QHash<QString,BubbleObject*> players;
 
     //TEST
     enum side plane;
 
-    float mRotateSpeed;
+    //float mRotateSpeed;
 
     virtual void createScene(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);

@@ -2,7 +2,7 @@
 #include <QString>
 
 
-PlayerObject::PlayerObject(Ogre::SceneManager *mSceneMgr,Actor p):
+PlayerObject::PlayerObject(Ogre::SceneManager *mSceneMgr,Player p):
 BubbleObject(mSceneMgr,p)
 {
     createPlayer(p.getId());
@@ -23,6 +23,9 @@ void PlayerObject::createPlayer(QString id){
     pitchNode->attachObject(playerCamera);
     entityNode->setVisible(false,true);
     playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
+
+    //HUD
+    hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
 }
 
 Ogre::String PlayerObject::getPlayerCameraName(){
@@ -36,8 +39,8 @@ Ogre::Vector3 PlayerObject::getPlayerDirection(){
 
 void PlayerObject::mouseMouved(const OIS::MouseEvent &arg){
 
-
     yawNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
+    qDebug()<<"MouseMoved: "<<arg.state.X.rel * mRotateSpeed;
     pitchNode->needUpdate();
     Ogre::Vector3 verticalVect(pitchNode->getOrientation() * Ogre::Vector3::UNIT_Z);
     verticalVect.normalise();
@@ -46,6 +49,61 @@ void PlayerObject::mouseMouved(const OIS::MouseEvent &arg){
     }else{
         pitchNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
     }
+}
+
+PlayerHUDManagement* PlayerObject::getHUD(){
+    return hudMgt;
+}
+
+void PlayerObject::updateState(Player &p){
+    setBodyColor(p.r,p.g,p.b);
+    // It's our player:
+
+    //Set the player's main orientation according to the face of the cube
+
+    switch(p.getCube()){
+    //switch(plane){ //test
+        case(BOTTOM):
+            node->setOrientation(node->getInitialOrientation());
+            break;
+        case(ZSIDE_OP):
+            node->setOrientation(node->getInitialOrientation());
+            node->roll(Ogre::Degree(+90));
+            break;
+        case(TOP):
+            node->setOrientation(node->getInitialOrientation());
+            node->roll(Ogre::Degree(+180));
+        break;
+        case(ZSIDE):
+            node->setOrientation(node->getInitialOrientation());
+            node->roll(Ogre::Degree(-90));
+            break;
+        case(XSIDE_OP):
+            node->setOrientation(node->getInitialOrientation());
+            node->pitch(Ogre::Degree(-90));
+            break;
+        case(XSIDE):
+            node->setOrientation(node->getInitialOrientation());
+            node->pitch(Ogre::Degree(+90));
+            break;
+    }
+
+    // Set our player's orientation on face switching
+    if(playerSide != p.getCube()){ // if we change of cube's face
+        Ogre::Vector3 directionToLookAt = targetNode->_getDerivedPosition() - node->_getDerivedPosition();
+        objectUtils::orientObjectToDirection(node, yawNode,pitchNode,(side) p.getCube(), directionToLookAt);
+        playerSide = (side) p.getCube();
+    }
+
+    //Set our player's position
+    node->setPosition(p.getX(),p.getY(),p.getZ());
+    entityNode->setScale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
+
+    //Update HUD
+    hudMgt->setLife(p.getLife());
+    hudMgt->setKillsValue(p.getKills());
+    hudMgt->setDeathValue(p.getDeaths());
+
 }
 
 PlayerObject::~PlayerObject(){

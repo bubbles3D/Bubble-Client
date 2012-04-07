@@ -13,7 +13,7 @@ public:
     BubbleObject(Ogre::SceneManager *mSceneMgr, QString name, side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color );
     ~BubbleObject();
     void setBodyColor(float r, float g, float b);
-    void updateState(Actor &p);
+    virtual void updateState(Actor &p);
 
 protected:
     //All node using in a bubble

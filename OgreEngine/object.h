@@ -12,7 +12,7 @@ public:
     //Destroy all nodes' children
     ~Object();
     void setPosition(float x, float y, float z);
-    virtual void setVisible(bool isVisible = true);
+    void setVisible(bool isVisible = true);
     virtual void setScale(float scale);
 protected:
 
