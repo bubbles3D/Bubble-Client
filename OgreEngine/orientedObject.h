@@ -11,6 +11,7 @@ public:
     OrientedObject(Ogre::SceneManager * mSceneMgr, float size, QString name);
     ~OrientedObject();
     void setOrientation(Ogre::Vector3 directionToLookAt, side theSide = BOTTOM);
+    void orientObjectToDirection(Ogre::SceneNode * playerNode, Ogre::SceneNode * yawNode, Ogre::SceneNode * pitchNode, side floor, Ogre::Vector3 directionToLookAt);
 
 protected:
     Ogre::SceneNode* yawNode;
