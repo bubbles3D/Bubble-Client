@@ -13,19 +13,18 @@
 
 class objectUtils{
 public:
-    static void orientObjectToDirection(Ogre::SceneNode * playerNode, Ogre::SceneNode * yawNode, Ogre::SceneNode * pitchNode, side floor, Ogre::Vector3 directionToLookAt);
+    //static void orientObjectToDirection(Ogre::SceneNode * playerNode, Ogre::SceneNode * yawNode, Ogre::SceneNode * pitchNode, side floor, Ogre::Vector3 directionToLookAt);
 
-    static void updateObjectAnimation(Actor p, const char * animation, Ogre::SceneManager * sceneMgr);
-    static void updateObjectsAnimations(QList<Player> objectsList, Ogre::SceneManager * sceneMgr);
+    //static void updateObjectAnimation(Actor p, const char * animation, Ogre::SceneManager * sceneMgr);
+    //static void updateObjectsAnimations(QList<Player> objectsList, Ogre::SceneManager * sceneMgr);
 
     static void removeObject(QString name, Ogre::SceneManager* mSceneMgr);
     static void removeObjects(QList<QString> names, Ogre::SceneManager * sceneMgr);
 
-    static void updateObjectsStates(const char * meshName, QList<Obstacles> objectsList, Ogre::SceneManager * sceneManager);
-    static void updateObjectsStates(const char * meshName, QList<Bullet> objectsList, Ogre::SceneManager * sceneManager);
+    //static void updateObjectsStates(const char * meshName, QList<Obstacles> objectsList, Ogre::SceneManager * sceneManager);
+    //static void updateObjectsStates(const char * meshName, QList<Bullet> objectsList, Ogre::SceneManager * sceneManager);
 
-    static void updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, Actor p, float initialEntityLength);
-    static void updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 objectSize, float meshBasicLength);
+    //static void updateObjectState(Ogre::SceneNode* node, Ogre::SceneNode* pitchNode, Ogre::SceneNode* yawNode, Actor p, float initialEntityLength);
 };
 
 #endif // OBJECTUTILS_H

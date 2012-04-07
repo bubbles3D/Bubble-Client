@@ -115,8 +115,7 @@ void OgreApp::createScene(void)
     mode = FREE;
 
     //Set up the scene
-    Model *model = Model::getInstance();
-    objectUtils::updateObjectsStates("Cube.mesh", model->getUpdatedObstacles(), mSceneMgr);
+    updateObstaclesStates();
 
     //Set up HUD
     //playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
@@ -415,12 +414,49 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
       Model * model = Model::getInstance();
      updatePlayersPositions();
 
-     objectUtils::updateObjectsStates("Bullet.mesh", model->getUpdatedBullets(),mSceneMgr);
+     updateBulletsState();
 
      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
      objectUtils::removeObjects(model->getClearedActors(),mSceneMgr);
 
  }
+void OgreApp::updateObstaclesStates(){
+    Model * model = Model::getInstance();
+    QList<Obstacles> obstacleList = model->getUpdatedObstacles();
+
+    //Update elements position
+    foreach(Obstacles p, obstacleList){
+        ObstacleObject * obstacle;
+
+        //if (obstacles.contains(p.getId())){
+            //Obstacle exist
+        //    obstacle = obstacles.value(p.getId());
+            //obstacle->updateState(p); SEE later
+        //}else{
+            //If it's an other player
+            obstacle = new ObstacleObject(mSceneMgr, p);
+            //bullets.insert(p.getId(), bullet); SEE later
+        //}
+    }
+}
+ void OgreApp::updateBulletsState(){
+     Model * model = Model::getInstance();
+     QList<Bullet> bulletList = model->getUpdatedBullets();
+
+     //Update elements position
+     foreach(Bullet p, bulletList){
+         BulletObject * bullet;
+
+         if (bullets.contains(p.getId())){
+             bullet = bullets.value(p.getId());
+             bullet->updateState(p);
+         }else{
+             bullet = new BulletObject(mSceneMgr, p);
+             bullets.insert(p.getId(), bullet);
+         }
+     }
+ }
+
 
  void OgreApp::updatePlayersPositions(){
      Model * model = Model::getInstance();
@@ -430,31 +466,29 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      foreach(Player p, playerList){
          BubbleObject * bubble;
 
-         if (players.contains(p.getName())){
+         if (players.contains(p.getId())){
              //Player exist
+             bubble = players.value(p.getId());
 
-             bubble = players.value(p.getName());
-
-
-             if(p.getName() == model->getName()){
+             if(bubble == player){
                  //If it's our player
                  ((PlayerObject*)bubble)->updateState(p);
              }else{
                  //If it's an other player
                 bubble->updateState(p);
              }
-
          }else{
-
              if(p.getName() == model->getName()){
+                 qDebug()<<"NEW US"<<p.getName();
                  //If it's our player
                  player = new PlayerObject(mSceneMgr, p);
                  bubble = player;
              }else{
                  //If it's an other player
+                 qDebug()<<"NEW OTHER "<<p.getName();
                 bubble = new BubbleObject(mSceneMgr, (Actor) p);
              }
-             players.insert(p.getName(), bubble);
+             players.insert(p.getId(), bubble);
          }
      }
  }

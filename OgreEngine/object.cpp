@@ -24,6 +24,11 @@ void Object::setScale(float scale){
 
 }
 
+void Object::setScale(Ogre::Vector3 scale){
+    node->setScale(scale.x/meshInitialSize,scale.y/meshInitialSize,scale.z/meshInitialSize);
+
+}
+
 Object::~Object(){
     node->removeAndDestroyAllChildren();
 }

@@ -22,16 +22,16 @@ OrientedObject::OrientedObject(mSceneMgr,100,name) // 100 is the default size sp
 }
 
 void BubbleObject::initBubble(QString name,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 objectSize, Ogre::ColourValue color){
-    qDebug()<<"init bubble";
+    qDebug()<<"init bubble id:"<<name;
     //Bubbles nodes creation
     entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(name.toStdString() + "_entity", Ogre::Vector3(0,0,0));
     leftEyesNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(name.toStdString() +"_lEye", Ogre::Vector3(-15,15,39));
     rightEyesNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(name.toStdString() +"_rEye", Ogre::Vector3(15,15,39));
 
     //Create entities
-    Ogre::Entity* body = mSceneMgr->createEntity(name.toStdString() , "Prefab_Sphere");
-    Ogre::Entity* leftEye = mSceneMgr->createEntity(name.toStdString() + "_lEye", "Prefab_Sphere");
-    Ogre::Entity* rightEye = mSceneMgr->createEntity(name.toStdString() + "_rEye", "Prefab_Sphere");
+    body = mSceneMgr->createEntity(name.toStdString() , "Prefab_Sphere");
+    leftEye = mSceneMgr->createEntity(name.toStdString() + "_lEye", "Prefab_Sphere");
+    rightEye = mSceneMgr->createEntity(name.toStdString() + "_rEye", "Prefab_Sphere");
 
     //Set eyes positions and scales
     leftEyesNode->scale(0.3,0.4,0.2);
@@ -67,7 +67,9 @@ void BubbleObject::initBubble(QString name,side mside, Ogre::Vector3 position, O
     ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
 
     //Set state
-    objectUtils::updateObjectState( node, pitchNode, yawNode, mside, position, directionToLookAt, objectSize, 100);
+    setOrientation(directionToLookAt,mside);
+    setPosition(position.x,position.y,position.z);
+    setScale(objectSize);
 }
 
 void BubbleObject::setBodyColor(float r, float g, float b){
@@ -81,7 +83,9 @@ void BubbleObject::setBodyColor(float r, float g, float b){
 
 void BubbleObject::updateState(Actor &p){
     setBodyColor(p.r,p.g,p.b);
-    objectUtils::updateObjectState(node, pitchNode, yawNode, p, 100);
+    setOrientation(Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()),(side)p.getCube());
+    setScale(Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()));
+    setPosition(p.getX(),p.getY(),p.getZ());
 }
 
 BubbleObject::~BubbleObject(){
@@ -90,6 +94,11 @@ BubbleObject::~BubbleObject(){
     //But material need to be destroyed
     Ogre::MaterialManager::getSingleton().remove((Ogre::ResourcePtr&)bodyMaterial);
     Ogre::MaterialManager::getSingleton().remove((Ogre::ResourcePtr&)eyesMaterial);
+
+    //and Entity too
+    mSceneMgr->destroyEntity(body);
+    mSceneMgr->destroyEntity(leftEye);
+    mSceneMgr->destroyEntity(rightEye);
 }
 
 

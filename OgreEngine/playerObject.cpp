@@ -40,7 +40,6 @@ Ogre::Vector3 PlayerObject::getPlayerDirection(){
 void PlayerObject::mouseMouved(const OIS::MouseEvent &arg){
 
     yawNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
-    qDebug()<<"MouseMoved: "<<arg.state.X.rel * mRotateSpeed;
     pitchNode->needUpdate();
     Ogre::Vector3 verticalVect(pitchNode->getOrientation() * Ogre::Vector3::UNIT_Z);
     verticalVect.normalise();
@@ -91,7 +90,7 @@ void PlayerObject::updateState(Player &p){
     // Set our player's orientation on face switching
     if(playerSide != p.getCube()){ // if we change of cube's face
         Ogre::Vector3 directionToLookAt = targetNode->_getDerivedPosition() - node->_getDerivedPosition();
-        objectUtils::orientObjectToDirection(node, yawNode,pitchNode,(side) p.getCube(), directionToLookAt);
+        setOrientation(directionToLookAt, (side) p.getCube());
         playerSide = (side) p.getCube();
     }
 

@@ -23,7 +23,9 @@ SOURCES += \
     OgreEngine/bubbleObject.cpp \
     OgreEngine/playerObject.cpp \
     OgreEngine/object.cpp \
-    OgreEngine/orientedObject.cpp
+    OgreEngine/orientedObject.cpp \
+    OgreEngine/bulletobject.cpp \
+    OgreEngine/obstacleobject.cpp
 
 HEADERS += \
     networkclient.h \
@@ -57,7 +59,9 @@ HEADERS += \
     OgreEngine/bubbleObject.h \
     OgreEngine/playerObject.h \
     OgreEngine/object.h \
-    OgreEngine/orientedObject.h
+    OgreEngine/orientedObject.h \
+    OgreEngine/bulletobject.h \
+    OgreEngine/obstacleobject.h
 
 
 

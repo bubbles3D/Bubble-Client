@@ -22,6 +22,11 @@ protected:
     // The root entity node
     Ogre::SceneNode* entityNode;
 
+    //entity
+    Ogre::Entity* body;
+    Ogre::Entity* leftEye;
+    Ogre::Entity* rightEye;
+
     //bubble body's material
     Ogre::MaterialPtr bodyMaterial ;
 

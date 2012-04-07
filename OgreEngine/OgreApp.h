@@ -18,6 +18,8 @@
 #include "OgreEngine/playerHUDManagement.h"
 #include "OgreEngine/bubbleObject.h"
 #include "OgreEngine/playerObject.h"
+#include "OgreEngine/bulletobject.h"
+#include "OgreEngine/obstacleobject.h"
 #include <stdlib.h>
 #include <QHash>
 
@@ -53,6 +55,7 @@ protected:
     Cube * cubeScene;
     PlayerObject * player;
     QHash<QString,BubbleObject*> players;
+    QHash<QString,BulletObject*> bullets;
 
     //TEST
     enum side plane;
@@ -70,6 +73,8 @@ protected:
     virtual void setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name);
     void updatePositions();
     void updatePlayersPositions();
+    void updateBulletsState();
+    void updateObstaclesStates();
 
 };
 #endif // APP_H
