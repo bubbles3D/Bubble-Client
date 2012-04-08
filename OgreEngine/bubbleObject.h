@@ -4,7 +4,6 @@
 #include "OGRE/Ogre.h"
 #include "actor.h"
 #include "OgreEngine/orientedObject.h"
-#include "OgreEngine/objectUtils.h"
 
 class BubbleObject : public OrientedObject
 {

@@ -35,10 +35,6 @@ void OgreApp::createScene(void)
     mCamera->yaw(Ogre::Degree(0));
     setupViewport(mSceneMgr,mCamera->getName());
 
-    //Initialise playerCamera
-    //playerCamera = mSceneMgr->createCamera("playerCamera");
-    //mRotateSpeed = 0.15f;
-
     //Scene
 
     //Test------------------------------------------------------------------------
@@ -54,49 +50,9 @@ void OgreApp::createScene(void)
     cubeNode->attachObject(cubeEntity);
 
 
-    Ogre::SceneNode * spherNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("TEST");
-    Ogre::Entity* sphere = mSceneMgr->createEntity("TEST", "Prefab_Sphere");
-    Ogre::Entity* leftEye = mSceneMgr->createEntity("TEST2", "Prefab_Sphere");
-    Ogre::Entity* rightEye = mSceneMgr->createEntity("TEST3", "Prefab_Sphere");
+    //Just for see a little bubble along the x axis
+    BubbleObject* bubble_test = new BubbleObject(mSceneMgr,"BUBBLE_TEST",BOTTOM,Ogre::Vector3(700,20,100),Ogre::Vector3(0,0,1),Ogre::Vector3(20,20,20),Ogre::ColourValue::White);
 
-
-    Ogre::Node * yawNode = ((Ogre::SceneNode*)spherNode)->createChildSceneNode("_rot", Ogre::Vector3(0,0,0));
-    Ogre::Node * pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode("_cam", Ogre::Vector3(0,0,0));
-    Ogre::Node * entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode("_entity", Ogre::Vector3(0,0,0));
-    Ogre::Node * leftEyesNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode("_lEye", Ogre::Vector3(-15,15,39));
-    Ogre::Node * rightEyesNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode("_rEye", Ogre::Vector3(15,15,39));
-
-    leftEyesNode->scale(0.3,0.4,0.2);
-    leftEyesNode->pitch(Ogre::Degree(-20));
-    rightEyesNode->scale(0.3,0.4,0.2);
-    rightEyesNode->pitch(Ogre::Degree(-20));
-    spherNode->scale(20.0/100.0,20.0/100.0,20.0/100.0);
-    //Set the color
-
-    Ogre::MaterialPtr mMaterial = Ogre::MaterialManager::getSingleton().create("_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    sphere->setMaterialName("_mat");
-    float r =1.0/(rand() % 5 + 1);
-    float g =1.0/(rand() % 5 + 1);
-    float b =1.0/(rand() % 5 + 1);
-    mMaterial->setDiffuse(Ogre::ColourValue::White);
-    mMaterial->setAmbient(Ogre::ColourValue::White);
-    mMaterial->getTechnique(0)->getPass(0)->setLightingEnabled(false);
-
-
-    Ogre::MaterialPtr mMaterial2 = Ogre::MaterialManager::getSingleton().create("_mat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    leftEye->setMaterialName("_mat2");
-    rightEye->setMaterialName("_mat2");
-
-    mMaterial2->setDiffuse(Ogre::ColourValue::Black);
-    mMaterial2->setAmbient(Ogre::ColourValue::Black);
-
-    spherNode->setPosition(700,20,100);
-    ((Ogre::SceneNode*)entityNode)->attachObject(sphere);
-    ((Ogre::SceneNode*)leftEyesNode)->attachObject(leftEye);
-    ((Ogre::SceneNode*)rightEyesNode)->attachObject(rightEye);
-
-    BubbleObject * bubbleTest = new BubbleObject(mSceneMgr,"bubbleTest", BOTTOM, Ogre::Vector3(1000,20,50),Ogre::Vector3(0,0,1),Ogre::Vector3(40,40,40), Ogre::ColourValue(0,0,1));
-    delete(bubbleTest);
     //End tests--------------------------------------------------------------------------------------------------
 
     //Create the cube
@@ -124,7 +80,6 @@ void OgreApp::createScene(void)
 }
 
 void OgreApp::createFrameListener(void){
-    /*BaseApplication::createFrameListener();*/
 
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
     OIS::ParamList pl;
@@ -284,7 +239,6 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
 
         break;
     }
-
     return true;
 }
 
@@ -330,15 +284,12 @@ bool OgreApp::keyReleased( const OIS::KeyEvent &arg )
 
         break;
     }
-
     return true;
 }
 
 bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 {
     Model * mod = Model::getInstance();
-
-    Ogre::Vector3 verticalVect;
 
     switch(mode){
     case FREE:
@@ -348,7 +299,6 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
     case FIRST: 
 
         player->mouseMouved(arg);
-
 
         //Transmit to server
         mod->updateMouse(player->getPlayerDirection().x, player->getPlayerDirection().y, player->getPlayerDirection().z);
@@ -414,9 +364,7 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
       updateBulletsState();
 
       //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
-      //objectUtils::removeObjects(model->getClearedActors(),mSceneMgr);
       destroyObjects(model->getClearedActors());
-
  }
 
  void OgreApp::destroyObjects(QList<QString> objectsToRemove){

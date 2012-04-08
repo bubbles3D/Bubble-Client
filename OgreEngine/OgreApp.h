@@ -13,7 +13,6 @@
 #include "BaseApplication.h"
 #include "model.h"
 #include "OgreEngine/entityUtils.h"
-#include "OgreEngine/objectUtils.h"
 #include "OgreEngine/cube.h"
 #include "OgreEngine/playerHUDManagement.h"
 #include "OgreEngine/bubbleObject.h"
