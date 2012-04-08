@@ -89,7 +89,6 @@ void BubbleObject::updateState(Actor &p){
 }
 
 BubbleObject::~BubbleObject(){
-    //No need to destroy node cf Object
 
     //But material need to be destroyed
     Ogre::MaterialManager::getSingleton().remove((Ogre::ResourcePtr&)bodyMaterial);

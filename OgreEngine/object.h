@@ -10,7 +10,7 @@ public:
 
     Object(Ogre::SceneManager * sceneMgr, float initialSize, QString name = "");
     //Destroy all nodes' children
-    ~Object();
+    virtual ~Object();
     void setPosition(float x, float y, float z);
     void setVisible(bool isVisible = true);
     virtual void setScale(float scale);

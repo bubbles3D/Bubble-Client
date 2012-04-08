@@ -14,7 +14,6 @@ SOURCES += \
     bullet.cpp \
     appdialog.cpp \
     obstacles.cpp \
-    OgreEngine/objectUtils.cpp \
     OgreEngine/entityUtils.cpp \
     OgreEngine/face.cpp \
     OgreEngine/cube.cpp \
@@ -49,7 +48,6 @@ HEADERS += \
     bullet.h \
     appdialog.h \
     obstacles.h \
-    OgreEngine/objectUtils.h \
     OgreEngine/entityUtils.h \
     OgreEngine/face.h \
     OgreEngine/environnement.h \

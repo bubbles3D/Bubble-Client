@@ -10,7 +10,7 @@ class ObstacleObject : public Object
 public:
     ObstacleObject(Ogre::SceneManager * sceneMgr, Ogre::Vector3 size, QString id, Ogre::ColourValue color, Ogre::Vector3 position);
     ObstacleObject(Ogre::SceneManager * sceneMgr, Obstacles p);
-    ~ObstacleObject();
+    virtual ~ObstacleObject();
     void updateState(Obstacles &p);
 
 protected:

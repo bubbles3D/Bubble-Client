@@ -9,7 +9,7 @@ class BulletObject : public Object
 public:
     BulletObject(Ogre::SceneManager * sceneMgr, float size, QString id, Ogre::ColourValue color, Ogre::Vector3 position);
     BulletObject(Ogre::SceneManager * sceneMgr, Bullet p);
-    ~BulletObject();
+    virtual ~BulletObject();
     void updateState(Bullet &p);
 protected:
     Ogre::MaterialPtr material;

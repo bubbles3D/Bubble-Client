@@ -18,7 +18,7 @@ public:
     PlayerHUDManagement * getHUD();
 
     void mouseMouved(const OIS::MouseEvent &arg);
-    ~PlayerObject();
+    virtual ~PlayerObject();
 
 
 protected:

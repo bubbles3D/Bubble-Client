@@ -21,12 +21,10 @@
 #include "OgreEngine/bulletobject.h"
 #include "OgreEngine/obstacleobject.h"
 #include <stdlib.h>
-#include <QHash>
+#include <QMap>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
-
-//using namespace Ogre;
 
 enum MODE {
     FIRST,FREE, MENU
@@ -42,25 +40,14 @@ public:
 
 
 protected:
-    //Ogre::Camera* playerCamera;
     OgreBites::SdkCameraMan* playerCameraController;
-    //Ogre::SceneNode* playerNode;
-    //Ogre::SceneNode* playerYawNode;
-    //Ogre::SceneNode* playerPitchNode;
-    //Ogre::SceneNode* playerTargetNode;
-    //Ogre::SceneNode* playerEntityNode;
-    //Ogre::SceneNode* playerLifeNode;
-    //enum side playerSide;
     enum MODE mode;
     Cube * cubeScene;
     PlayerObject * player;
-    QHash<QString,BubbleObject*> players;
-    QHash<QString,BulletObject*> bullets;
+    QMap<QString,Object*> objects;
 
     //TEST
     enum side plane;
-
-    //float mRotateSpeed;
 
     virtual void createScene(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -75,6 +62,7 @@ protected:
     void updatePlayersPositions();
     void updateBulletsState();
     void updateObstaclesStates();
+    void destroyObjects(QList<QString> objectsToRemove);
 
 };
 #endif // APP_H

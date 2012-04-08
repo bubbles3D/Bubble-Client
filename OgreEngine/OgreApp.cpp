@@ -117,9 +117,6 @@ void OgreApp::createScene(void)
     //Set up the scene
     updateObstaclesStates();
 
-    //Set up HUD
-    //playerHUDMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
-
     //TEST for random color
     /* initialize random seed: */
       srand ( time(NULL) );
@@ -412,14 +409,24 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 
  void OgreApp::updatePositions(){
       Model * model = Model::getInstance();
-     updatePlayersPositions();
 
-     updateBulletsState();
+      updatePlayersPositions();
+      updateBulletsState();
 
-     //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
-     objectUtils::removeObjects(model->getClearedActors(),mSceneMgr);
+      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
+      //objectUtils::removeObjects(model->getClearedActors(),mSceneMgr);
+      destroyObjects(model->getClearedActors());
 
  }
+
+ void OgreApp::destroyObjects(QList<QString> objectsToRemove){
+     foreach(QString s, objectsToRemove){
+         qDebug()<<"REMOVE:"<<objectsToRemove;
+         delete(objects.value(s));
+         objects.remove(s);
+     }
+ }
+
 void OgreApp::updateObstaclesStates(){
     Model * model = Model::getInstance();
     QList<Obstacles> obstacleList = model->getUpdatedObstacles();
@@ -428,15 +435,14 @@ void OgreApp::updateObstaclesStates(){
     foreach(Obstacles p, obstacleList){
         ObstacleObject * obstacle;
 
-        //if (obstacles.contains(p.getId())){
+        if (objects.contains(p.getId())){
             //Obstacle exist
-        //    obstacle = obstacles.value(p.getId());
-            //obstacle->updateState(p); SEE later
-        //}else{
-            //If it's an other player
+            obstacle =(ObstacleObject*) objects.value(p.getId());
+            //obstacle->updateState(p);//SEE LATER
+        }else{
             obstacle = new ObstacleObject(mSceneMgr, p);
-            //bullets.insert(p.getId(), bullet); SEE later
-        //}
+            objects.insert(p.getId(), obstacle);
+        }
     }
 }
  void OgreApp::updateBulletsState(){
@@ -447,12 +453,12 @@ void OgreApp::updateObstaclesStates(){
      foreach(Bullet p, bulletList){
          BulletObject * bullet;
 
-         if (bullets.contains(p.getId())){
-             bullet = bullets.value(p.getId());
+         if (objects.contains(p.getId())){
+             bullet =(BulletObject*) objects.value(p.getId());
              bullet->updateState(p);
          }else{
              bullet = new BulletObject(mSceneMgr, p);
-             bullets.insert(p.getId(), bullet);
+             objects.insert(p.getId(), bullet);
          }
      }
  }
@@ -466,9 +472,9 @@ void OgreApp::updateObstaclesStates(){
      foreach(Player p, playerList){
          BubbleObject * bubble;
 
-         if (players.contains(p.getId())){
+         if (objects.contains(p.getId())){
              //Player exist
-             bubble = players.value(p.getId());
+             bubble = (BubbleObject*)objects.value(p.getId());
 
              if(bubble == player){
                  //If it's our player
@@ -483,15 +489,20 @@ void OgreApp::updateObstaclesStates(){
                  //If it's our player
                  player = new PlayerObject(mSceneMgr, p);
                  bubble = player;
+
+                 //Change mode view
+                 mode = FIRST;
+                 setupViewport(mSceneMgr,player->getPlayerCameraName());
              }else{
                  //If it's an other player
                  qDebug()<<"NEW OTHER "<<p.getName();
                 bubble = new BubbleObject(mSceneMgr, (Actor) p);
              }
-             players.insert(p.getId(), bubble);
+             objects.insert(p.getId(), bubble);
          }
      }
  }
+
 
  void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)
  {
