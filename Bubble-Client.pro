@@ -8,7 +8,6 @@ SOURCES += \
     model.cpp \
     gameapp.cpp \
     actor.cpp \
-    OgreEngine/TutorialApplication.cpp \
     OgreEngine/OgreApp.cpp \
     OgreEngine/BaseApplication.cpp \
     bullet.cpp \
@@ -42,7 +41,6 @@ HEADERS += \
     /usr/include/OIS/OIS.h \
     /usr/include/OIS/OISMouse.h \
     /usr/include/OIS/OISEvents.h \
-    OgreEngine/TutorialApplication.h \
     OgreEngine/OgreApp.h \
     OgreEngine/BaseApplication.h \
     bullet.h \

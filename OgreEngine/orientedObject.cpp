@@ -1,5 +1,4 @@
 #include "orientedObject.h"
-#include "objectUtils.h"
 
 
 OrientedObject::OrientedObject(Ogre::SceneManager * mSceneMgr, float size, QString name):
