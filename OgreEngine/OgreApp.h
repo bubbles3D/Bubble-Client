@@ -46,9 +46,6 @@ protected:
     Cube * cubeScene;
     ObjectsManager * objectMgr;
 
-    //TEST
-    enum side plane;
-
     virtual void createScene(void);
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual void createFrameListener(void);

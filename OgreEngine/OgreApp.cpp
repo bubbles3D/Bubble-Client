@@ -227,9 +227,7 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             changeMode(FIRST);
             break;
          case OIS::KC_F3 :
-            mode = FREE;
-            objectMgr->getPlayer()->setVisible(true);
-            setupViewport(mSceneMgr,objectMgr->getPlayer()->getPlayerCameraName());
+            changeMode(FREE);
         default:
             break;
         }
