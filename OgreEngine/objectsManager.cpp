@@ -100,6 +100,10 @@ PlayerObject * ObjectsManager::getPlayer(){
     return player;
 }
 
+PlayerHUDManagement * ObjectsManager::getHUD(){
+    return player->getHUD();
+}
+
 ObjectsManager::~ObjectsManager(){
     Object* object;
     foreach(object,objects){

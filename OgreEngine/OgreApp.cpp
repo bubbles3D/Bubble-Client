@@ -131,7 +131,7 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
         break;
     case FIRST:
         objectMgr->updatePositions();
-        objectMgr->getPlayer()->getHUD()->updateHUD(evt.timeSinceLastFrame);
+        objectMgr->getHUD()->updateHUD(evt.timeSinceLastFrame);
         break;
     case MENU:
         break;
@@ -210,10 +210,10 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
              changeMode(FREE);
             break;
          case OIS::KC_TAB :
-             if(objectMgr->getPlayer()->getHUD()->statsAreVisible() == false){
-               objectMgr->getPlayer()->getHUD()->displayStats();
+             if(objectMgr->getHUD()->statsAreVisible() == false){
+               objectMgr->getHUD()->displayStats();
              }else{
-               objectMgr->getPlayer()->getHUD()->hideStats();
+               objectMgr->getHUD()->hideStats();
              }
 
              break;
