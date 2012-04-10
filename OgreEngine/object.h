@@ -4,12 +4,13 @@
 #include "OGRE/Ogre.h"
 #include <QString>
 #include <QDebug>
+
 class Object
 {
 public:
 
     Object(Ogre::SceneManager * sceneMgr, float initialSize, QString name = "");
-    //Destroy all nodes' children
+    //Destroy all children nodes
     virtual ~Object();
     void setPosition(float x, float y, float z);
     void setVisible(bool isVisible = true);

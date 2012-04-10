@@ -16,7 +16,6 @@ ObstacleObject::ObstacleObject(Ogre::SceneManager * sceneMgr, Obstacles p):
     initObstacle(p.getId(), Ogre::Vector3(p.getX(),p.getY(),p.getZ()), Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()), Ogre::ColourValue(r,g,b));
 }
 
-///////
 void ObstacleObject::initObstacle(QString id, Ogre::Vector3 position, Ogre::Vector3 objectSize, Ogre::ColourValue color){
     entity = mSceneMgr->createEntity(id.toStdString(), "Prefab_Cube");
     node->setPosition(position);

@@ -23,7 +23,8 @@ SOURCES += \
     OgreEngine/object.cpp \
     OgreEngine/orientedObject.cpp \
     OgreEngine/bulletobject.cpp \
-    OgreEngine/obstacleobject.cpp
+    OgreEngine/obstacleobject.cpp \
+    OgreEngine/objectsManager.cpp
 
 HEADERS += \
     networkclient.h \
@@ -57,7 +58,8 @@ HEADERS += \
     OgreEngine/object.h \
     OgreEngine/orientedObject.h \
     OgreEngine/bulletobject.h \
-    OgreEngine/obstacleobject.h
+    OgreEngine/obstacleobject.h \
+    OgreEngine/objectsManager.h
 
 
 

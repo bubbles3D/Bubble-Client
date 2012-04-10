@@ -12,30 +12,32 @@
 OgreApp::OgreApp(void)
 {
 
+    qRegisterMetaType<MODE>("MODE");
 }
 //-------------------------------------------------------------------------------------
 OgreApp::~OgreApp(void)
 {
-    //BaseApplication::~BaseApplication();
     exit();
 }
 
 //-------------------------------------------------------------------------------------
 void OgreApp::createScene(void)
 {
+    objectMgr = new ObjectsManager(mSceneMgr);
+
+    connect(objectMgr, SIGNAL(changeModeEvent(MODE)), this, SLOT(changeMode(MODE)));
+
     Ogre::ResourceManager::ResourceMapIterator iter = Ogre::FontManager::getSingleton().getResourceIterator();
     while (iter.hasMoreElements()) { iter.getNext()->load(); }
 
     // Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 
-    // Set camera look point
+    // Set the free camera look point
     mCamera->setPosition(40, 100, 580);
     mCamera->pitch(Ogre::Degree(0));
     mCamera->yaw(Ogre::Degree(0));
     setupViewport(mSceneMgr,mCamera->getName());
-
-    //Scene
 
     //Test------------------------------------------------------------------------
     Ogre::Entity* bullet = mSceneMgr->createEntity("ball", "Bullet.mesh");
@@ -53,7 +55,7 @@ void OgreApp::createScene(void)
     //Just for see a little bubble along the x axis
     BubbleObject* bubble_test = new BubbleObject(mSceneMgr,"BUBBLE_TEST",BOTTOM,Ogre::Vector3(700,20,100),Ogre::Vector3(0,0,1),Ogre::Vector3(20,20,20),Ogre::ColourValue::White);
 
-    //End tests--------------------------------------------------------------------------------------------------
+    //End tests-------------------------------------------------------------------------
 
     //Create the cube
     Model * mod = Model::getInstance();
@@ -70,8 +72,10 @@ void OgreApp::createScene(void)
     //Init mode
     mode = FREE;
 
+     qDebug()<<"BEFORE";
     //Set up the scene
-    updateObstaclesStates();
+    objectMgr->updateObstaclesStates();
+     qDebug()<<"BEFORE END";
 
     //TEST for random color
     /* initialize random seed: */
@@ -123,14 +127,13 @@ bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
     switch(mode){
     case FREE:
         mCameraMan->frameRenderingQueued(evt); //Update free cam
-        updatePositions();
+        objectMgr->updatePositions();
         break;
     case FIRST:
-        updatePositions();
-        player->getHUD()->updateHUD(evt.timeSinceLastFrame);
+        objectMgr->updatePositions();
+        objectMgr->getPlayer()->getHUD()->updateHUD(evt.timeSinceLastFrame);
         break;
     case MENU:
-
         break;
     default:
         break;
@@ -164,14 +167,12 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
         mCameraMan->injectKeyDown(arg);       
         switch (arg.key) {
          case OIS::KC_F1 :
-                mode = FIRST;
-                player->setVisible(false);
-                setupViewport(mSceneMgr,player->getPlayerCameraName());
+            changeMode(FIRST);
 
             break;
         case OIS::KC_F2 :
            mode = MENU;
-           player->setVisible(false);
+           objectMgr->getPlayer()->setVisible(false);
             break;
         default:
             break;
@@ -202,19 +203,17 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
             break;
          case OIS::KC_F2 :
             mode = MENU;
-            player->setVisible(false);
+            objectMgr->getPlayer()->setVisible(false);
 
             break;
          case OIS::KC_F3 :
-            mode = FREE;
-            setupViewport(mSceneMgr,mCamera->getName());
-            player->setVisible(true);
+             changeMode(FREE);
             break;
          case OIS::KC_TAB :
-             if(player->getHUD()->statsAreVisible() == false){
-               player->getHUD()->displayStats();
+             if(objectMgr->getPlayer()->getHUD()->statsAreVisible() == false){
+               objectMgr->getPlayer()->getHUD()->displayStats();
              }else{
-               player->getHUD()->hideStats();
+               objectMgr->getPlayer()->getHUD()->hideStats();
              }
 
              break;
@@ -225,14 +224,12 @@ bool OgreApp::keyPressed( const OIS::KeyEvent &arg )
     case MENU:
         switch (arg.key) {
         case OIS::KC_F1 :
-            mode = FIRST;
-            setupViewport(mSceneMgr,player->getPlayerCameraName());
-            player->setVisible(false);
+            changeMode(FIRST);
             break;
          case OIS::KC_F3 :
             mode = FREE;
-            player->setVisible(true);
-            setupViewport(mSceneMgr,player->getPlayerCameraName());
+            objectMgr->getPlayer()->setVisible(true);
+            setupViewport(mSceneMgr,objectMgr->getPlayer()->getPlayerCameraName());
         default:
             break;
         }
@@ -297,11 +294,9 @@ bool OgreApp::mouseMoved( const OIS::MouseEvent &arg )
 
              break;
     case FIRST: 
-
-        player->mouseMouved(arg);
-
+        objectMgr->getPlayer()->mouseMouved(arg);
         //Transmit to server
-        mod->updateMouse(player->getPlayerDirection().x, player->getPlayerDirection().y, player->getPlayerDirection().z);
+        mod->updateMouse(objectMgr->getPlayer()->getPlayerDirection().x, objectMgr->getPlayer()->getPlayerDirection().y, objectMgr->getPlayer()->getPlayerDirection().z);
 
         break;
     case MENU:
@@ -322,7 +317,7 @@ bool OgreApp::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
         mCameraMan->injectMouseDown(arg, id);
         break;
     case FIRST:
-        mod->shot(player->getPlayerDirection().x, player->getPlayerDirection().y, player->getPlayerDirection().z);
+        mod->shot(objectMgr->getPlayer()->getPlayerDirection().x, objectMgr->getPlayer()->getPlayerDirection().y, objectMgr->getPlayer()->getPlayerDirection().z);
         break;
     case MENU:
 
@@ -357,101 +352,6 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
      BaseApplication::go();
  }
 
- void OgreApp::updatePositions(){
-      Model * model = Model::getInstance();
-
-      updatePlayersPositions();
-      updateBulletsState();
-
-      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
-      destroyObjects(model->getClearedActors());
- }
-
- void OgreApp::destroyObjects(QList<QString> objectsToRemove){
-     foreach(QString s, objectsToRemove){
-         qDebug()<<"REMOVE:"<<objectsToRemove;
-         delete(objects.value(s));
-         objects.remove(s);
-     }
- }
-
-void OgreApp::updateObstaclesStates(){
-    Model * model = Model::getInstance();
-    QList<Obstacles> obstacleList = model->getUpdatedObstacles();
-
-    //Update elements position
-    foreach(Obstacles p, obstacleList){
-        ObstacleObject * obstacle;
-
-        if (objects.contains(p.getId())){
-            //Obstacle exist
-            obstacle =(ObstacleObject*) objects.value(p.getId());
-            //obstacle->updateState(p);//SEE LATER
-        }else{
-            obstacle = new ObstacleObject(mSceneMgr, p);
-            objects.insert(p.getId(), obstacle);
-        }
-    }
-}
- void OgreApp::updateBulletsState(){
-     Model * model = Model::getInstance();
-     QList<Bullet> bulletList = model->getUpdatedBullets();
-
-     //Update elements position
-     foreach(Bullet p, bulletList){
-         BulletObject * bullet;
-
-         if (objects.contains(p.getId())){
-             bullet =(BulletObject*) objects.value(p.getId());
-             bullet->updateState(p);
-         }else{
-             bullet = new BulletObject(mSceneMgr, p);
-             objects.insert(p.getId(), bullet);
-         }
-     }
- }
-
-
- void OgreApp::updatePlayersPositions(){
-     Model * model = Model::getInstance();
-     QList<Player> playerList = model->getUpdatedPlayers();
-
-     //Update elements position
-     foreach(Player p, playerList){
-         BubbleObject * bubble;
-
-         if (objects.contains(p.getId())){
-             //Player exist
-             bubble = (BubbleObject*)objects.value(p.getId());
-
-             if(bubble == player){
-                 //If it's our player
-                 ((PlayerObject*)bubble)->updateState(p);
-             }else{
-                 //If it's an other player
-                bubble->updateState(p);
-             }
-         }else{
-             if(p.getName() == model->getName()){
-                 qDebug()<<"NEW US"<<p.getName();
-                 //If it's our player
-                 player = new PlayerObject(mSceneMgr, p);
-                 bubble = player;
-
-                 //Change mode view
-                 mode = FIRST;
-                 setupViewport(mSceneMgr,player->getPlayerCameraName());
-             }else{
-                 //If it's an other player
-                 qDebug()<<"NEW OTHER "<<p.getName();
-                bubble = new BubbleObject(mSceneMgr, (Actor) p);
-             }
-             objects.insert(p.getId(), bubble);
-         }
-     }
- }
-
-
  void OgreApp::setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name)
  {
      mWindow->removeAllViewports();
@@ -462,6 +362,21 @@ void OgreApp::updateObstaclesStates(){
 
      vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
      cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+ }
+
+ void OgreApp::changeMode(MODE mmode){
+     switch(mmode){
+      case(FIRST):
+         mode = FIRST;
+         objectMgr->getPlayer()->setVisible(false);
+         setupViewport(mSceneMgr,objectMgr->getPlayer()->getPlayerCameraName());
+         break;
+      case(FREE):
+         mode = FREE;
+         setupViewport(mSceneMgr,mCamera->getName());
+         objectMgr->getPlayer()->setVisible(true);
+         break;
+     }
  }
 
 /*

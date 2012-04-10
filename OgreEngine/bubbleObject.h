@@ -15,7 +15,7 @@ public:
     virtual void updateState(Actor &p);
 
 protected:
-    //All node using in a bubble
+    //All node used in a bubble
     Ogre::SceneNode* leftEyesNode;
     Ogre::SceneNode* rightEyesNode;
     // The root entity node

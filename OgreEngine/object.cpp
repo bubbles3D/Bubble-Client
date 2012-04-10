@@ -2,9 +2,12 @@
 
 Object::Object(Ogre::SceneManager * sceneMgr, float size, QString name )
 {
+
     mSceneMgr = sceneMgr;
 
     // The root node
+    mSceneMgr->getRootSceneNode();
+
     node = mSceneMgr->getRootSceneNode()->createChildSceneNode(name.toStdString());
 
     //Object size

@@ -17,7 +17,6 @@ protected:
     Ogre::ColourValue color;
 
     void initBullet(QString id, Ogre::Vector3 position, float objectSize, Ogre::ColourValue color);
-
     void setColor(float x, float y, float z);
 };
 
