@@ -226,12 +226,20 @@ void Model::updateKeys(QString name, bool state)
 
 void Model::updateMouse(float x, float y, float z)
 {
+    if (players.contains(name))
+    {
+        players[name]->vx = x;
+        players[name]->vy = y;
+        players[name]->vz = z;
+    }
+
     if(mouseTimeout.isNull())
     {
         mouseTimeout.start();
     }
     else if (mouseTimeout.elapsed() > 50)
     {
+        //Send state to server
         emit mouseChanged(x, y, z);
         mouseTimeout.restart();
     }
