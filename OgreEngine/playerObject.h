@@ -23,10 +23,10 @@ public:
 
 protected:
     Ogre::Camera* playerCamera;
-    float mRotateSpeed;
     Ogre::SceneNode* targetNode;
-    enum side playerSide;
     PlayerHUDManagement * hudMgt;
+    float mRotateSpeed;
+    enum side playerSide;
 
     void createPlayer(QString id);
 };

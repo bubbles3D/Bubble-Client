@@ -44,7 +44,6 @@ protected:
     OgreBites::SdkCameraMan* playerCameraController;
     enum MODE mode;
     Cube * cubeScene;
-    //PlayerObject * player;
     ObjectsManager * objectMgr;
 
     //TEST
