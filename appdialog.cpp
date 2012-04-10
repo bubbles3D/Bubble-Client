@@ -7,15 +7,15 @@ AppDialog::AppDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AppDialog)
 {
-    ui->setupUi(this);
-
     //set default color (white)
     QColor c(255, 255, 255);
     qchooser = new QColorDialog(c, this);
 
     //Default color in model
-    Model* m = Model::getInstance();
+    m = Model::getInstance();
     m->setColor(c);
+
+    ui->setupUi(this);
 
     //Default color on button
     this->ui->colorButton->setStyleSheet("* { background-color: rgb("+
@@ -23,8 +23,8 @@ AppDialog::AppDialog(QWidget *parent) :
                                       QString::number(255)+","+
                                       QString::number(255)+")}");
 
+    //Save to file
     hosts = new QFile("hosts");
-
     if (hosts->open(QIODevice::ReadOnly))
     {
         QString str = hosts->readLine();
@@ -35,9 +35,7 @@ AppDialog::AppDialog(QWidget *parent) :
         hosts->close();
     }
 
-    m = Model::getInstance();
     ga = new GameApp();
-
     connect(ga, SIGNAL(destroyed()), this, SLOT(reject()));
 }
 

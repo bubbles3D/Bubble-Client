@@ -279,6 +279,7 @@ int Model::getMapLength()
 
 void Model::setColor(QColor c)
 {
+    QMutexLocker locker(&mutex);
     color = c;
 }
 
