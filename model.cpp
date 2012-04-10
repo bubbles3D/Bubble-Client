@@ -188,8 +188,40 @@ QString Model::getName()
 
 void Model::updateKeys(QString name, bool state)
 {
+    //Send state to server
     emit keyChanged(name, state);
-    //qDebug() << "Emited keys signal";
+
+    //Update local version
+
+    //A key is pressed
+    if (state)
+    {
+        if (name == "UP"){
+            //TODO
+        }else if (name == "RIGHT"){
+            //TODO
+        }else if (name == "LEFT"){
+            //TODO
+        }else if (name == "DOWN"){
+            //TODO
+        }else{
+            //Key unknown
+        }
+    //A key has been realesed
+    }else{
+        if (name == "UP"){
+            //TODO
+        }else if (name == "RIGHT"){
+            //TODO
+        }else if (name == "LEFT"){
+            //TODO
+        }else if (name == "DOWN"){
+            //TODO
+        }else{
+            //Key unknown
+        }
+    }
+
 }
 
 void Model::updateMouse(float x, float y, float z)
