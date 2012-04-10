@@ -39,6 +39,7 @@ void BulletObject::initBullet(QString id, Ogre::Vector3 position, float objectSi
 }
 void BulletObject::setColor(float r, float g, float b){
     if(color.r != r || color.g != g || color.b != b){
+
         color.r = r;
         color.g = g;
         color.b = b;
@@ -47,7 +48,11 @@ void BulletObject::setColor(float r, float g, float b){
 }
 
 void BulletObject::updateState(Bullet &p){
-    setColor(p.r,p.g,p.b);
+    float r;
+    float g;
+    float b;
+    p.getColor(&r,&g,&b);
+    setColor(r,g,b);
     setScale(Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()));
     setPosition(p.getX(),p.getY(),p.getZ());
 }

@@ -8,6 +8,7 @@ OrientedObject::OrientedObject(mSceneMgr,100, p.getId()) // 100 is the default s
     qDebug()<<"Creating bubble";
 
     p.getColor(&(bodycolor.r),&(bodycolor.g),&(bodycolor.b));
+    qDebug()<<"COLOR: "<<bodycolor.r<<" "<<bodycolor.g<<" "<<bodycolor.b;
     initBubble(p.getId(),(side) p.getCube(), Ogre::Vector3(p.getX(),p.getY(),p.getZ()), Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()), Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()),bodycolor);
 }
 
@@ -82,7 +83,11 @@ void BubbleObject::setBodyColor(float r, float g, float b){
 }
 
 void BubbleObject::updateState(Actor &p){
-    setBodyColor(p.r,p.g,p.b);
+    float r;
+    float g;
+    float b;
+    p.getColor(&r,&g,&b);
+    setBodyColor(r,g,b);
     setOrientation(Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()),(side)p.getCube());
     setScale(Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()));
     setPosition(p.getX(),p.getY(),p.getZ());
