@@ -1,17 +1,23 @@
 #include "object.h"
 
-Object::Object(Ogre::SceneManager * sceneMgr, float size, QString name )
+Object::Object(Ogre::SceneManager * sceneMgr, float size, QString name, Ogre::SceneNode * parent )
 {
 
     mSceneMgr = sceneMgr;
 
-    // The root node
-    mSceneMgr->getRootSceneNode();
-
-    node = mSceneMgr->getRootSceneNode()->createChildSceneNode(name.toStdString());
+    if(parent == 0){
+        this->parent =  mSceneMgr->getRootSceneNode();
+    }else{
+        this->parent = parent;
+    }
+    node = this->parent->createChildSceneNode(name.toStdString());
 
     //Object size
     meshInitialSize = size;
+}
+
+Ogre::SceneNode * Object::getNode(){
+    return node;
 }
 
 void Object::setPosition(float x, float y, float z){

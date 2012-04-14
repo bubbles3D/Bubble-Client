@@ -8,10 +8,11 @@
 class ObstacleObject : public Object
 {
 public:
-    ObstacleObject(Ogre::SceneManager * sceneMgr, Ogre::Vector3 size, QString id, Ogre::ColourValue color, Ogre::Vector3 position);
+    ObstacleObject(Ogre::SceneManager * sceneMgr, Ogre::Vector3 size, QString id, Ogre::ColourValue color, Ogre::Vector3 position, Ogre::SceneNode * parentNode = 0);
     ObstacleObject(Ogre::SceneManager * sceneMgr, Obstacles p);
     virtual ~ObstacleObject();
     void updateState(Obstacles &p);
+    Ogre::SceneNode * getNode();
 
 protected:
     Ogre::MaterialPtr material;

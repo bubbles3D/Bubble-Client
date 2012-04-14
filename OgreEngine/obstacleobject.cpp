@@ -1,7 +1,7 @@
 #include "obstacleobject.h"
 
-ObstacleObject::ObstacleObject(Ogre::SceneManager * sceneMgr, Ogre::Vector3 size, QString id, Ogre::ColourValue color, Ogre::Vector3 position):
-    Object::Object( sceneMgr, 100, id)
+ObstacleObject::ObstacleObject(Ogre::SceneManager * sceneMgr, Ogre::Vector3 size, QString id, Ogre::ColourValue color, Ogre::Vector3 position, Ogre::SceneNode * parentNode ):
+    Object::Object( sceneMgr, 100, id, parentNode)
 {
     initObstacle(id, position, size, color);
 }
@@ -27,16 +27,22 @@ void ObstacleObject::initObstacle(QString id, Ogre::Vector3 position, Ogre::Vect
 
     ((Ogre::SceneNode*)node)->attachObject(entity);
     //Color is ignored right now
-    float r =1.0/(rand() % 5 + 1);
+    /*float r =1.0/(rand() % 5 + 1);
     float g =1.0/(rand() % 5 + 1);
     float b =1.0/(rand() % 5 + 1);
     material->setDiffuse(r, g, b,0.5);
-    material->setAmbient(r, g, b);
+    material->setAmbient(r, g, b);*/
+    material->setDiffuse(color);
+    material->setAmbient(color);
 
     this->color = color;
 
     setScale(objectSize);
 }
+Ogre::SceneNode * ObstacleObject::getNode(){
+    return node;
+}
+
 void ObstacleObject::setColor(float r, float g, float b){
     if(color.r != r || color.g != g || color.b != b){
         color.r = r;

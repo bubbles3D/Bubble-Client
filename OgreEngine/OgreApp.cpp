@@ -51,9 +51,22 @@ void OgreApp::createScene(void)
     cubeNode->setPosition(500,50,0);cubeNode->setScale(100/100,100/100,100/100);
     cubeNode->attachObject(cubeEntity);
 
-
     //Just for see a little bubble along the x axis
-    BubbleObject* bubble_test = new BubbleObject(mSceneMgr,"BUBBLE_TEST",BOTTOM,Ogre::Vector3(700,20,100),Ogre::Vector3(0,0,1),Ogre::Vector3(20,20,20),Ogre::ColourValue::White);
+    BubbleObject* bubble_test = new BubbleObject(mSceneMgr,"BUBBLE_TEST",BOTTOM,Ogre::Vector3(700,50,100),Ogre::Vector3(0,0,1),Ogre::Vector3(100,100,100),Ogre::ColourValue::White);
+
+    //Flag test
+    Ogre::Entity* flag = mSceneMgr->createEntity("flag", "mat.mesh");
+    Ogre::SceneNode* flagNode = bubble_test->getNode()->createChildSceneNode();
+    flagNode->setPosition(0,100,0);
+    flagNode->setScale(5,50,5);
+    flagNode->attachObject(flag);
+    flagNode->setInheritScale(false);
+    //ObstacleObject * flagNode= new ObstacleObject(mSceneMgr,Ogre::Vector3(10,100,10),"FlagRoot",Ogre::ColourValue(1,0,0,1),Ogre::Vector3(800,50,100));
+
+
+    ObstacleObject * toile= new ObstacleObject(mSceneMgr,Ogre::Vector3(60,30,5),"Flag",Ogre::ColourValue(1,0,0,1),Ogre::Vector3(0,0,0),flagNode);
+    toile->setPosition(7,0.6,0);
+    toile->getNode()->setInheritScale(false);
 
     //End tests-------------------------------------------------------------------------
 

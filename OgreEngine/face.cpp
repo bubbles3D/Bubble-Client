@@ -3,10 +3,21 @@
 Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real size, side mside ):
     textureName(texName)
 {
+    createFace(sceneManager, faceName, texName, size, size, mside );
+}
+Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real width,Ogre::Real height, side mside ):
+    textureName(texName)
+{
+    createFace(sceneManager, faceName, texName, width, height, mside );
+}
+
+void Face::createFace(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real width,Ogre::Real height, side mside)
+{
     mSceneManager = sceneManager;
     mNode = mSceneManager->getRootSceneNode()->createChildSceneNode();
 
-    mSize = size;
+    mWidth = width;
+    mHeight = height;
     mSide = mside;
 
     mImageScale = 1; //Default
@@ -17,7 +28,7 @@ Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName,
     mfaceDir->normal = Ogre::Vector3::UNIT_Y;
 
     //Create the mesh
-    Ogre::MeshManager::getSingleton().createPlane(faceName.toStdString()+"_mesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *mfaceDir, mSize ,mSize, 1, 1, true, 1, 1, 1, Ogre::Vector3::UNIT_Z);
+    Ogre::MeshManager::getSingleton().createPlane(faceName.toStdString()+"_mesh", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, *mfaceDir, mWidth ,mHeight, 1, 1, true, 1, 1, 1, Ogre::Vector3::UNIT_Z);
     mEntity = mSceneManager->createEntity(faceName.toStdString()+"_entity", faceName.toStdString()+"_mesh");
     mMaterial = Ogre::MaterialManager::getSingleton().create(faceName.toStdString()+"_mat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
@@ -80,5 +91,9 @@ void Face::setDiffuse(Ogre::Real r, Ogre::Real g, Ogre::Real b, Ogre::Real a){
 
 void Face::setAmbient(Ogre::Real r, Ogre::Real g, Ogre::Real b){
     mMaterial->setAmbient(r, g, b);
+}
+
+Ogre::SceneNode * Face::getNode(){
+    return mNode;
 }
 

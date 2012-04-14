@@ -21,6 +21,7 @@
 //#include "OgreEngine/bulletobject.h"
 //#include "OgreEngine/obstacleobject.h"
 #include "OgreEngine/objectsManager.h"
+#include "OgreEngine/face.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

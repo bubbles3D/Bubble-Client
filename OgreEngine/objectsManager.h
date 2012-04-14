@@ -35,6 +35,8 @@ public:
     // return a pointer on the player
     PlayerObject * getPlayer();
 
+    PlayerHUDManagement * getHUD();
+
 protected:
     Ogre::SceneManager * sceneMgr;
     QMap<QString,Object*> objects;
