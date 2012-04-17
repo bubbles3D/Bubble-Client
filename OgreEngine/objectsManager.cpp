@@ -90,8 +90,8 @@ void ObjectsManager::updatePlayersPositions(){
                 player = new MainPlayerObject(sceneMgr, p);
                 bubble = player;
 
-                FlagObject* flag = new FlagObject(sceneMgr,p.getId() + "FLAG");
-                flag->attach(bubble->getNode());
+                //FlagObject* flag = new FlagObject(sceneMgr,p.getId() + "FLAG");
+                //flag->attach(bubble->getPitchNode());
 
                 //Change mode view
                 emit changeModeEvent(FIRST);
@@ -101,12 +101,7 @@ void ObjectsManager::updatePlayersPositions(){
                bubble = new BubbleObject(sceneMgr, (Actor) p);
             }
             objects.insert(p.getId(), bubble);
-/*
-            if (p.flag == true){
-                FlagObject* flag = new FlagObject(sceneMgr,p.getId() + "FLAG");
-                flag->attach(bubble->getNode());
-            }
-            */
+
         }
     }
 }

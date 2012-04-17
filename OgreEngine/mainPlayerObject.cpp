@@ -103,6 +103,8 @@ void MainPlayerObject::updateState(Player &p){
     hudMgt->setKillsValue(p.getKills());
     hudMgt->setDeathValue(p.getDeaths());
 
+    //Update flag
+    updateFlag(p.flag);
 }
 
 MainPlayerObject::~MainPlayerObject(){

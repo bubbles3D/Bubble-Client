@@ -30,6 +30,10 @@ protected:
 
     //SceneManager
     Ogre::SceneManager * mSceneMgr;
+
+    QString name;
+
+    Ogre::Vector3 scale;
 };
 
 #endif // OBJECT_H

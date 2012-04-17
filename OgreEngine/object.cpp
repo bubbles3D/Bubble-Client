@@ -12,8 +12,13 @@ Object::Object(Ogre::SceneManager * sceneMgr, float size, QString name, Ogre::Sc
     }
     node = this->parent->createChildSceneNode(name.toStdString());
 
+    this->name = name;
+
     //Object size
     meshInitialSize = size;
+
+    scale = Ogre::Vector3(meshInitialSize,meshInitialSize,meshInitialSize);
+
 }
 
 Ogre::SceneNode * Object::getNode(){
@@ -30,12 +35,13 @@ void Object::setVisible(bool isVisible){
 
 void Object::setScale(float scale){
     node->setScale(scale/meshInitialSize,scale/meshInitialSize,scale/meshInitialSize);
+    this->scale =  Ogre::Vector3(scale,scale,scale);
 
 }
 
 void Object::setScale(Ogre::Vector3 scale){
     node->setScale(scale.x/meshInitialSize,scale.y/meshInitialSize,scale.z/meshInitialSize);
-
+    this->scale = scale;
 }
 
 void Object::attach(Ogre::SceneNode* nodeWhereAttach){

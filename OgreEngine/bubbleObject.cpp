@@ -3,7 +3,8 @@
 
 BubbleObject::BubbleObject(Ogre::SceneManager *mSceneMgr,Actor p ):
 //Init scene manager
-OrientedObject::OrientedObject(mSceneMgr,100, p.getId()) // 100 is the default size sphere
+OrientedObject::OrientedObject(mSceneMgr,100, p.getId()), // 100 is the default size sphere
+flag(0)
 {
     qDebug()<<"Creating bubble";
 
@@ -14,7 +15,8 @@ OrientedObject::OrientedObject(mSceneMgr,100, p.getId()) // 100 is the default s
 
 BubbleObject::BubbleObject(Ogre::SceneManager *mSceneMgr, QString name, side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color ):
 //Init scene manager
-OrientedObject::OrientedObject(mSceneMgr,100,name) // 100 is the default size sphere
+OrientedObject::OrientedObject(mSceneMgr,100,name), // 100 is the default size sphere
+flag(0)
 {
     qDebug()<<"Creating bubble";
 
@@ -93,6 +95,27 @@ void BubbleObject::updateState(Actor &p){
     setPosition(p.getX(),p.getY(),p.getZ());
 }
 
+void BubbleObject::updateState(Player &p){
+    updateState((Actor&) p);
+    updateFlag(p.flag);
+
+}
+
+void BubbleObject::updateFlag(bool hasFlag){
+    if(hasFlag == true){
+        if (flag == 0){ //création du drapeau
+            flag = new FlagObject(mSceneMgr,name + "FLAG");
+            flag->attach(pitchNode);
+        }
+        flag->setPosition(0,scale.y/2,0);//On positionne le drapeau
+    }else{
+        if(flag != 0){//Destruction drapeau
+            delete(flag);
+            flag = 0;
+        }
+    }
+}
+
 BubbleObject::~BubbleObject(){
 
     //But material need to be destroyed
@@ -103,16 +126,21 @@ BubbleObject::~BubbleObject(){
     mSceneMgr->destroyEntity(body);
     mSceneMgr->destroyEntity(leftEye);
     mSceneMgr->destroyEntity(rightEye);
+
+    //clean flag if needed
+    if(flag!=0){
+        delete(flag);
+    }
 }
 
 void BubbleObject::setScale(float scale){
     entityNode->setScale(scale/meshInitialSize,scale/meshInitialSize,scale/meshInitialSize);
-
+    this->scale = Ogre::Vector3(scale,scale,scale);
 }
 
 void BubbleObject::setScale(Ogre::Vector3 scale){
     entityNode->setScale(scale.x/meshInitialSize,scale.y/meshInitialSize,scale.z/meshInitialSize);
-
+    this->scale = scale;
 }
 
 
