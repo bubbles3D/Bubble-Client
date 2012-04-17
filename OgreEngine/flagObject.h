@@ -8,7 +8,6 @@ public:
     FlagObject(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color = Ogre::ColourValue::Red);
     virtual ~FlagObject();
     void setColor(float r, float g, float b);
-    void attach(Ogre::SceneNode* node);
 
 protected:
     //All node used in a flag

@@ -129,6 +129,10 @@ void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor)
    }
 }
 
+ Ogre::SceneNode * OrientedObject::getPitchNode(){
+     return pitchNode;
+ }
+
 OrientedObject::~OrientedObject(){
     //nothing to delete because Object do it for us
 }
