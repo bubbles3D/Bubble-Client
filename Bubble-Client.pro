@@ -19,13 +19,13 @@ SOURCES += \
     OgreEngine/overlayUtils.cpp \
     OgreEngine/playerHUDManagement.cpp \
     OgreEngine/bubbleObject.cpp \
-    OgreEngine/playerObject.cpp \
     OgreEngine/object.cpp \
     OgreEngine/orientedObject.cpp \
     OgreEngine/bulletobject.cpp \
     OgreEngine/obstacleobject.cpp \
     OgreEngine/objectsManager.cpp \
-    OgreEngine/flagObject.cpp
+    OgreEngine/flagObject.cpp \
+    OgreEngine/mainPlayerObject.cpp
 
 HEADERS += \
     networkclient.h \
@@ -55,13 +55,13 @@ HEADERS += \
     OgreEngine/overlayUtils.h \
     OgreEngine/playerHUDManagement.h \
     OgreEngine/bubbleObject.h \
-    OgreEngine/playerObject.h \
     OgreEngine/object.h \
     OgreEngine/orientedObject.h \
     OgreEngine/bulletobject.h \
     OgreEngine/obstacleobject.h \
     OgreEngine/objectsManager.h \
-    OgreEngine/flagObject.h
+    OgreEngine/flagObject.h \
+    OgreEngine/mainPlayerObject.h
 
 
 

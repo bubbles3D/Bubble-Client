@@ -13,6 +13,8 @@ public:
     virtual ~BubbleObject();
     void setBodyColor(float r, float g, float b);
     virtual void updateState(Actor &p);
+    virtual void setScale(float scale);
+    virtual void setScale(Ogre::Vector3 scale);
 
 protected:
     //All node used in a bubble

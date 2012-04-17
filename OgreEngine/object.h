@@ -16,6 +16,7 @@ public:
     void setVisible(bool isVisible = true);
     virtual void setScale(float scale);
     virtual void setScale(Ogre::Vector3 scale);
+    void attach(Ogre::SceneNode* nodeWhereAttach);
     Ogre::SceneNode * getNode();
 protected:
 

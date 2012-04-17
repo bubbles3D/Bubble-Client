@@ -7,18 +7,18 @@
 #include "OgreEngine/playerHUDManagement.h"
 #include <OIS/OIS.h>
 
-class PlayerObject : public BubbleObject
+class MainPlayerObject : public BubbleObject
 {
 public:
-    PlayerObject(Ogre::SceneManager *mSceneMgr,Player p);
-    PlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color);
+    MainPlayerObject(Ogre::SceneManager *mSceneMgr,Player p);
+    MainPlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color);
     Ogre::String getPlayerCameraName();
     Ogre::Vector3 getPlayerDirection();
     void updateState(Player &p);
     PlayerHUDManagement * getHUD();
 
     void mouseMouved(const OIS::MouseEvent &arg);
-    virtual ~PlayerObject();
+    virtual ~MainPlayerObject();
 
 
 protected:

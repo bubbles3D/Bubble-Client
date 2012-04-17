@@ -78,7 +78,7 @@ void ObjectsManager::updatePlayersPositions(){
 
             if(bubble == player){
                 //If it's our player
-                ((PlayerObject*)bubble)->updateState(p);
+                ((MainPlayerObject*)bubble)->updateState(p);
             }else{
                 //If it's an other player
                bubble->updateState(p);
@@ -87,7 +87,7 @@ void ObjectsManager::updatePlayersPositions(){
             if(p.getName() == model->getName()){
                 qDebug()<<"NEW US"<<p.getName();
                 //If it's our player
-                player = new PlayerObject(sceneMgr, p);
+                player = new MainPlayerObject(sceneMgr, p);
                 bubble = player;
 
                 //Change mode view
@@ -102,7 +102,7 @@ void ObjectsManager::updatePlayersPositions(){
     }
 }
 
-PlayerObject * ObjectsManager::getPlayer(){
+MainPlayerObject * ObjectsManager::getPlayer(){
     return player;
 }
 

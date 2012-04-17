@@ -4,10 +4,11 @@
 #include "model.h"
 #include "OgreEngine/playerHUDManagement.h"
 #include "OgreEngine/bubbleObject.h"
-#include "OgreEngine/playerObject.h"
+#include "OgreEngine/mainPlayerObject.h"
 #include "OgreEngine/bulletobject.h"
 #include "OgreEngine/obstacleobject.h"
 #include "OgreEngine/environnement.h"
+#include "OgreEngine/flagObject.h"
 
 class ObjectsManager : public QObject
 {
@@ -33,14 +34,14 @@ public:
     void destroyObjects(QList<QString> objectsToRemove);
 
     // return a pointer on the player
-    PlayerObject * getPlayer();
+    MainPlayerObject * getPlayer();
 
     PlayerHUDManagement * getHUD();
 
 protected:
     Ogre::SceneManager * sceneMgr;
     QMap<QString,Object*> objects;
-    PlayerObject * player;
+    MainPlayerObject * player;
 
 signals:
     void changeModeEvent(MODE mode);

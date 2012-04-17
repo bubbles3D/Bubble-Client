@@ -51,3 +51,5 @@ void FlagObject::setColor(float r, float g, float b){
         canvas->setColor(canvasColor.r,canvasColor.g,canvasColor.b);
     }
 }
+
+

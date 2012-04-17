@@ -105,4 +105,14 @@ BubbleObject::~BubbleObject(){
     mSceneMgr->destroyEntity(rightEye);
 }
 
+void BubbleObject::setScale(float scale){
+    entityNode->setScale(scale/meshInitialSize,scale/meshInitialSize,scale/meshInitialSize);
+
+}
+
+void BubbleObject::setScale(Ogre::Vector3 scale){
+    entityNode->setScale(scale.x/meshInitialSize,scale.y/meshInitialSize,scale.z/meshInitialSize);
+
+}
+
 

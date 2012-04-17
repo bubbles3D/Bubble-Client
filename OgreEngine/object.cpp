@@ -38,6 +38,14 @@ void Object::setScale(Ogre::Vector3 scale){
 
 }
 
+void Object::attach(Ogre::SceneNode* nodeWhereAttach){
+    //Detach node
+    node->getParentSceneNode()->removeChild(node);
+
+    //Attach
+    nodeWhereAttach->addChild(node);
+}
+
 Object::~Object(){
     node->removeAndDestroyAllChildren();
 }

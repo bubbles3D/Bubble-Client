@@ -1,20 +1,20 @@
-#include "playerObject.h"
+#include "mainPlayerObject.h"
 #include <QString>
 
 
-PlayerObject::PlayerObject(Ogre::SceneManager *mSceneMgr,Player p):
+MainPlayerObject::MainPlayerObject(Ogre::SceneManager *mSceneMgr,Player p):
 BubbleObject(mSceneMgr,p)
 {
     createPlayer(p.getId());
 }
 
-PlayerObject::PlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color):
+MainPlayerObject::MainPlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color):
     BubbleObject(mSceneMgr, id, mside, position, directionToLookAt, size, color )
 {
     createPlayer(id);
 }
 
-void PlayerObject::createPlayer(QString id){
+void MainPlayerObject::createPlayer(QString id){
     //init camera
     playerCamera = mSceneMgr->createCamera(id.toStdString() + "_camera");
     mRotateSpeed = 0.15f;
@@ -28,16 +28,16 @@ void PlayerObject::createPlayer(QString id){
     hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
 }
 
-Ogre::String PlayerObject::getPlayerCameraName(){
+Ogre::String MainPlayerObject::getPlayerCameraName(){
     return playerCamera->getName();
 }
 
-Ogre::Vector3 PlayerObject::getPlayerDirection(){
+Ogre::Vector3 MainPlayerObject::getPlayerDirection(){
     return (targetNode->_getDerivedPosition() - node->_getDerivedPosition());//.x - node->_getDerivedPosition().x,targetNode->_getDerivedPosition().y - playerNode->_getDerivedPosition().y,playerTargetNode->_getDerivedPosition().z - playerNode->_getDerivedPosition().z)
 }
 
 
-void PlayerObject::mouseMouved(const OIS::MouseEvent &arg){
+void MainPlayerObject::mouseMouved(const OIS::MouseEvent &arg){
 
     yawNode->yaw(Ogre::Degree(-arg.state.X.rel * mRotateSpeed));
     pitchNode->needUpdate();
@@ -50,11 +50,11 @@ void PlayerObject::mouseMouved(const OIS::MouseEvent &arg){
     }
 }
 
-PlayerHUDManagement* PlayerObject::getHUD(){
+PlayerHUDManagement* MainPlayerObject::getHUD(){
     return hudMgt;
 }
 
-void PlayerObject::updateState(Player &p){
+void MainPlayerObject::updateState(Player &p){
     setBodyColor(p.r,p.g,p.b);
     // It's our player:
 
@@ -105,6 +105,6 @@ void PlayerObject::updateState(Player &p){
 
 }
 
-PlayerObject::~PlayerObject(){
+MainPlayerObject::~MainPlayerObject(){
     mSceneMgr->destroyCamera(playerCamera);
 }
