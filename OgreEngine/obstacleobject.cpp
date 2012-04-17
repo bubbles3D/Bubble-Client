@@ -26,12 +26,7 @@ void ObstacleObject::initObstacle(QString id, Ogre::Vector3 position, Ogre::Vect
     material->setDiffuse(Ogre::ColourValue(1,0,0,1));
 
     ((Ogre::SceneNode*)node)->attachObject(entity);
-    //Color is ignored right now
-    /*float r =1.0/(rand() % 5 + 1);
-    float g =1.0/(rand() % 5 + 1);
-    float b =1.0/(rand() % 5 + 1);
-    material->setDiffuse(r, g, b,0.5);
-    material->setAmbient(r, g, b);*/
+
     material->setDiffuse(color);
     material->setAmbient(color);
 

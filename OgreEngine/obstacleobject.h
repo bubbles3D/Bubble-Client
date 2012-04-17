@@ -13,6 +13,7 @@ public:
     virtual ~ObstacleObject();
     void updateState(Obstacles &p);
     Ogre::SceneNode * getNode();
+    void setColor(float x, float y, float z);
 
 protected:
     Ogre::MaterialPtr material;
@@ -20,7 +21,7 @@ protected:
     Ogre::ColourValue color;
 
     void initObstacle(QString id, Ogre::Vector3 position, Ogre::Vector3 objectSize, Ogre::ColourValue color);
-    void setColor(float x, float y, float z);
+
 };
 
 #endif // OBSTACLEOBJECT_H

@@ -16,7 +16,7 @@ void ObjectsManager::updatePositions(){
 
 void ObjectsManager::destroyObjects(QList<QString> objectsToRemove){
     foreach(QString s, objectsToRemove){
-        qDebug()<<"REMOVE:"<<objectsToRemove;
+        qDebug()<<"REMOVE:"<<s;
         delete(objects.value(s));
         objects.remove(s);
     }
@@ -34,7 +34,14 @@ void ObjectsManager::updateObstaclesStates(){
            obstacle =(ObstacleObject*) objects.value(p.getId());
            //obstacle->updateState(p);//SEE LATER
        }else{
+           //Color is ignored for now
+           float r =1.0/(rand() % 5 + 1);
+           float g =1.0/(rand() % 5 + 1);
+           float b =1.0/(rand() % 5 + 1);
+           //material->setDiffuse(r, g, b,0.5);
+           //material->setAmbient(r, g, b);
            obstacle = new ObstacleObject(sceneMgr, p);
+           obstacle->setColor(r,g,b);
            objects.insert(p.getId(), obstacle);
        }
    }

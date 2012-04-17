@@ -387,6 +387,8 @@ bool OgreApp::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
          setupViewport(mSceneMgr,mCamera->getName());
          objectMgr->getPlayer()->setVisible(true);
          break;
+      case(MENU):
+         break;
      }
  }
 

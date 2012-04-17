@@ -3,15 +3,15 @@
 Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real size, side mside ):
     textureName(texName)
 {
-    createFace(sceneManager, faceName, texName, size, size, mside );
+    createFace(sceneManager, faceName, size, size, mside );
 }
 Face::Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real width,Ogre::Real height, side mside ):
     textureName(texName)
 {
-    createFace(sceneManager, faceName, texName, width, height, mside );
+    createFace(sceneManager, faceName, width, height, mside );
 }
 
-void Face::createFace(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real width,Ogre::Real height, side mside)
+void Face::createFace(Ogre::SceneManager * sceneManager, QString faceName, Ogre::Real width,Ogre::Real height, side mside)
 {
     mSceneManager = sceneManager;
     mNode = mSceneManager->getRootSceneNode()->createChildSceneNode();

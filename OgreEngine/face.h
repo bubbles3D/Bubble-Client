@@ -10,7 +10,7 @@ public:
 
 Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real size, side mside );
 Face(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real width,Ogre::Real height, side mside );
-void createFace(Ogre::SceneManager * sceneManager, QString faceName, QString texName, Ogre::Real width,Ogre::Real height, side mside);
+void createFace(Ogre::SceneManager * sceneManager, QString faceName, Ogre::Real width,Ogre::Real height, side mside);
 void setSide(side sid);
 void setPosition(Ogre::Real x, Ogre::Real y, Ogre::Real z);
 void setDiffuse(Ogre::Real r, Ogre::Real g, Ogre::Real b, Ogre::Real a);
