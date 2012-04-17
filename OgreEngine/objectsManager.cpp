@@ -16,7 +16,6 @@ void ObjectsManager::updatePositions(){
 
 void ObjectsManager::destroyObjects(QList<QString> objectsToRemove){
     foreach(QString s, objectsToRemove){
-        qDebug()<<"REMOVE:"<<s;
         delete(objects.value(s));
         objects.remove(s);
     }

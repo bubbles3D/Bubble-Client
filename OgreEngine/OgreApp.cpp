@@ -85,10 +85,8 @@ void OgreApp::createScene(void)
     //Init mode
     mode = FREE;
 
-     qDebug()<<"BEFORE";
     //Set up the scene
     objectMgr->updateObstaclesStates();
-     qDebug()<<"BEFORE END";
 
     //TEST for random color
     /* initialize random seed: */
