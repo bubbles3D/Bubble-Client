@@ -8,18 +8,23 @@ SOURCES += \
     model.cpp \
     gameapp.cpp \
     actor.cpp \
-    OgreEngine/TutorialApplication.cpp \
     OgreEngine/OgreApp.cpp \
     OgreEngine/BaseApplication.cpp \
     bullet.cpp \
     appdialog.cpp \
     obstacles.cpp \
-    OgreEngine/objectUtils.cpp \
     OgreEngine/entityUtils.cpp \
     OgreEngine/face.cpp \
     OgreEngine/cube.cpp \
     OgreEngine/overlayUtils.cpp \
-    OgreEngine/playerHUDManagement.cpp
+    OgreEngine/playerHUDManagement.cpp \
+    OgreEngine/bubbleObject.cpp \
+    OgreEngine/playerObject.cpp \
+    OgreEngine/object.cpp \
+    OgreEngine/orientedObject.cpp \
+    OgreEngine/bulletobject.cpp \
+    OgreEngine/obstacleobject.cpp \
+    OgreEngine/objectsManager.cpp
 
 HEADERS += \
     networkclient.h \
@@ -37,19 +42,24 @@ HEADERS += \
     /usr/include/OIS/OIS.h \
     /usr/include/OIS/OISMouse.h \
     /usr/include/OIS/OISEvents.h \
-    OgreEngine/TutorialApplication.h \
     OgreEngine/OgreApp.h \
     OgreEngine/BaseApplication.h \
     bullet.h \
     appdialog.h \
     obstacles.h \
-    OgreEngine/objectUtils.h \
     OgreEngine/entityUtils.h \
     OgreEngine/face.h \
     OgreEngine/environnement.h \
     OgreEngine/cube.h \
     OgreEngine/overlayUtils.h \
-    OgreEngine/playerHUDManagement.h
+    OgreEngine/playerHUDManagement.h \
+    OgreEngine/bubbleObject.h \
+    OgreEngine/playerObject.h \
+    OgreEngine/object.h \
+    OgreEngine/orientedObject.h \
+    OgreEngine/bulletobject.h \
+    OgreEngine/obstacleobject.h \
+    OgreEngine/objectsManager.h
 
 
 

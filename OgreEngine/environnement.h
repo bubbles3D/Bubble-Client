@@ -5,4 +5,9 @@ enum side {
     BOTTOM=1, TOP=5, XSIDE=2, XSIDE_OP=4, ZSIDE=6, ZSIDE_OP=3
 };
 
+
+enum MODE {
+    FIRST,FREE, MENU
+};
+
 #endif // ENVIRONNEMENT_H

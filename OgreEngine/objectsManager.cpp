@@ -1,0 +1,113 @@
+#include "objectsManager.h"
+
+ObjectsManager::ObjectsManager(Ogre::SceneManager * msceneMgr):sceneMgr(msceneMgr)
+{
+
+}
+
+void ObjectsManager::updatePositions(){
+     Model * model = Model::getInstance();
+
+     updatePlayersPositions();
+     updateBulletsState();
+     //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
+     destroyObjects(model->getClearedActors());
+}
+
+void ObjectsManager::destroyObjects(QList<QString> objectsToRemove){
+    foreach(QString s, objectsToRemove){
+        qDebug()<<"REMOVE:"<<objectsToRemove;
+        delete(objects.value(s));
+        objects.remove(s);
+    }
+}
+
+void ObjectsManager::updateObstaclesStates(){
+   Model * model = Model::getInstance();
+   QList<Obstacles> obstacleList = model->getUpdatedObstacles();
+
+   //Update elements position
+   foreach(Obstacles p, obstacleList){
+       ObstacleObject * obstacle;
+       if (objects.contains(p.getId())){
+           //Obstacle exist
+           obstacle =(ObstacleObject*) objects.value(p.getId());
+           //obstacle->updateState(p);//SEE LATER
+       }else{
+           obstacle = new ObstacleObject(sceneMgr, p);
+           objects.insert(p.getId(), obstacle);
+       }
+   }
+}
+void ObjectsManager::updateBulletsState(){
+    Model * model = Model::getInstance();
+    QList<Bullet> bulletList = model->getUpdatedBullets();
+
+    //Update elements position
+
+    foreach(Bullet p, bulletList){
+        BulletObject * bullet;
+
+        if (objects.contains(p.getId())){
+            bullet =(BulletObject*) objects.value(p.getId());
+            bullet->updateState(p);
+        }else{
+            bullet = new BulletObject(sceneMgr, p);
+            objects.insert(p.getId(), bullet);
+        }
+    }
+}
+
+void ObjectsManager::updatePlayersPositions(){
+    Model * model = Model::getInstance();
+    QList<Player> playerList = model->getUpdatedPlayers();
+
+    //Update elements position
+    foreach(Player p, playerList){
+        BubbleObject * bubble;
+
+        if (objects.contains(p.getId())){
+            //Player exist
+            bubble = (BubbleObject*)objects.value(p.getId());
+
+            if(bubble == player){
+                //If it's our player
+                ((PlayerObject*)bubble)->updateState(p);
+            }else{
+                //If it's an other player
+               bubble->updateState(p);
+            }
+        }else{
+            if(p.getName() == model->getName()){
+                qDebug()<<"NEW US"<<p.getName();
+                //If it's our player
+                player = new PlayerObject(sceneMgr, p);
+                bubble = player;
+
+                //Change mode view
+                emit changeModeEvent(FIRST);
+            }else{
+                //If it's an other player
+                qDebug()<<"NEW OTHER "<<p.getName();
+               bubble = new BubbleObject(sceneMgr, (Actor) p);
+            }
+            objects.insert(p.getId(), bubble);
+        }
+    }
+}
+
+PlayerObject * ObjectsManager::getPlayer(){
+    return player;
+}
+
+PlayerHUDManagement * ObjectsManager::getHUD(){
+    return player->getHUD();
+}
+
+ObjectsManager::~ObjectsManager(){
+    Object* object;
+    foreach(object,objects){
+        delete(object);
+    }
+}
+

@@ -26,12 +26,10 @@ This source file is part of the
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/OgreRenderWindow.h>
 #include <OGRE/OgreConfigFile.h>
-
 #include <OIS/OISEvents.h>
 #include <OIS/OISInputManager.h>
 #include <OIS/OISKeyboard.h>
 #include <OIS/OISMouse.h>
-
 #include <OGRE/SdkTrays.h>
 #include <OGRE/SdkCameraMan.h>
 
