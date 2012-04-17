@@ -1,7 +1,7 @@
 #include "flagObject.h"
 
-FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, float size, QString name, Ogre::ColourValue color):
-OrientedObject(mSceneMgr, size, name)
+FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color):
+OrientedObject(mSceneMgr, 1, name)
 {
     initFlag( mSceneMgr, name, color);
 }
@@ -11,7 +11,7 @@ void FlagObject::initFlag(Ogre::SceneManager * mSceneMgr, QString name, Ogre::Co
     //Bubbles nodes creation
     entityNode = ((Ogre::SceneNode*)pitchNode)->createChildSceneNode(name.toStdString() + "_entity", Ogre::Vector3(0,0,0));
     poleNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(name.toStdString() +"_pole", Ogre::Vector3(0,50,0));
-    canvasNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(name.toStdString() +"_canvas", Ogre::Vector3(7,0.6,0));
+    canvasNode = ((Ogre::SceneNode*)entityNode)->createChildSceneNode(name.toStdString() +"_canvas", Ogre::Vector3(30,80,0));
 
     //Create entities
     pole = mSceneMgr->createEntity(name.toStdString() + "_pole", "mat.mesh");

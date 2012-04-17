@@ -22,6 +22,7 @@
 //#include "OgreEngine/obstacleobject.h"
 #include "OgreEngine/objectsManager.h"
 #include "OgreEngine/face.h"
+#include "OgreEngine/flagObject.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
