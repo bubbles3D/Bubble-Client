@@ -10,6 +10,7 @@ void ObjectsManager::updatePositions(){
 
      updatePlayersPositions();
      updateBulletsState();
+     updateObstaclesStates();
      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
      destroyObjects(model->getClearedActors());
 }
