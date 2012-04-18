@@ -4,6 +4,8 @@
 #include "overlayUtils.h"
 #include "model.h"
 #include <QString>
+#include <QList>
+#include <string>
 
 class PlayerHUDManagement{
 public:
@@ -48,9 +50,12 @@ protected:
 
     //Stats
     Ogre::Overlay* statsOverlay;
-    Ogre::OverlayElement * playersNamesContainer;
-    Ogre::OverlayElement * playersKillsContainer;
-    Ogre::OverlayElement * playersDeathsContainer;
+    //Ogre::OverlayElement * playersNamesContainer;//TO CHANGE
+    //Ogre::OverlayElement * playersKillsContainer;
+    //Ogre::OverlayElement * playersDeathsContainer;
+    Ogre::OverlayElement * playerContainer;
+    Ogre::OverlayContainer * statsPanel;
+    Ogre::OverlayContainer * playersStats;
 
     float convertLifeToSize(float lifeValue);
     float maxLife;

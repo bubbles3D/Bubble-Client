@@ -32,7 +32,7 @@ void ObjectsManager::updateObstaclesStates(){
        if (objects.contains(p.getId())){
            //Obstacle exist
            obstacle =(ObstacleObject*) objects.value(p.getId());
-           //obstacle->updateState(p);//SEE LATER
+           //obstacle->updateState(p);
        }else{
            //Color is ignored for now
            float r =1.0/(rand() % 5 + 1);

@@ -56,14 +56,18 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     //Stats
     statsOverlay = Ogre::OverlayManager::getSingleton().getByName("Stats/stats");
     if(statsOverlay){
-        playersNamesContainer = statsOverlay->getChild("statsPanel")->getChild("playersNames");
-        playersKillsContainer = statsOverlay->getChild("statsPanel")->getChild("playersKills");
-        playersDeathsContainer = statsOverlay->getChild("statsPanel")->getChild("playersDeaths");
+        statsPanel = statsOverlay->getChild("statsPanel");
+        //playersNamesContainer = statsOverlay->getChild("statsPanel")->getChild("playersNames");
+       // playersKillsContainer = statsOverlay->getChild("statsPanel")->getChild("playersKills");
+       // playersDeathsContainer = statsOverlay->getChild("statsPanel")->getChild("playersDeaths");
+        playersStats = (Ogre::OverlayContainer*) statsPanel->getChild("playersStats");
+        playerContainer = playersStats->getChild("playerStat");
+        playerContainer->hide();
+
     }else{
         //If we have not succed to retreive the life overlay
-        playersNamesContainer = 0;
-        playersKillsContainer = 0;
-        playersDeathsContainer = 0;
+        playersStats = 0;
+        playerContainer = 0;
         qDebug()<<"ERROR";
     }
 
@@ -159,20 +163,61 @@ void PlayerHUDManagement::setDeathValue(int nbDeath){
 }
 
 void PlayerHUDManagement::displayStats(){
-    Model * mod = Model::getInstance();
-    QString players = "";
-    QString kills = "";
-    QString deaths = "";
-    foreach(Player p, mod->getAllPlayers()){
-        players += p.getName() + "\n";
-        kills += QString::number(p.getKills()) + "\n";
-        deaths += QString::number(p.getDeaths())+ "\n";
+
+    //Clean old stats (to move in a new methode)
+    Ogre::OverlayContainer::ChildIterator ci = ((Ogre::OverlayContainer*)playersStats)->getChildIterator();
+    while (ci.hasMoreElements())
+    {
+        Ogre::OverlayElement* child = ci.getNext();
+        if((child->getName()).c_str() != playerContainer->getName()){
+            QString a = QString(((std::string)(child->getName())).c_str());
+            qDebug()<<(a);
+            ((Ogre::OverlayContainer*)playersStats)->removeChild(child->getName());
+
+            Ogre::OverlayContainer::ChildIterator cic = ((Ogre::OverlayContainer*)child)->getChildIterator();
+            while (cic.hasMoreElements())
+            {
+                Ogre::OverlayElement* lastChild = cic.getNext();
+                QString a = QString(((std::string)(lastChild->getName())).c_str());
+                qDebug()<<a;
+                Ogre::OverlayManager::getSingleton().destroyOverlayElement(lastChild->getName());
+            }
+
+            Ogre::OverlayManager::getSingleton().destroyOverlayElement(child);
+        }
     }
 
-    playersKillsContainer->setCaption(kills.toStdString());
-    playersDeathsContainer->setCaption(deaths.toStdString());
-    playersNamesContainer->setCaption(players.toStdString());
-    statsOverlay->show();
+    Model * mod = Model::getInstance();
+    QList<Player> players(mod->getAllPlayers());
+    int position = 0;
+    foreach(Player p, players){
+        QString kills = QString::number(p.getKills()) ;
+
+        // Create a player panel
+        Ogre::OverlayElement* panel= playerContainer->clone(p.getId().toStdString());
+        panel->setTop(playerContainer->getTop() + (playerContainer->getHeight())*position);
+        playersStats->addChild(panel);
+
+        //Fill the panel
+        Ogre::OverlayElement* playerNameArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerName");
+        playerNameArea->setCaption(p.getName().toStdString() );
+        Ogre::OverlayElement* playerDeathsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerDeaths");
+        playerDeathsArea->setCaption(kills.toStdString());
+        Ogre::OverlayElement* playerKillsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerKills");
+        playerKillsArea->setCaption(QString::number(p.getDeaths()).toStdString());
+
+        panel->show();
+
+        if(p.getName() == mod->getName()){
+            playerNameArea->setColour(Ogre::ColourValue::Red);
+            playerDeathsArea->setColour(Ogre::ColourValue::Red);
+            playerKillsArea->setColour(Ogre::ColourValue::Red);
+        }
+
+        position++;
+    }
+
+   statsOverlay->show();
 }
 
 void PlayerHUDManagement::hideStats(){
