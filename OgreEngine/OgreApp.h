@@ -24,7 +24,6 @@
 #include "OgreEngine/face.h"
 #include "OgreEngine/flagObject.h"
 
-
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #endif
 

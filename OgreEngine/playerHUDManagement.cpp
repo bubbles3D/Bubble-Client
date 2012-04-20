@@ -7,9 +7,10 @@ float PlayerHUDManagement::alphaBlood = 0;
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
 {
+
     lifeOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLifeName.toStdString());
     if(lifeOverlay){
-         lifeOverlay->show();
+         //lifeOverlay->show();
          lifeContainer = lifeOverlay->getChild("life");
 
     }else{
@@ -20,7 +21,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 
     lensOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLensName.toStdString());
     if(lensOverlay){
-         lensOverlay->show();
+         //lensOverlay->show();
     }else{
         //If we have not succed to retreive the life overlay
     }
@@ -43,7 +44,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     scoreOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/score");
     //qDebug()<<"SCORE: "<<(int)scoreOverlay;
     if(scoreOverlay){
-        scoreOverlay->show();
+        //scoreOverlay->show();
         killValueContainer = scoreOverlay->getChild("killValue");
         deathValueContainer = scoreOverlay->getChild("deathValue");
     }else{
@@ -57,9 +58,6 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     statsOverlay = Ogre::OverlayManager::getSingleton().getByName("Stats/stats");
     if(statsOverlay){
         statsPanel = statsOverlay->getChild("statsPanel");
-        //playersNamesContainer = statsOverlay->getChild("statsPanel")->getChild("playersNames");
-       // playersKillsContainer = statsOverlay->getChild("statsPanel")->getChild("playersKills");
-       // playersDeathsContainer = statsOverlay->getChild("statsPanel")->getChild("playersDeaths");
         playersStats = (Ogre::OverlayContainer*) statsPanel->getChild("playersStats");
         playerContainer = playersStats->getChild("playerStat");
         playerContainer->hide();
@@ -68,10 +66,29 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
         //If we have not succed to retreive the life overlay
         playersStats = 0;
         playerContainer = 0;
-        qDebug()<<"ERROR";
+        qDebug()<<"ERROR Stats Overlay missing";
     }
 
+    timeOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/time");
+    if(timeOverlay){
+        timeContainer = timeOverlay->getChild("RemainingTime");
+    }else{
+        //If we have not succed to retreive the life overlay
+        timeContainer = 0;
+        qDebug()<<"ERROR time Overlay missing";
+    }
 
+    flagOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/flag");
+    if(flagOverlay){
+        flagContainer = flagOverlay->getChild("flagIcone");
+    }else{
+        //If we have not succed to retreive the life overlay
+        flagContainer = 0;
+        qDebug()<<"ERROR flag Overlay missing";
+    }
+
+    setTime("0:00");
+    setGameMode(DM);
     /*
 //Dynamic creation example
     Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
@@ -108,6 +125,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
     updateBlood(timeSinceLastFrame);
+    //update time
 }
 
 void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
@@ -227,3 +245,33 @@ void PlayerHUDManagement::hideStats(){
 bool PlayerHUDManagement::statsAreVisible(){
     return statsOverlay->isVisible();
 }
+
+void PlayerHUDManagement::setGameMode(GAME_MODE mode){
+    if(gameMode != mode){
+        gameMode = mode;
+        switch(gameMode){
+        case DM:
+            break;
+        case TDM:
+            break;
+        case CTF:
+            //flagOverlay->show();
+            break;
+        }
+
+        //In all cases
+        lifeOverlay->show();
+        lensOverlay->show();
+        scoreOverlay->show();
+        timeOverlay->show();
+        //flagOverlay->show();
+    }
+}
+
+void PlayerHUDManagement::setTime(QString time){
+    timeContainer->setCaption(time.toStdString());
+}
+
+
+
+

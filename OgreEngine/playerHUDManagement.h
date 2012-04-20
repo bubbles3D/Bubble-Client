@@ -7,6 +7,10 @@
 #include <QList>
 #include <string>
 
+enum GAME_MODE {
+    DM,TDM, CTF
+};
+
 class PlayerHUDManagement{
 public:
     PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue = 40, float maxLifeSize = 200);
@@ -18,6 +22,8 @@ public:
     static void touched();
 
     void updateHUD(float timeSinceLastFrame);
+
+    void setGameMode(GAME_MODE mode);
 
     //Update scores
     void setKillsValue(int nbKill);
@@ -50,12 +56,19 @@ protected:
 
     //Stats
     Ogre::Overlay* statsOverlay;
-    //Ogre::OverlayElement * playersNamesContainer;//TO CHANGE
-    //Ogre::OverlayElement * playersKillsContainer;
-    //Ogre::OverlayElement * playersDeathsContainer;
     Ogre::OverlayElement * playerContainer;
     Ogre::OverlayContainer * statsPanel;
     Ogre::OverlayContainer * playersStats;
+
+    //life
+    Ogre::Overlay* timeOverlay;
+    Ogre::OverlayElement * timeContainer;
+
+    //flag FirstPerson/flag
+    Ogre::Overlay* flagOverlay;
+    Ogre::OverlayElement * flagContainer;
+
+    GAME_MODE gameMode;
 
     float convertLifeToSize(float lifeValue);
     float maxLife;
@@ -64,6 +77,7 @@ protected:
     void setAlphaBlood(float alpha);
     void updateBlood(float timeSinceLastFrame);
     void setLifeColor(Ogre::ColourValue lifeColor);
+    void setTime(QString time);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H

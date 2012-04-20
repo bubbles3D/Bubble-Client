@@ -125,3 +125,38 @@ FirstPerson/score
 		}
 }
 
+FirstPerson/time
+{
+  zorder 200
+	container TextArea(RemainingTime)
+	{
+		metrics_mode pixels
+		horz_align center
+		font_name    StarWars
+		char_height  30
+		space_width  7
+		vert_align top
+		top 15
+		left -40
+		caption 20:00
+		colour 0 0 0
+		
+	}
+}
+
+FirstPerson/flag
+{
+  zorder 200
+	container Panel(flag1)
+	{
+		metrics_mode pixels
+		material     flagIcone
+		width 50
+		height 50
+		horz_align center
+		vert_align top
+		left -50
+		top 5
+	}
+}
+

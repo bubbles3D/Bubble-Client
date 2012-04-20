@@ -26,19 +26,6 @@ Stats/stats
 			caption Players:
 		}
 		
-		container TextArea(playersNames)
-		{	
-			left         30
-		  top          70
-		  metrics_mode pixels
-		  font_name    StarWars
-		  char_height  20
-		  space_width  4
-		  colour 0 0 0
-			alignment left
-			caption None
-		}
-		
 		container TextArea(playersKillsLabel)
 		{	
 			left         300
@@ -52,44 +39,83 @@ Stats/stats
 			caption Kills:
 		}
 		
-		container TextArea(playersKills)
-		{	
-			left         400
-		  top          70
-		  metrics_mode pixels
-		  font_name    StarWars
-		  char_height  20
-		  space_width  4
-		  colour 0 0 0
-			alignment right
-			caption None
-		}
-		
 		container TextArea(playersDeathsLabel)
 		{	
 			left         450
-		  top          30
-		  metrics_mode pixels
-		  font_name    StarWars
-		  char_height  30
-		  space_width  7
-		  colour 0 0 0
+			top          30
+			metrics_mode pixels
+			font_name    StarWars
+			char_height  30
+			space_width  7
+			colour 0 0 0
 			alignment left
 			caption Deaths:
 		}
 		
-		container TextArea(playersDeaths)
-		{	
-			left         595
-		  top          70
-		  metrics_mode pixels
-		  font_name    StarWars
-		  char_height  20
-		  space_width  4
-		  colour 0 0 0
-			alignment right
-			caption None
+		container Panel(playersStats)
+		{
+			metrics_mode pixels
+			width 650
+			height 300
+			horz_align center
+			vert_align top
+			left -325
+			top 60
+				
+			container Panel(playerStat)
+			{
+				metrics_mode pixels
+				width 650
+				height 35
+				horz_align center
+				vert_align top
+				left -325
+				top 0
+	
+				container TextArea(playerName)
+				{	
+					left         8
+					vert_align center
+					top -10
+					metrics_mode pixels
+					font_name    StarWars
+					char_height  20
+					space_width  4
+					colour 0 0 0
+					alignment left
+					caption None
+				}
+	
+				container TextArea(playerKills)
+				{	
+					left         370
+					vert_align center
+					top -10
+					metrics_mode pixels
+					font_name    StarWars
+					char_height  20
+					space_width  4
+					colour 0 0 0
+					alignment right
+					caption None
+				}
+
+				container TextArea(playerDeaths)
+				{	
+					left         565
+					vert_align center
+					top -10
+					metrics_mode pixels
+					font_name    StarWars
+					char_height  20
+					space_width  4
+					colour 0 0 0
+					alignment right
+					caption None
+				}
+			}
 		}
+		
 	}
-}
+}	
 
