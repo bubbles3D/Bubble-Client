@@ -147,16 +147,48 @@ FirstPerson/time
 FirstPerson/flag
 {
   zorder 200
-	container Panel(flagIcone)
-	{
-		metrics_mode pixels
-		material     flagIcone
-		width 50
-		height 50
-		horz_align center
+  container Panel(flags)
+  {
+  	metrics_mode pixels
+		width 600
+		height 200
+		horz_align left
 		vert_align top
-		left -50
+		left 15
 		top 5
-	}
+		
+		container Panel(flag)
+  	{
+  	metrics_mode pixels
+  		width 95
+  		left 0
+  		
+			container Panel(flagIcone)
+			{
+				metrics_mode pixels
+				material     flagIcone
+				width 50
+				height 50
+				horz_align left
+				vert_align top
+				left 5
+				top 5
+			}
+			container TextArea(nbFlag)
+			{
+				metrics_mode pixels
+				horz_align left
+				vert_align top
+				font_name    StarWars
+				char_height  30
+				space_width  7
+				top 15
+				left 65
+				caption 2
+				colour 0 0 0
+		
+			}
+		}
+  }
 }
 

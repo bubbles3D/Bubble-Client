@@ -32,7 +32,7 @@ public:
     void displayStats();
     void hideStats();
     bool statsAreVisible();
-
+    void addFlag(QString id,Ogre::ColourValue flagColor, int score, int position);
 
 protected:
     static float alphaBlood;
@@ -79,7 +79,7 @@ protected:
     void updateBlood(float timeSinceLastFrame);
     void setLifeColor(Ogre::ColourValue lifeColor);
     void setTime(QString time);
-    void setFlagColor(Ogre::ColourValue flagColor);
+    void setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::ColourValue flagColor);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H
