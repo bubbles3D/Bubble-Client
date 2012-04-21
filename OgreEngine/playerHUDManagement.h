@@ -66,7 +66,8 @@ protected:
 
     //flag FirstPerson/flag
     Ogre::Overlay* flagOverlay;
-    Ogre::OverlayElement * flagContainer;
+    Ogre::OverlayContainer * flagsPanel;
+    Ogre::OverlayContainer * flagPanel;
 
     GAME_MODE gameMode;
 

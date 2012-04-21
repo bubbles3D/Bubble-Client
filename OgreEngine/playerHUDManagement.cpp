@@ -61,6 +61,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
         playersStats = (Ogre::OverlayContainer*) statsPanel->getChild("playersStats");
         playerContainer = playersStats->getChild("playerStat");
         playerContainer->hide();
+        ((Ogre::OverlayContainer*)playersStats)->removeChild(playerContainer->getName());
 
     }else{
         //If we have not succed to retreive the life overlay
@@ -80,10 +81,13 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 
     flagOverlay = Ogre::OverlayManager::getSingleton().getByName("FirstPerson/flag");
     if(flagOverlay){
-        flagContainer = flagOverlay->getChild("flagIcone");
+        flagsPanel =  flagOverlay->getChild("flags");
+        flagPanel =  (Ogre::OverlayContainer*)flagsPanel->getChild("flag");
+
     }else{
         //If we have not succed to retreive the flag overlay
-        flagContainer = 0;
+        flagsPanel = 0;
+        flagPanel = 0;
         qDebug()<<"ERROR flag Overlay missing";
     }
 
@@ -181,30 +185,11 @@ void PlayerHUDManagement::setDeathValue(int nbDeath){
     deathValueContainer->setCaption(Ogre::StringConverter::toString(nbDeath));
 }
 
+
 void PlayerHUDManagement::displayStats(){
 
     //Clean old stats (to move in a new methode)
-    Ogre::OverlayContainer::ChildIterator ci = ((Ogre::OverlayContainer*)playersStats)->getChildIterator();
-    while (ci.hasMoreElements())
-    {
-        Ogre::OverlayElement* child = ci.getNext();
-        if((child->getName()).c_str() != playerContainer->getName()){
-            QString a = QString(((std::string)(child->getName())).c_str());
-            qDebug()<<(a);
-            ((Ogre::OverlayContainer*)playersStats)->removeChild(child->getName());
-
-            Ogre::OverlayContainer::ChildIterator cic = ((Ogre::OverlayContainer*)child)->getChildIterator();
-            while (cic.hasMoreElements())
-            {
-                Ogre::OverlayElement* lastChild = cic.getNext();
-                QString a = QString(((std::string)(lastChild->getName())).c_str());
-                qDebug()<<a;
-                Ogre::OverlayManager::getSingleton().destroyOverlayElement(lastChild->getName());
-            }
-
-            Ogre::OverlayManager::getSingleton().destroyOverlayElement(child);
-        }
-    }
+    OverlayUtils::destroyAllOverlayContainerChildren(playersStats);
 
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getAllPlayers());
@@ -265,9 +250,9 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         lensOverlay->show();
         scoreOverlay->show();
         timeOverlay->show();
-        //flagOverlay->show();
+        flagOverlay->show();
 
-        //setFlagColor(Ogre::ColourValue::Red);
+        setFlagColor(Ogre::ColourValue::Red);
     }
 }
 
@@ -276,7 +261,10 @@ void PlayerHUDManagement::setTime(QString time){
 }
 
 void PlayerHUDManagement::setFlagColor(Ogre::ColourValue flagColor){
-    Ogre::TextureUnitState * flagTex = flagContainer->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
+    Ogre::OverlayElement * flagIcone = flagPanel->getChild("flagIcone");
+
+    Ogre::TextureUnitState * flagTex = flagIcone->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
+
     flagTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,flagColor);
 }
 
