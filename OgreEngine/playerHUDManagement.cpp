@@ -186,12 +186,22 @@ void PlayerHUDManagement::setKillsValue(int nbKill){
 void PlayerHUDManagement::setDeathValue(int nbDeath){
     deathValueContainer->setCaption(Ogre::StringConverter::toString(nbDeath));
 }
+void PlayerHUDManagement::cleanStats(Ogre::OverlayContainer* node){
 
+    OverlayUtils::destroyAllOverlayContainerChildren(node);
 
-void PlayerHUDManagement::displayStats(){
+    Ogre::OverlayContainer::ChildIterator ci = ((Ogre::OverlayContainer*)node)->getChildIterator();
+    while (ci.hasMoreElements())
+    {
+        Ogre::OverlayElement* child = ci.getNext();
+        Ogre::MaterialManager::getSingleton().remove((Ogre::ResourcePtr&)(child->getMaterial()));
+    }
+}
+
+void PlayerHUDManagement::displayDMStats(){
 
     //Clean old stats (to move in a new methode)
-    OverlayUtils::destroyAllOverlayContainerChildren(playersStats);
+    cleanStats(playersStats);
 
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getAllPlayers());
@@ -230,6 +240,75 @@ void PlayerHUDManagement::displayStats(){
    statsOverlay->show();
 }
 
+void PlayerHUDManagement::displayCTFStats(){
+    //Clean old stats (to move in a new methode)
+    cleanStats(playersStats);
+
+
+    Model * mod = Model::getInstance();
+    QList<Player> players(mod->getAllPlayers());
+
+    qSort(players.begin(),players.end(),playersLessThan);
+
+    int position = 0;
+    foreach(Player p, players){
+        QString kills = QString::number(p.getKills()) ;
+        QString deaths = QString::number(p.getDeaths()) ;
+
+        // Create a player panel
+        Ogre::OverlayElement* panel= playerContainer->clone(p.getId().toStdString());
+        panel->setTop(playerContainer->getTop() + (playerContainer->getHeight())*position);
+        playersStats->addChild(panel);
+
+        //Fill the panel
+        Ogre::OverlayElement* playerNameArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerName");
+        playerNameArea->setCaption(p.getName().toStdString() );
+        Ogre::OverlayElement* playerDeathsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerDeaths");
+        playerDeathsArea->setCaption(deaths.toStdString());
+        Ogre::OverlayElement* playerKillsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerKills");
+        playerKillsArea->setCaption(kills.toStdString());
+        Ogre::ColourValue color;
+        p.getColor(&(color.r),&(color.g),&(color.b));
+
+
+        Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().getByName("PlayerPanel");
+        mat->clone(p.getId().toStdString() + "_stat_mat");
+
+        panel->setMaterialName(p.getId().toStdString() + "_stat_mat");
+
+        Ogre::TextureUnitState * panelTex = panel->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
+        panelTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,color);
+        panel->show();
+
+        if(p.getName() == mod->getName()){
+            playerNameArea->setColour(Ogre::ColourValue::Red);
+            playerDeathsArea->setColour(Ogre::ColourValue::Red);
+            playerKillsArea->setColour(Ogre::ColourValue::Red);
+        }
+
+        position++;
+    }
+
+   statsOverlay->show();
+}
+
+void PlayerHUDManagement::displayStats(){
+
+    switch(gameMode){
+    case DM:
+        //displayDMStats();
+        displayCTFStats();
+        break;
+    case TDM:
+        break;
+    case CTF:
+        displayCTFStats();
+        break;
+    case NO_MODE:
+        break;
+    }
+}
+
 void PlayerHUDManagement::hideStats(){
     statsOverlay->hide();
 }
@@ -264,6 +343,7 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         //setFlagScore("rreeff2",42);
 
         //flagOverlay->show();
+
     }
 }
 

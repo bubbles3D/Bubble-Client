@@ -84,6 +84,9 @@ protected:
     void setLifeColor(Ogre::ColourValue lifeColor);
     void setTime(QString time);
     void setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::ColourValue flagColor);
+    void displayDMStats();
+    void displayCTFStats();
+    void cleanStats(Ogre::OverlayContainer* node);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H
