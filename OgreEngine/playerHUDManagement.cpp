@@ -3,6 +3,7 @@
 #include <OGRE/OgreTextAreaOverlayElement.h>
 
 float PlayerHUDManagement::alphaBlood = 0;
+bool playersLessThan(Player &s1, Player &s2);
 
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
@@ -194,9 +195,13 @@ void PlayerHUDManagement::displayStats(){
 
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getAllPlayers());
+
+    qSort(players.begin(),players.end(),playersLessThan);
+
     int position = 0;
     foreach(Player p, players){
         QString kills = QString::number(p.getKills()) ;
+        QString deaths = QString::number(p.getDeaths()) ;
 
         // Create a player panel
         Ogre::OverlayElement* panel= playerContainer->clone(p.getId().toStdString());
@@ -207,9 +212,9 @@ void PlayerHUDManagement::displayStats(){
         Ogre::OverlayElement* playerNameArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerName");
         playerNameArea->setCaption(p.getName().toStdString() );
         Ogre::OverlayElement* playerDeathsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerDeaths");
-        playerDeathsArea->setCaption(kills.toStdString());
+        playerDeathsArea->setCaption(deaths.toStdString());
         Ogre::OverlayElement* playerKillsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerKills");
-        playerKillsArea->setCaption(QString::number(p.getDeaths()).toStdString());
+        playerKillsArea->setCaption(kills.toStdString());
 
         panel->show();
 
@@ -319,6 +324,18 @@ void PlayerHUDManagement::addFlag(QString id,Ogre::ColourValue flagColor, int sc
 
     panel->show();
 
+}
+
+bool playersLessThan(Player &s1, Player &s2)
+{
+    bool returnValue;
+    if(s1.getKills() == s2.getKills()){
+        returnValue = s1.getDeaths() < s2.getDeaths();
+    }else{
+        returnValue = s1.getKills() > s2.getKills();
+    }
+
+    return returnValue;
 }
 
 
