@@ -256,6 +256,8 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         //addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
         //addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
         //addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
+        //setFlagScore("rreeff2",42);
+
         //flagOverlay->show();
     }
 }
@@ -275,6 +277,27 @@ void PlayerHUDManagement::setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::C
 void PlayerHUDManagement::setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb){
     Ogre::OverlayElement* nbFlagArea = ((Ogre::OverlayContainer*)flagPan)->getChild( flagPan->getName() + "/nbFlag");
     nbFlagArea->setCaption(QString::number(flagnb).toStdString());
+}
+
+void PlayerHUDManagement::setFlagScore(QString id, int flagnb){
+    Ogre::OverlayContainer* flagPan = (Ogre::OverlayContainer*)((Ogre::OverlayContainer*)flagsPanel)->getChild(id.toStdString() + "/flag");
+    setFlagScore(flagPan, flagnb);
+}
+
+void PlayerHUDManagement::cleanFlags(){
+
+    Ogre::OverlayContainer::ChildIterator ci = ((Ogre::OverlayContainer*)flagsPanel)->getChildIterator();
+
+    while (ci.hasMoreElements())
+    {
+        Ogre::OverlayElement* child = ci.getNext();
+        //QString a = QString(((std::basic_string<char>)  child->getName()).c_str());
+
+        //qDebug()<<"3:"<<a;
+        Ogre::OverlayElement * flagIcone = ((Ogre::OverlayContainer*)child)->getChild(child->getName() + "/icone");
+        Ogre::MaterialManager::getSingleton().remove(flagIcone->getMaterial().getPointer()->getName());
+    }
+    OverlayUtils::destroyAllOverlayContainerChildren((Ogre::OverlayContainer*)flagsPanel);
 }
 
 void PlayerHUDManagement::addFlag(QString id,Ogre::ColourValue flagColor, int score, int position){

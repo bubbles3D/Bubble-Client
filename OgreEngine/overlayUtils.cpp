@@ -19,14 +19,16 @@ void OverlayUtils::setScaleKeepingCenter(Ogre::OverlayContainer * container, flo
      }
  }
 
-void OverlayUtils::destroyAllOverlayContainerChildren(Ogre::OverlayContainer* node){
-    //Clean old stats (to move in a new methode)
+void OverlayUtils::destroyAllOverlayContainerChildren(Ogre::OverlayContainer* node){//On 2 lvls
+    //
+    qDebug()<<"(a)";
     Ogre::OverlayContainer::ChildIterator ci = ((Ogre::OverlayContainer*)node)->getChildIterator();
     while (ci.hasMoreElements())
     {
         Ogre::OverlayElement* child = ci.getNext();
-            QString a = QString(((std::string)(child->getName())).c_str());
-            qDebug()<<(a);
+        qDebug()<<"(b)";
+            QString b = QString(((std::string)(child->getName())).c_str());
+            qDebug()<<"ttt"<<(b);
             ((Ogre::OverlayContainer*)node)->removeChild(child->getName());
 
             Ogre::OverlayContainer::ChildIterator cic = ((Ogre::OverlayContainer*)child)->getChildIterator();

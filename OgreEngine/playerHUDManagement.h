@@ -35,6 +35,8 @@ public:
     void addFlag(QString id,Ogre::ColourValue flagColor, int score, int position);
     void setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb);
 
+    void setFlagScore(QString id, int flagnb);
+    void cleanFlags();
 protected:
     static float alphaBlood;
     static PlayerHUDManagement * instance;
@@ -69,6 +71,7 @@ protected:
     Ogre::Overlay* flagOverlay;
     Ogre::OverlayContainer * flagsPanel;
     Ogre::OverlayContainer * flagPanel;
+
 
     GAME_MODE gameMode;
 
