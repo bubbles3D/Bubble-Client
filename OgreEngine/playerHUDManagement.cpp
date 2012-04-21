@@ -254,8 +254,8 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         scoreOverlay->show();
         timeOverlay->show();
         //addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
-        //addFlag("rreeff2",Ogre::ColourValue::Red,1,0);
-        //addFlag("rreeff3",Ogre::ColourValue::Green,3,0);
+        //addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
+        //addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
         //flagOverlay->show();
     }
 }
@@ -265,11 +265,16 @@ void PlayerHUDManagement::setTime(QString time){
 }
 
 void PlayerHUDManagement::setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::ColourValue flagColor){
-    Ogre::OverlayElement * flagIcone = flagPan->getChild(flagPan->getName() + "Icone");//Hack
+    Ogre::OverlayElement * flagIcone = flagPan->getChild(flagPan->getName() + "/icone");
 
     Ogre::TextureUnitState * flagTex = flagIcone->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
 
     flagTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,flagColor);
+}
+
+void PlayerHUDManagement::setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb){
+    Ogre::OverlayElement* nbFlagArea = ((Ogre::OverlayContainer*)flagPan)->getChild( flagPan->getName() + "/nbFlag");
+    nbFlagArea->setCaption(QString::number(flagnb).toStdString());
 }
 
 void PlayerHUDManagement::addFlag(QString id,Ogre::ColourValue flagColor, int score, int position){
@@ -279,11 +284,11 @@ void PlayerHUDManagement::addFlag(QString id,Ogre::ColourValue flagColor, int sc
     flagsPanel->addChild(panel);
 
     //update the panel
-    Ogre::OverlayElement* nbFlagArea = ((Ogre::OverlayContainer*)panel)->getChild( id.toStdString() + "/nbFlag");
+    Ogre::OverlayElement* nbFlagArea = ((Ogre::OverlayContainer*)panel)->getChild( panel->getName() + "/nbFlag");
     nbFlagArea->setCaption(QString::number(score).toStdString());
 
     //Create the material
-    Ogre::OverlayElement * flagIcone = panel->getChild(panel->getName() + "Icone");
+    Ogre::OverlayElement * flagIcone = panel->getChild(panel->getName() + "/icone");
 
     flagIcone->getMaterial().getPointer()->clone(id.toStdString()+"_flag_mat");
     flagIcone->setMaterialName(id.toStdString()+"_flag_mat");

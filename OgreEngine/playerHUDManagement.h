@@ -33,6 +33,7 @@ public:
     void hideStats();
     bool statsAreVisible();
     void addFlag(QString id,Ogre::ColourValue flagColor, int score, int position);
+    void setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb);
 
 protected:
     static float alphaBlood;

@@ -163,7 +163,7 @@ FirstPerson/flag
   		width 95
   		left 0
   		
-			container Panel(flagIcone)
+			container Panel(flag/icone)
 			{
 				metrics_mode pixels
 				material     flagIcone
@@ -174,7 +174,7 @@ FirstPerson/flag
 				left 5
 				top 5
 			}
-			container TextArea(nbFlag)
+			container TextArea(flag/nbFlag)
 			{
 				metrics_mode pixels
 				horz_align left
