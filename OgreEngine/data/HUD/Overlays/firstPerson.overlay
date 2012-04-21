@@ -147,7 +147,7 @@ FirstPerson/time
 FirstPerson/flag
 {
   zorder 200
-	container Panel(flag1)
+	container Panel(flagIcone)
 	{
 		metrics_mode pixels
 		material     flagIcone

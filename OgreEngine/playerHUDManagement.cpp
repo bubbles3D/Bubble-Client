@@ -82,11 +82,12 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     if(flagOverlay){
         flagContainer = flagOverlay->getChild("flagIcone");
     }else{
-        //If we have not succed to retreive the life overlay
+        //If we have not succed to retreive the flag overlay
         flagContainer = 0;
         qDebug()<<"ERROR flag Overlay missing";
     }
 
+    gameMode = NO_MODE;
     setTime("0:00");
     setGameMode(DM);
     /*
@@ -265,6 +266,8 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         scoreOverlay->show();
         timeOverlay->show();
         //flagOverlay->show();
+
+        //setFlagColor(Ogre::ColourValue::Red);
     }
 }
 
@@ -272,6 +275,10 @@ void PlayerHUDManagement::setTime(QString time){
     timeContainer->setCaption(time.toStdString());
 }
 
+void PlayerHUDManagement::setFlagColor(Ogre::ColourValue flagColor){
+    Ogre::TextureUnitState * flagTex = flagContainer->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
+    flagTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,flagColor);
+}
 
 
 

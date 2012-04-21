@@ -8,7 +8,7 @@
 #include <string>
 
 enum GAME_MODE {
-    DM,TDM, CTF
+    NO_MODE,DM,TDM, CTF
 };
 
 class PlayerHUDManagement{
@@ -78,6 +78,7 @@ protected:
     void updateBlood(float timeSinceLastFrame);
     void setLifeColor(Ogre::ColourValue lifeColor);
     void setTime(QString time);
+    void setFlagColor(Ogre::ColourValue flagColor);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H
