@@ -153,9 +153,15 @@ void ObjectsManager::attachFlagToPlayer(QString idFlag, QString idPlayer){
 }
 
 void ObjectsManager::detachFlagFromPlayer(QString idPlayer){
+
     BubbleObject* player = (BubbleObject*)objects[idPlayer];
-    player->getFlag()->attach(sceneMgr->getRootSceneNode());
-    player->removeFlag();
+    if(player->getFlag() != 0){
+        player->getFlag()->attach(sceneMgr->getRootSceneNode());
+        player->removeFlag();
+    }else{
+        qDebug()<<"ERROR: detaching flag";
+    }
+
 }
 
 ObjectsManager::~ObjectsManager(){
