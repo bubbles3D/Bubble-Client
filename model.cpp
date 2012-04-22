@@ -98,19 +98,24 @@ void Model::setUpdatedPlayers(QString json)
             life = obj.toMap()["life"].toInt();
         }
 
+        updatePlayer(obj);
+
         //If a player is to be set a flag
-        if (obj.toMap().contains("flag") && players[obj.toMap()["id"].toString()] == 0)
+        if (obj.toMap().contains("flag") &&
+                players.value(obj.toMap()["id"].toString())->flag == 0 &&
+                obj.toMap()["flag"].toString() != "0")
         {
+            qDebug() << obj.toMap();
             ObjectsManager::attachFlagToPlayer(obj.toMap()["id"].toString(), obj.toMap()["flag"].toString());
         }
 
         //Remove a flag
-        if (obj.toMap().contains("flag") && players[obj.toMap()["id"].toString()] != 0)
+        if (obj.toMap().contains("flag") &&
+                players.value(obj.toMap()["id"].toString())->flag != 0 &&
+                obj.toMap()["flag"].toString() != "0")
         {
             ObjectsManager::detachFlagFromPlayer(obj.toMap()["id"].toString());
         }
-
-        updatePlayer(obj);
     }
 }
 
