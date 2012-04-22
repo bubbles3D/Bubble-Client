@@ -18,6 +18,10 @@ public:
     virtual void updateState(Player &p);
     virtual void setScale(float scale);
     virtual void setScale(Ogre::Vector3 scale);
+    virtual Ogre::Vector3 getScale();
+    void setFlag(FlagObject * flag);
+    FlagObject * getFlag();
+    void removeFlag();
 
 protected:
     //All node used in a bubble
@@ -42,6 +46,8 @@ protected:
 
     FlagObject *flag;
     void initBubble(QString name,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 objectSize, Ogre::ColourValue color);
+
+    //TO DELETE
     void updateFlag(bool hasFlag);
 };
 
