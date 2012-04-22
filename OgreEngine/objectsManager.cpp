@@ -14,6 +14,7 @@ void ObjectsManager::updatePositions(){
      updatePlayersPositions();
      updateBulletsState();
      updateObstaclesStates();
+     updateflagsState();
      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
      destroyObjects(model->getClearedActors());
 }
@@ -119,7 +120,7 @@ void ObjectsManager::updateflagsState(){
 
     foreach(Flag p, flagList){
         FlagObject * flag;
-
+//qDebug()<<"Update flag";
         if (objects.contains(p.getId())){
             flag =(FlagObject*) objects.value(p.getId());
             flag->updateState(p);
