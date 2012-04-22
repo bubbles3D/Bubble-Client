@@ -110,6 +110,27 @@ void ObjectsManager::updatePlayersPositions(){
     }
 }
 
+void ObjectsManager::updateflagsState(){
+    /*
+    Model * model = Model::getInstance();
+    QList<Flag> flagList = model->getUpdatedBullets();
+
+    //Update elements position
+
+    foreach(Flag p, flagList){
+        FlagObject * flag;
+
+        if (objects.contains(p.getId())){
+            flag =(FlagObject*) objects.value(p.getId());
+            flag->updateState(p);
+        }else{
+            flag = new FlagObject(sceneMgr, p);
+            objects.insert(p.getId(), flag);
+        }
+    }
+*/
+}
+
 MainPlayerObject * ObjectsManager::getPlayer(){
     return player;
 }

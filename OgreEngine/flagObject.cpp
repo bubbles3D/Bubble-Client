@@ -5,6 +5,15 @@ OrientedObject(mSceneMgr, 1, name)
 {
     initFlag( mSceneMgr, name, color);
 }
+
+FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, Actor p):
+OrientedObject(mSceneMgr, 1, p.getId())
+{
+    Ogre::ColourValue mcolor;
+    p.getColor(&(mcolor.r),&(mcolor.g),&(mcolor.b));
+    initFlag( mSceneMgr, p.getId(), mcolor);
+}
+
 void FlagObject::initFlag(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color){
 
 
