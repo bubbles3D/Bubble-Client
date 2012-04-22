@@ -13,6 +13,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "obstacles.h"
+#include "flag.h"
 
 class Model: public QObject
 {
@@ -41,6 +42,12 @@ public:
     QList<Obstacles> getUpdatedObstacles();
     void updateObstacle(QVariant data);
 
+    //Flags
+    void addUpdatedFlag(Flag);
+    void setUpdatedFlags(QString json);
+    QList<Flag> getUpdatedFlags();
+    void updateFlag(QVariant data);
+
     void setName(QString n);
     QString getName();
     void setColor(QColor c);
@@ -68,6 +75,7 @@ private:
     QMap<QString, Player*> players;
     QMap<QString, Bullet*> bullets;
     QMap<QString, Obstacles*> obstacles;
+    QMap<QString, Flag*> flags;
     QString name;
     QSet<QString> toClear;
     QColor color;
