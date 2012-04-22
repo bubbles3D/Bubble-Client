@@ -102,6 +102,7 @@ void NetworkClient::processIncommingData()
 
             m->setUpdatedPlayers(toProcess[i]);
             m->setUpdatedBullets(toProcess[i]);
+            m->setUpdatedFlags(toProcess[i]);
             m->setToClear(toProcess[i]);
         }
 
