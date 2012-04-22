@@ -17,3 +17,22 @@ material bluePanel
       }
    }
 }
+
+material PlayerPanel 
+{
+    technique
+   {
+      pass
+      {
+      	lighting off
+         scene_blend alpha_blend
+         depth_check off
+         alpha_rejection 255
+         texture_unit
+         {
+            texture      horizPanel.png
+            
+         }
+      }
+   }
+}
