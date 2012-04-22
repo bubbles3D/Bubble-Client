@@ -38,7 +38,7 @@ public:
     MainPlayerObject * getPlayer();
 
     static void attachFlagToPlayer(QString idFlag, QString idPlayer);
-    static void detachFlagToPlayer(QString idPlayer);
+    static void detachFlagFromPlayer(QString idPlayer);
 
     PlayerHUDManagement * getHUD();
 
