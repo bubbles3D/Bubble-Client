@@ -22,7 +22,7 @@ public:
     void update(QVariantMap map);
 
     int life, deaths, kills;
-    int flag;
+    int team, flag;
     QString name;
 
 };
