@@ -97,9 +97,9 @@ void BubbleObject::updateState(Actor &p){
 
 void BubbleObject::updateState(Player &p){
     updateState((Actor&) p);
-    //updateFlag(p.flag);
 
 }
+
 //TO DELETE
 void BubbleObject::updateFlag(bool){
 
@@ -130,10 +130,6 @@ BubbleObject::~BubbleObject(){
     mSceneMgr->destroyEntity(leftEye);
     mSceneMgr->destroyEntity(rightEye);
 
-    //clean flag if needed
-    if(flag!=0){
-        delete(flag);
-    }
 }
 
 void BubbleObject::setScale(float scale){
