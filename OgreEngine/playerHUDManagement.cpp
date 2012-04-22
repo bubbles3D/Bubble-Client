@@ -199,49 +199,6 @@ void PlayerHUDManagement::cleanStats(Ogre::OverlayContainer* node){
 }
 
 void PlayerHUDManagement::displayDMStats(){
-
-    //Clean old stats (to move in a new methode)
-    cleanStats(playersStats);
-
-    Model * mod = Model::getInstance();
-    QList<Player> players(mod->getAllPlayers());
-
-    qSort(players.begin(),players.end(),playersLessThan);
-
-    int position = 0;
-    foreach(Player p, players){
-        QString kills = QString::number(p.getKills()) ;
-        QString deaths = QString::number(p.getDeaths()) ;
-
-        // Create a player panel
-        Ogre::OverlayElement* panel= playerContainer->clone(p.getId().toStdString());
-        panel->setTop(playerContainer->getTop() + (playerContainer->getHeight())*position);
-        playersStats->addChild(panel);
-
-        //Fill the panel
-        Ogre::OverlayElement* playerNameArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerName");
-        playerNameArea->setCaption(p.getName().toStdString() );
-        Ogre::OverlayElement* playerDeathsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerDeaths");
-        playerDeathsArea->setCaption(deaths.toStdString());
-        Ogre::OverlayElement* playerKillsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerKills");
-        playerKillsArea->setCaption(kills.toStdString());
-
-        panel->show();
-
-        if(p.getName() == mod->getName()){
-            playerNameArea->setColour(Ogre::ColourValue::Red);
-            playerDeathsArea->setColour(Ogre::ColourValue::Red);
-            playerKillsArea->setColour(Ogre::ColourValue::Red);
-        }
-
-        position++;
-    }
-
-   statsOverlay->show();
-}
-
-void PlayerHUDManagement::displayCTFStats(){
-    //Clean old stats (to move in a new methode)
     cleanStats(playersStats);
 
 
@@ -280,6 +237,53 @@ void PlayerHUDManagement::displayCTFStats(){
         panelTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,color);
         panel->show();
 
+        //Set player text to red or blue
+        if(p.getName() == mod->getName()){
+            if(color.r > 0.8 && color.g < 0.1 && color.b < 0.1){
+                playerNameArea->setColour(Ogre::ColourValue::White);
+                playerDeathsArea->setColour(Ogre::ColourValue::White);
+                playerKillsArea->setColour(Ogre::ColourValue::White);
+            }else{
+                playerNameArea->setColour(Ogre::ColourValue::Red);
+                playerDeathsArea->setColour(Ogre::ColourValue::Red);
+                playerKillsArea->setColour(Ogre::ColourValue::Red);
+            }
+
+        }
+
+        position++;
+    }
+
+   statsOverlay->show();
+/*
+    //Clean old stats (to move in a new methode)
+    cleanStats(playersStats);
+
+    Model * mod = Model::getInstance();
+    QList<Player> players(mod->getAllPlayers());
+
+    qSort(players.begin(),players.end(),playersLessThan);
+
+    int position = 0;
+    foreach(Player p, players){
+        QString kills = QString::number(p.getKills()) ;
+        QString deaths = QString::number(p.getDeaths()) ;
+
+        // Create a player panel
+        Ogre::OverlayElement* panel= playerContainer->clone(p.getId().toStdString());
+        panel->setTop(playerContainer->getTop() + (playerContainer->getHeight())*position);
+        playersStats->addChild(panel);
+
+        //Fill the panel
+        Ogre::OverlayElement* playerNameArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerName");
+        playerNameArea->setCaption(p.getName().toStdString() );
+        Ogre::OverlayElement* playerDeathsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerDeaths");
+        playerDeathsArea->setCaption(deaths.toStdString());
+        Ogre::OverlayElement* playerKillsArea = ((Ogre::OverlayContainer*)panel)->getChild( p.getId().toStdString() + "/playerKills");
+        playerKillsArea->setCaption(kills.toStdString());
+
+        panel->show();
+
         if(p.getName() == mod->getName()){
             playerNameArea->setColour(Ogre::ColourValue::Red);
             playerDeathsArea->setColour(Ogre::ColourValue::Red);
@@ -290,19 +294,25 @@ void PlayerHUDManagement::displayCTFStats(){
     }
 
    statsOverlay->show();
+   */
+}
+
+void PlayerHUDManagement::displayCTFStats(){
+    displayDMStats();
+    //SEE LATER
 }
 
 void PlayerHUDManagement::displayStats(){
 
     switch(gameMode){
     case DM:
-        //displayDMStats();
-        displayCTFStats();
+        displayDMStats();
+
         break;
     case TDM:
         break;
     case CTF:
-        displayCTFStats();
+        displayDMStats();
         break;
     case NO_MODE:
         break;
@@ -417,5 +427,6 @@ bool playersLessThan(Player &s1, Player &s2)
 
     return returnValue;
 }
+
 
 
