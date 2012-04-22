@@ -29,8 +29,8 @@ public:
     void setKillsValue(int nbKill);
     void setDeathValue(int nbDeath);
 
-    void displayStats();
-    void hideStats();
+    static void displayStats();
+    static void hideStats();
     bool statsAreVisible();
     void addFlag(QString id,Ogre::ColourValue flagColor, int score, int position);
     void setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb);
@@ -58,10 +58,10 @@ protected:
     Ogre::OverlayContainer * deathValueContainer;
 
     //Stats
-    Ogre::Overlay* statsOverlay;
-    Ogre::OverlayElement * playerContainer;
-    Ogre::OverlayContainer * statsPanel;
-    Ogre::OverlayContainer * playersStats;
+    static Ogre::Overlay* statsOverlay;
+    static Ogre::OverlayElement * playerContainer;
+    static Ogre::OverlayContainer * statsPanel;
+    static Ogre::OverlayContainer * playersStats;
 
     //life
     Ogre::Overlay* timeOverlay;
@@ -84,9 +84,9 @@ protected:
     void setLifeColor(Ogre::ColourValue lifeColor);
     void setTime(QString time);
     void setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::ColourValue flagColor);
-    void displayDMStats();
-    void displayCTFStats();
-    void cleanStats(Ogre::OverlayContainer* node);
+    static void displayDMStats();
+    static void displayCTFStats();
+    static void cleanStats(Ogre::OverlayContainer* node);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H

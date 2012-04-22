@@ -5,6 +5,15 @@ OrientedObject(mSceneMgr, 1, name)
 {
     initFlag( mSceneMgr, name, color);
 }
+
+FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, Actor p):
+OrientedObject(mSceneMgr, 1, p.getId())
+{
+    Ogre::ColourValue mcolor;
+    p.getColor(&(mcolor.r),&(mcolor.g),&(mcolor.b));
+    initFlag( mSceneMgr, p.getId(), mcolor);
+}
+
 void FlagObject::initFlag(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color){
 
 
@@ -50,6 +59,16 @@ void FlagObject::setColor(float r, float g, float b){
         canvasColor.b = b;
         canvas->setColor(canvasColor.r,canvasColor.g,canvasColor.b);
     }
+}
+
+void FlagObject::updateState(Flag &p){
+    float r;
+    float g;
+    float b;
+    p.getColor(&r,&g,&b);
+    setColor(r,g,b);
+    setOrientation(Ogre::Vector3(1,0,0),(side)p.getCube());
+    setPosition(p.getX(),p.getY(),p.getZ());
 }
 
 

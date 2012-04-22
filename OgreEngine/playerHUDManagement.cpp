@@ -2,6 +2,10 @@
 #include <QDebug>
 #include <OGRE/OgreTextAreaOverlayElement.h>
 
+Ogre::Overlay* PlayerHUDManagement::statsOverlay = 0;
+Ogre::OverlayElement * PlayerHUDManagement::playerContainer = 0;
+Ogre::OverlayContainer * PlayerHUDManagement::statsPanel = 0;
+Ogre::OverlayContainer * PlayerHUDManagement::playersStats = 0;
 float PlayerHUDManagement::alphaBlood = 0;
 bool playersLessThan(Player &s1, Player &s2);
 
@@ -201,7 +205,6 @@ void PlayerHUDManagement::cleanStats(Ogre::OverlayContainer* node){
 void PlayerHUDManagement::displayDMStats(){
     cleanStats(playersStats);
 
-
     Model * mod = Model::getInstance();
     QList<Player> players(mod->getAllPlayers());
 
@@ -304,6 +307,8 @@ void PlayerHUDManagement::displayCTFStats(){
 
 void PlayerHUDManagement::displayStats(){
 
+    displayDMStats();
+    /*
     switch(gameMode){
     case DM:
         displayDMStats();
@@ -317,6 +322,7 @@ void PlayerHUDManagement::displayStats(){
     case NO_MODE:
         break;
     }
+    */
 }
 
 void PlayerHUDManagement::hideStats(){

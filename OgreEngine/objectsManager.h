@@ -31,6 +31,8 @@ public:
     //Update (or create) only updated obstacles state
     void updateObstaclesStates();
 
+    void updateflagsState();
+
     //Destroy all objects in the list if they exist
     void destroyObjects(QList<QString> objectsToRemove);
 
