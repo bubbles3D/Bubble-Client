@@ -58,6 +58,7 @@ void Actor::update(QVariantMap map)
     if (map.contains("b"))
         b = map["b"].toInt();
 
+    //Direction
     if (map.contains("vx"))
         vx = map["vx"].toFloat();
     if (map.contains("vy"))

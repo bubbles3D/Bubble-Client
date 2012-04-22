@@ -62,6 +62,18 @@ QList<Obstacles> Model::getUpdatedObstacles()
     return ret;
 }
 
+QList<Flag> Model::getUpdatedFlags()
+{
+    QMutexLocker locker(&mutex);
+
+    QList<Flag> ret;
+    foreach(Flag* f, flags.values()){
+        ret.append(*f);
+    }
+
+    return ret;
+}
+
 
 void Model::setUpdatedPlayers(QString json)
 {
@@ -93,6 +105,16 @@ void Model::setUpdatedBullets(QString json)
 
     foreach(QVariant obj, result["bullets"].toList()){
         updateBullet(obj);
+    }
+}
+
+void Model::setUpdatedFlags(QString json)
+{
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+
+    foreach(QVariant obj, result["flags"].toList()){
+        updateFlag(obj);
     }
 }
 
@@ -171,6 +193,22 @@ void Model::updateObstacle(QVariant data)
     {
         Obstacles* o = new Obstacles(data.toMap());
         obstacles.insert(o->id, o);
+    }
+}
+
+void Model::updateFlag(QVariant data)
+{
+    QMutexLocker locker(&mutex);
+    QVariantMap obj = data.toMap();
+
+    if (flags.contains(obj["id"].toString()))
+    {
+        flags[obj["id"].toString()]->update(obj);
+    }
+    else
+    {
+        Flag* o = new Flag(data.toMap());
+        flags.insert(o->id, o);
     }
 }
 

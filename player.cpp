@@ -13,6 +13,7 @@ Player::Player(QVariantMap map)
     life = map["life"].toInt();
     deaths = map["deaths"].toInt();
     kills = map["kills"].toInt();
+    team = map["team"].toInt();
 }
 
 void Player::update(QVariantMap map)
@@ -28,7 +29,9 @@ void Player::update(QVariantMap map)
     if (map.contains("kills"))
         kills = map["kills"].toInt();
     if (map.contains("flag"))
-        flag = map["flag"].toBool() ;
+        flag = map["flag"].toInt() ;
+    if (map.contains("team"))
+        team = map["team"].toInt();
 }
 
 int Player::getLife()
