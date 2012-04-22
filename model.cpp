@@ -6,6 +6,7 @@
 #include "model.h"
 
 #include "OgreEngine/playerHUDManagement.h"
+#include "OgreEngine/objectsManager.h"
 
 Model* Model::instance = NULL;
 
@@ -84,14 +85,29 @@ void Model::setUpdatedPlayers(QString json)
         if (obj.toMap()["name"].toString() == this->name)
             this->id = obj.toMap()["id"].toInt();
 
+        //If it's us
         if (obj.toMap()["id"] == this->id)
         {
+            //Check if life has changed
             if (life != 0 && obj.toMap().contains("life") && obj.toMap()["life"].toInt() < life)
             {
+                //In case of life going down trigger injur animation
                 qDebug() << "life flash" << life << " " <<obj.toMap()["life"].toInt();
                 PlayerHUDManagement::touched();
             }
             life = obj.toMap()["life"].toInt();
+        }
+
+        //If a player is to be set a flag
+        if (obj.toMap().contains("flag") && players[obj.toMap()["id"].toString()] == 0)
+        {
+            ObjectsManager::attachFlagToPlayer(obj.toMap()["id"].toString(), obj.toMap()["flag"].toString());
+        }
+
+        //Remove a flag
+        if (obj.toMap().contains("flag") && players[obj.toMap()["id"].toString()] != 0)
+        {
+            ObjectsManager::detachFlagFromPlayer(obj.toMap()["id"].toString());
         }
 
         updatePlayer(obj);
