@@ -1,8 +1,11 @@
 #include "objectsManager.h"
 
-ObjectsManager::ObjectsManager(Ogre::SceneManager * msceneMgr):sceneMgr(msceneMgr)
-{
+Ogre::SceneManager* ObjectsManager::sceneMgr = 0;
+QMap<QString,Object*> ObjectsManager::objects = QMap<QString,Object*>();
 
+ObjectsManager::ObjectsManager(Ogre::SceneManager * msceneMgr)
+{
+    ObjectsManager::sceneMgr = msceneMgr;
 }
 
 void ObjectsManager::updatePositions(){
@@ -113,6 +116,19 @@ MainPlayerObject * ObjectsManager::getPlayer(){
 
 PlayerHUDManagement * ObjectsManager::getHUD(){
     return player->getHUD();
+}
+
+void ObjectsManager::attachFlagToPlayer(QString idFlag, QString idPlayer){
+    FlagObject* flag = (FlagObject*)objects[idFlag];
+    BubbleObject* player = (BubbleObject*)objects[idPlayer];
+    flag->attach(player->getPitchNode());
+    player->setFlag(flag);
+}
+
+void ObjectsManager::detachFlagToPlayer(QString idPlayer){
+    BubbleObject* player = (BubbleObject*)objects[idPlayer];
+    player->getFlag()->attach(sceneMgr->getRootSceneNode());
+    player->removeFlag();
 }
 
 ObjectsManager::~ObjectsManager(){

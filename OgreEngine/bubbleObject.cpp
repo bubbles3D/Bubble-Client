@@ -97,11 +97,13 @@ void BubbleObject::updateState(Actor &p){
 
 void BubbleObject::updateState(Player &p){
     updateState((Actor&) p);
-    updateFlag(p.flag);
+    //updateFlag(p.flag);
 
 }
+//TO DELETE
+void BubbleObject::updateFlag(bool){
 
-void BubbleObject::updateFlag(bool hasFlag){
+    /*
     if(hasFlag == true){
         if (flag == 0){ //création du drapeau
             flag = new FlagObject(mSceneMgr,name + "FLAG");
@@ -114,6 +116,7 @@ void BubbleObject::updateFlag(bool hasFlag){
             flag = 0;
         }
     }
+    */
 }
 
 BubbleObject::~BubbleObject(){
@@ -136,11 +139,35 @@ BubbleObject::~BubbleObject(){
 void BubbleObject::setScale(float scale){
     entityNode->setScale(scale/meshInitialSize,scale/meshInitialSize,scale/meshInitialSize);
     this->scale = Ogre::Vector3(scale,scale,scale);
+    if(flag != 0){
+        flag->setPosition(0,this->scale.y/2,0);
+    }
 }
 
 void BubbleObject::setScale(Ogre::Vector3 scale){
     entityNode->setScale(scale.x/meshInitialSize,scale.y/meshInitialSize,scale.z/meshInitialSize);
     this->scale = scale;
+    if(flag != 0){
+        flag->setPosition(0,this->scale.y/2,0);
+    }
+}
+
+Ogre::Vector3 BubbleObject::getScale(){
+    return scale;
+}
+
+void BubbleObject::setFlag(FlagObject * flag){
+    this->flag = flag;
+    flag->setPosition(0,scale.y/2,0);
+
+}
+
+void BubbleObject::removeFlag(){
+    this->flag = 0;
+}
+
+FlagObject * BubbleObject::getFlag(){
+    return flag;
 }
 
 

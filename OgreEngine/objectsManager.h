@@ -9,6 +9,7 @@
 #include "OgreEngine/obstacleobject.h"
 #include "OgreEngine/environnement.h"
 #include "OgreEngine/flagObject.h"
+#include <QString>
 
 class ObjectsManager : public QObject
 {
@@ -36,11 +37,14 @@ public:
     // return a pointer on the player
     MainPlayerObject * getPlayer();
 
+    static void attachFlagToPlayer(QString idFlag, QString idPlayer);
+    static void detachFlagToPlayer(QString idPlayer);
+
     PlayerHUDManagement * getHUD();
 
 protected:
-    Ogre::SceneManager * sceneMgr;
-    QMap<QString,Object*> objects;
+    static Ogre::SceneManager * sceneMgr;
+    static QMap<QString,Object*> objects;
     MainPlayerObject * player;
 
 signals:
