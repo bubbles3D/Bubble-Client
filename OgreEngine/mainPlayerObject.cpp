@@ -99,7 +99,9 @@ void MainPlayerObject::updateState(Player &p){
     entityNode->setScale(p.getLength()/100,p.getLength()/100,p.getLength()/100);
 
     //Update HUD
-    hudMgt->setLife(p.getLife());
+    Ogre::ColourValue color;
+    p.getColor(&(color.r),&(color.g),&(color.b));
+    hudMgt->setLife(p.getLife(),color);
     hudMgt->setKillsValue(p.getKills());
     hudMgt->setDeathValue(p.getDeaths());
 

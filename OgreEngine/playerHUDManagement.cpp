@@ -144,14 +144,14 @@ void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
     }
 }
 
-void PlayerHUDManagement::setLife(float lifeValue){
+void PlayerHUDManagement::setLife(float lifeValue, Ogre::ColourValue color){
     float lifeSize = convertLifeToSize(lifeValue);
     OverlayUtils::setScaleKeepingCenter(lifeContainer,lifeSize,lifeSize);
 
     if(lifeValue == 1){
         setLifeColor(Ogre::ColourValue::Red);
     }else{
-        setLifeColor(Ogre::ColourValue::White);
+        setLifeColor(color);
     }
 }
 

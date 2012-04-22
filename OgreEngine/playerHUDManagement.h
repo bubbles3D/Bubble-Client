@@ -16,7 +16,7 @@ public:
     PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue = 40, float maxLifeSize = 200);
 
     //Update life indicator
-    void setLife(float lifeValue);
+    void setLife(float lifeValue, Ogre::ColourValue color = Ogre::ColourValue::White);
 
     // pop up the blood screen
     static void touched();
