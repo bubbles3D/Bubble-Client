@@ -61,4 +61,14 @@ void FlagObject::setColor(float r, float g, float b){
     }
 }
 
+void FlagObject::updateState(Flag &p){
+    float r;
+    float g;
+    float b;
+    p.getColor(&r,&g,&b);
+    setColor(r,g,b);
+    setOrientation(Ogre::Vector3(1,0,0),(side)p.getCube());
+    setPosition(p.getX(),p.getY(),p.getZ());
+}
+
 

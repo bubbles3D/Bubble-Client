@@ -2,6 +2,7 @@
 #define FLAGOBJECT_H
 #include "OgreEngine/orientedObject.h"
 #include "OgreEngine/obstacleobject.h"
+#include "flag.h"
 
 class FlagObject: public OrientedObject{
 public:
@@ -9,6 +10,7 @@ public:
     FlagObject(Ogre::SceneManager * mSceneMgr, Actor p);
     virtual ~FlagObject();
     void setColor(float r, float g, float b);
+    void updateState(Flag &p);
 
 protected:
     //All node used in a flag

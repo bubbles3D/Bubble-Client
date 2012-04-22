@@ -111,9 +111,9 @@ void ObjectsManager::updatePlayersPositions(){
 }
 
 void ObjectsManager::updateflagsState(){
-    /*
+
     Model * model = Model::getInstance();
-    QList<Flag> flagList = model->getUpdatedBullets();
+    QList<Flag> flagList = model->getUpdatedFlags();
 
     //Update elements position
 
@@ -128,7 +128,7 @@ void ObjectsManager::updateflagsState(){
             objects.insert(p.getId(), flag);
         }
     }
-*/
+
 }
 
 MainPlayerObject * ObjectsManager::getPlayer(){
