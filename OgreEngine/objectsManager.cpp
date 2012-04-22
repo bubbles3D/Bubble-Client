@@ -131,6 +131,11 @@ void ObjectsManager::updateflagsState(){
 
 }
 
+void ObjectsManager::createFlag(Flag &p){
+    FlagObject *flag = new FlagObject(sceneMgr, p);
+    objects.insert(p.getId(), flag);
+}
+
 MainPlayerObject * ObjectsManager::getPlayer(){
     return player;
 }

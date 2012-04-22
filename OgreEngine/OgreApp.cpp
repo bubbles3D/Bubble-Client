@@ -13,6 +13,7 @@ OgreApp::OgreApp(void)
 {
 
     qRegisterMetaType<MODE>("MODE");
+    qDebug()<<"INIT Scene";
 }
 //-------------------------------------------------------------------------------------
 OgreApp::~OgreApp(void)
@@ -74,6 +75,12 @@ void OgreApp::createScene(void)
     flag2->setScale(Ogre::Vector3(1,1,1));
     //End tests-------------------------------------------------------------------------
 
+    //Init mode
+    mode = FREE;
+
+    //
+    //emit(ogrePartReady());
+
     //Create the cube
     Model * mod = Model::getInstance();
 
@@ -86,8 +93,7 @@ void OgreApp::createScene(void)
 
     cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.33333, orange, blanc, jaune, rouge, vert, bleu);
 
-    //Init mode
-    mode = FREE;
+
 
     //Set up the scene
     objectMgr->updateObstaclesStates();
@@ -129,6 +135,7 @@ void OgreApp::createFrameListener(void){
 //-------------------------------------------------------------------------------------
 bool OgreApp::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+    //qDebug()<<"FRAME";
     if(mWindow->isClosed())
         return false;
 

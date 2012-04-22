@@ -57,6 +57,8 @@ protected:
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual void setupViewport(Ogre::SceneManager *curr,Ogre::String camera_Name);
 
+signals:
+    void ogrePartReady();
 };
 #endif // APP_H
 
