@@ -146,10 +146,15 @@ PlayerHUDManagement * ObjectsManager::getHUD(){
 }
 
 void ObjectsManager::attachFlagToPlayer(QString idFlag, QString idPlayer){
-    FlagObject* flag = (FlagObject*)objects[idFlag];
-    BubbleObject* player = (BubbleObject*)objects[idPlayer];
-    flag->attach(player->getPitchNode());
-    player->setFlag(flag);
+    if(objects.contains(idFlag) && objects.contains(idPlayer)){
+        FlagObject* flag = (FlagObject*)objects.value(idFlag);
+        BubbleObject* player = (BubbleObject*)objects.value(idFlag);
+        flag->attach(player->getPitchNode());
+        player->setFlag(flag);
+    }else{
+        qDebug()<<"ERROR: attaching"<<objects.contains(idFlag)<<" "<<objects.contains(idPlayer);
+    }
+
 }
 
 void ObjectsManager::detachFlagFromPlayer(QString idPlayer){
