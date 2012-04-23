@@ -36,7 +36,7 @@ void ObjectsManager::updateObstaclesStates(){
        if (objects.contains(p.getId())){
            //Obstacle exist
            obstacle =(ObstacleObject*) objects.value(p.getId());
-           //obstacle->updateState(p);
+           obstacle->updateState(p);
        }else{
            //Color is ignored for now
            float r =1.0/(rand() % 5 + 1);
@@ -145,16 +145,18 @@ PlayerHUDManagement * ObjectsManager::getHUD(){
     return player->getHUD();
 }
 
-void ObjectsManager::attachFlagToPlayer(QString idFlag, QString idPlayer){
+void ObjectsManager::attachFlagToPlayer(QString idPlayer, QString idFlag){
     if(objects.contains(idFlag) && objects.contains(idPlayer)){
         FlagObject* flag = (FlagObject*)objects.value(idFlag);
         BubbleObject* player = (BubbleObject*)objects.value(idFlag);
         flag->attach(player->getPitchNode());
         player->setFlag(flag);
+
+        qDebug()<<"flag "<<flag->getNode()->getPosition().x<<" "<<flag->getNode()->getPosition().y<<" "<<flag->getNode()->getPosition().z;
+        qDebug()<<"player "<<player->getNode()->getPosition().x<<" "<<player->getNode()->getPosition().y<<" "<<player->getNode()->getPosition().z;
     }else{
         qDebug()<<"ERROR: attaching"<<objects.contains(idFlag)<<" "<<objects.contains(idPlayer);
     }
-
 }
 
 void ObjectsManager::detachFlagFromPlayer(QString idPlayer){

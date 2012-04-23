@@ -40,7 +40,7 @@ public:
     // return a pointer on the player
     MainPlayerObject * getPlayer();
 
-    static void attachFlagToPlayer(QString idFlag, QString idPlayer);
+    static void attachFlagToPlayer(QString idPlayer, QString idFlag);
     static void detachFlagFromPlayer(QString idPlayer);
 
     PlayerHUDManagement * getHUD();
