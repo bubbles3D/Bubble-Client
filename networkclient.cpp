@@ -94,10 +94,17 @@ void NetworkClient::processIncommingData()
         {
             Model * m = Model::getInstance();
 
+            //process field info
             if (toProcess[i].contains("field"))
             {
                 m->setUpdatedObstacles(toProcess[i]);
                 m->setMap(toProcess[i]);
+            }
+
+            //process
+            if (toProcess[i].contains("game"))
+            {
+                m->setGameInfo(toProcess[i]);
             }
 
             m->setUpdatedPlayers(toProcess[i]);

@@ -1,6 +1,7 @@
 #include <qjson/parser.h>
 #include <QVariant>
 #include <QDebug>
+#include <QTimer>
 #include <cstring>
 
 #include "model.h"
@@ -324,6 +325,31 @@ void Model::setMap(QString json)
 
     mapWidth = field["width"].toInt();
     mapLength = field["height"].toInt();
+}
+
+void Model::endOfTime()
+{
+    PlayerHUDManagement::displayStats();
+    QTimer::singleShot(pauseTime, this, SLOT(endOfPause()));
+}
+
+void Model::endOfPause()
+{
+    PlayerHUDManagement::hideStats();
+}
+
+void Model::setGameInfo(QString json)
+{
+    QMutexLocker locker(&mutex);
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QMap<QString, QVariant> game = result["game"].toMap();
+
+    pauseTime = game["pauseTime"].toFloat();
+    gameType = game["gameType"].toInt();
+
+    int timeLeft = game["gameTime"].toFloat();
+    QTimer::singleShot(timeLeft, this, SLOT(endOfTime()));
 }
 
 int Model::getMapWidth()

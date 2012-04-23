@@ -62,7 +62,8 @@ public:
     int getMapWidth();
     int getMapLength();
 
-
+    //Game
+    void setGameInfo(QString json);
 
 
     void setToClear(QString json);
@@ -83,11 +84,17 @@ private:
     mutable QMutex mutex;
     QTime mouseTimeout;
     void update();
+    float pauseTime;
+    int gameType;
 
 signals:
     void keyChanged(QString name, bool state);
     void mouseChanged(float x, float y, float z);
     void shotEvent(float x, float y, float z);
+
+public slots:
+    void endOfTime();
+    void endOfPause();
 };
 
 #endif // MODEL_H
