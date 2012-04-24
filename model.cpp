@@ -359,6 +359,10 @@ void Model::setToClear(QString json)
         {
             delete obstacles.take(obj.toString());
         }
+        else if(flags.contains(obj.toString()))
+        {
+            delete flags.take(obj.toString());
+        }
     }
 }
 
