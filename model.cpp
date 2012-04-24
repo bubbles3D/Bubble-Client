@@ -250,12 +250,13 @@ void Model::updateFlag(QVariant data)
 
     if (flags.contains(obj["id"].toString()))
     {
-        flags[obj["id"].toString()]->update(obj);
+        flags[obj["id"].toString()]->update(obj);        
     }
     else
     {
         Flag* o = new Flag(data.toMap());
         flags.insert(o->id, o);
+        newFlags.append(o->id);
     }
 }
 
