@@ -330,7 +330,7 @@ void Model::setMap(QString json)
 void Model::endOfTime()
 {
     PlayerHUDManagement::displayStats();
-    QTimer::singleShot(pauseTime, this, SLOT(endOfPause()));
+    QTimer::singleShot(pauseTime * 1000, this, SLOT(endOfPause()));
 }
 
 void Model::endOfPause()
@@ -349,7 +349,7 @@ void Model::setGameInfo(QString json)
     gameType = game["gameType"].toInt();
 
     int timeLeft = game["gameTime"].toFloat();
-    QTimer::singleShot(timeLeft, this, SLOT(endOfTime()));
+    QTimer::singleShot(timeLeft * 1000, this, SLOT(endOfTime()));
 }
 
 int Model::getMapWidth()
