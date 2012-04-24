@@ -47,6 +47,9 @@ public:
     void setUpdatedFlags(QString json);
     QList<Flag> getUpdatedFlags();
     void updateFlag(QVariant data);
+    const QList<QPair<QString, QString> >& getFlagsToAttach();
+    const QList<QString>& getFlagsToDettach();
+    const QList<QString>& getAllFlags();
 
     void setName(QString n);
     QString getName();
@@ -77,6 +80,8 @@ private:
     QMap<QString, Bullet*> bullets;
     QMap<QString, Obstacles*> obstacles;
     QMap<QString, Flag*> flags;
+    QList<QPair<QString, QString> > flagsToAttach;
+    QList<QString> flagsToDettach;
     QString name;
     QSet<QString> toClear;
     QColor color;

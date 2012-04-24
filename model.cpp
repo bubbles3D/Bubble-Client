@@ -106,8 +106,8 @@ void Model::setUpdatedPlayers(QString json)
                 //players.value(obj.toMap()["id"].toString())->flag == 0 &&
                 obj.toMap()["flag"].toString() != "0")
         {
-            qDebug() << "Attach";
-            ObjectsManager::attachFlagToPlayer(obj.toMap()["id"].toString(), obj.toMap()["flag"].toString());
+            QPair<QString, QString> pair(obj.toMap()["id"].toString(), obj.toMap()["flag"].toString());
+            flagsToAttach.append(pair);
         }
 
         //Remove a flag
@@ -115,7 +115,7 @@ void Model::setUpdatedPlayers(QString json)
                 players.value(obj.toMap()["id"].toString())->flag != 0 &&
                 obj.toMap()["flag"].toString() == "0")
         {
-            ObjectsManager::detachFlagFromPlayer(obj.toMap()["id"].toString());
+            flagsToDettach.append(obj.toMap()["id"].toString());
         }
     }
 }
