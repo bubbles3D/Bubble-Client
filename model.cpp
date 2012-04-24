@@ -76,6 +76,17 @@ QList<Flag> Model::getUpdatedFlags()
     return ret;
 }
 
+QList<Flag> Model::getAllFlags()
+{
+    QMutexLocker locker(&mutex);
+
+    QList<Flag> ret;
+    foreach(Flag* f, flags.values()){
+        ret.append(*f);
+    }
+
+    return ret;
+}
 
 void Model::setUpdatedPlayers(QString json)
 {
