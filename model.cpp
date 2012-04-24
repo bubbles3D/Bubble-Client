@@ -88,6 +88,19 @@ QList<Flag> Model::getAllFlags()
     return ret;
 }
 
+
+QList<Flag> Model::getNewFlags()
+{
+    QMutexLocker locker(&mutex);
+
+    QList<Flag> ret;
+    foreach(QString id, newFlags){
+        ret.append(*(flags.value(id)));
+    }
+
+    return ret;
+}
+
 const QList<QPair<QString, QString> >& Model::getFlagsToAttach()
 {
     QMutexLocker locker(&mutex);
@@ -250,12 +263,13 @@ void Model::updateFlag(QVariant data)
 
     if (flags.contains(obj["id"].toString()))
     {
-        flags[obj["id"].toString()]->update(obj);
+        flags[obj["id"].toString()]->update(obj);        
     }
     else
     {
         Flag* o = new Flag(data.toMap());
         flags.insert(o->id, o);
+        newFlags.append(o->id);
     }
 }
 

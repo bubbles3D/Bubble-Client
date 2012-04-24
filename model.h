@@ -50,6 +50,7 @@ public:
     const QList<QPair<QString, QString> >& getFlagsToAttach();
     const QList<QString>& getFlagsToDettach();
     QList<Flag> getAllFlags();
+    QList<Flag> getNewFlags();
 
     void setName(QString n);
     QString getName();
@@ -80,6 +81,7 @@ private:
     QMap<QString, Bullet*> bullets;
     QMap<QString, Obstacles*> obstacles;
     QMap<QString, Flag*> flags;
+    QList<QString> newFlags;
     QList<QPair<QString, QString> > flagsToAttach;
     QList<QString> flagsToDettach;
     QString name;
