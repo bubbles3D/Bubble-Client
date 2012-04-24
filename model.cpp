@@ -98,6 +98,7 @@ QList<Flag> Model::getNewFlags()
         ret.append(*(flags.value(id)));
     }
 
+    newFlags.clear();
     return ret;
 }
 
