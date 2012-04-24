@@ -95,6 +95,7 @@ const QList<QPair<QString, QString> >& Model::getFlagsToAttach()
     return flagsToAttach;
 }
 
+
 void Model::setUpdatedPlayers(QString json)
 {
     QJson::Parser parser;

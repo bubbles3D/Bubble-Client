@@ -49,7 +49,7 @@ public:
     void updateFlag(QVariant data);
     const QList<QPair<QString, QString> >& getFlagsToAttach();
     const QList<QString>& getFlagsToDettach();
-    const QList<QString>& getAllFlags();
+    QList<Flag> getAllFlags();
 
     void setName(QString n);
     QString getName();
