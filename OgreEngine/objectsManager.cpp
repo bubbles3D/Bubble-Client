@@ -197,6 +197,7 @@ void ObjectsManager::detachFlags(){
     QList<QString> listToDetach =  model->getFlagsToDettach();
 
     foreach(QString playerId, listToDetach){
+        qDebug()<<"DETACHING";
         if (objects.contains(playerId)){
             detachFlagFromPlayer(playerId);
         }else{
@@ -231,10 +232,11 @@ void ObjectsManager::detachFlagFromPlayer(QString idPlayer){
 
     BubbleObject* player = (BubbleObject*)objects[idPlayer];
     if(player->getFlag() != 0){
+        qDebug()<<"DETACH FLAG";
         player->getFlag()->attach(sceneMgr->getRootSceneNode());
         player->removeFlag();
     }else{
-        qDebug()<<"ERROR: detaching flag";
+        qDebug()<<"ERROR: detaching flag (idPlayer: "<<idPlayer<<")";
     }
 
 }

@@ -160,6 +160,7 @@ void Model::setUpdatedPlayers(QString json)
                 players.value(obj.toMap()["id"].toString())->flag != 0 &&
                 obj.toMap()["flag"].toString() == "0")
         {
+            qDebug()<<"Model: detach flag";
             flagsToDettach.append(obj.toMap()["id"].toString());
         }
     }
