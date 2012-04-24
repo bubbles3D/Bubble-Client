@@ -88,6 +88,19 @@ QList<Flag> Model::getAllFlags()
     return ret;
 }
 
+
+QList<Flag> Model::getNewFlags()
+{
+    QMutexLocker locker(&mutex);
+
+    QList<Flag> ret;
+    foreach(QString id, newFlags){
+        ret.append(*(flags.value(id)));
+    }
+
+    return ret;
+}
+
 const QList<QPair<QString, QString> >& Model::getFlagsToAttach()
 {
     QMutexLocker locker(&mutex);
