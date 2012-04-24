@@ -148,8 +148,6 @@ void ObjectsManager::updateflagsState(){
             flag->updateState(p);
         }else{
             qDebug()<<"UPDATE FLAG DON T EXIST";
-            flag = new FlagObject(sceneMgr, p);
-            objects.insert(p.getId(), flag);
         }
     }
 
@@ -161,50 +159,50 @@ void ObjectsManager::createFlag(Flag &p){
 }
 
 void ObjectsManager::createFlags(){
-    /* TODO
+
     Model * model = Model::getInstance();
-    QList<Flag> flagList = model->getUpdatedFlags();
+    QList<Flag> flagList = model->getNewFlags();
 
     //Update elements position
 
     foreach(Flag p, flagList){
-        FlagObject * flag;
         if (objects.contains(p.getId())){
             qDebug()<<"ERROR CREATING FLAG: flag already exist!!!";
         }else{
             qDebug()<<"CREATE FLAG";
-            flag = new FlagObject(sceneMgr, p);
-            objects.insert(p.getId(), flag);
+            createFlag(p);
         }
     }
-    */
+
 }
 
 void ObjectsManager::attachFlags(){
+    Model * model = Model::getInstance();
+    QList<QPair<QString, QString> > listToAttach =  model->getFlagsToAttach();
+    QPair<QString, QString> p;
 
-  /*
-    foreach(Flag p, flagList){
-        FlagObject * flag;
-        if (objects.contains(p.getId())){
-            attachFlagToPlayer();
+    foreach( p, listToAttach){
+        if (objects.contains(p.first) && objects.contains(p.second)){
+            attachFlagToPlayer(p.first, p.second);
         }else{
-            qDebug()<<"ATTACH FLAG DON T EXIST";
+            qDebug()<<"ATTACH FLAG: player or flag DON T EXIST";
         }
     }
-   */
+
 }
 
 void ObjectsManager::detachFlags(){
-    /* TODO
-    foreach(Flag p, flagList){
-        FlagObject * flag;
-        if (objects.contains(p.getId())){
-            detachFlagFromPlayer();
+
+    Model * model = Model::getInstance();
+    QList<QString> listToDetach =  model->getFlagsToDettach();
+
+    foreach(QString playerId, listToDetach){
+        if (objects.contains(playerId)){
+            detachFlagFromPlayer(playerId);
         }else{
             qDebug()<<"DETACH FLAG DON T EXIST";
         }
     }
-    */
 }
 
 MainPlayerObject * ObjectsManager::getPlayer(){
