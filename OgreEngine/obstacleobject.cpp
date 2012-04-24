@@ -49,7 +49,9 @@ void ObstacleObject::setColor(float r, float g, float b){
 }
 
 void ObstacleObject::updateState(Obstacles &p){
-    setColor(p.r,p.g,p.b);
+    //Ogre::ColourValue color;
+    //p.getColor(color.r,color.g,color.b);
+    //setColor(color.r,color.g,color.b);
     setScale(Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()));
     setPosition(p.getX(),p.getY(),p.getZ());
 }
