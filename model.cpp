@@ -1,6 +1,7 @@
 #include <qjson/parser.h>
 #include <QVariant>
 #include <QDebug>
+#include <QTimer>
 #include <cstring>
 
 #include "model.h"
@@ -75,6 +76,31 @@ QList<Flag> Model::getUpdatedFlags()
     return ret;
 }
 
+QList<Flag> Model::getAllFlags()
+{
+    QMutexLocker locker(&mutex);
+
+    QList<Flag> ret;
+    foreach(Flag* f, flags.values()){
+        ret.append(*f);
+    }
+
+    return ret;
+}
+
+const QList<QPair<QString, QString> >& Model::getFlagsToAttach()
+{
+    QMutexLocker locker(&mutex);
+
+    return flagsToAttach;
+}
+
+const QList<QString>& Model::getFlagsToDettach()
+{
+    QMutexLocker locker(&mutex);
+
+    return flagsToDettach;
+}
 
 void Model::setUpdatedPlayers(QString json)
 {
@@ -105,8 +131,8 @@ void Model::setUpdatedPlayers(QString json)
                 //players.value(obj.toMap()["id"].toString())->flag == 0 &&
                 obj.toMap()["flag"].toString() != "0")
         {
-            qDebug() << "Attach";
-            ObjectsManager::attachFlagToPlayer(obj.toMap()["id"].toString(), obj.toMap()["flag"].toString());
+            QPair<QString, QString> pair(obj.toMap()["id"].toString(), obj.toMap()["flag"].toString());
+            flagsToAttach.append(pair);
         }
 
         //Remove a flag
@@ -114,7 +140,7 @@ void Model::setUpdatedPlayers(QString json)
                 players.value(obj.toMap()["id"].toString())->flag != 0 &&
                 obj.toMap()["flag"].toString() == "0")
         {
-            ObjectsManager::detachFlagFromPlayer(obj.toMap()["id"].toString());
+            flagsToDettach.append(obj.toMap()["id"].toString());
         }
     }
 }
@@ -324,6 +350,31 @@ void Model::setMap(QString json)
 
     mapWidth = field["width"].toInt();
     mapLength = field["height"].toInt();
+}
+
+void Model::endOfTime()
+{
+    PlayerHUDManagement::displayStats();
+    QTimer::singleShot(pauseTime * 1000, this, SLOT(endOfPause()));
+}
+
+void Model::endOfPause()
+{
+    PlayerHUDManagement::hideStats();
+}
+
+void Model::setGameInfo(QString json)
+{
+    QMutexLocker locker(&mutex);
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QMap<QString, QVariant> game = result["game"].toMap();
+
+    pauseTime = game["pauseTime"].toFloat();
+    gameType = game["gameType"].toInt();
+
+    int timeLeft = game["gameTime"].toFloat();
+    QTimer::singleShot(timeLeft * 1000, this, SLOT(endOfTime()));
 }
 
 int Model::getMapWidth()

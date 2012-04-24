@@ -47,6 +47,9 @@ public:
     void setUpdatedFlags(QString json);
     QList<Flag> getUpdatedFlags();
     void updateFlag(QVariant data);
+    const QList<QPair<QString, QString> >& getFlagsToAttach();
+    const QList<QString>& getFlagsToDettach();
+    QList<Flag> getAllFlags();
 
     void setName(QString n);
     QString getName();
@@ -62,7 +65,8 @@ public:
     int getMapWidth();
     int getMapLength();
 
-
+    //Game
+    void setGameInfo(QString json);
 
 
     void setToClear(QString json);
@@ -76,6 +80,8 @@ private:
     QMap<QString, Bullet*> bullets;
     QMap<QString, Obstacles*> obstacles;
     QMap<QString, Flag*> flags;
+    QList<QPair<QString, QString> > flagsToAttach;
+    QList<QString> flagsToDettach;
     QString name;
     QSet<QString> toClear;
     QColor color;
@@ -83,11 +89,17 @@ private:
     mutable QMutex mutex;
     QTime mouseTimeout;
     void update();
+    float pauseTime;
+    int gameType;
 
 signals:
     void keyChanged(QString name, bool state);
     void mouseChanged(float x, float y, float z);
     void shotEvent(float x, float y, float z);
+
+public slots:
+    void endOfTime();
+    void endOfPause();
 };
 
 #endif // MODEL_H
