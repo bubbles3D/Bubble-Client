@@ -47,8 +47,8 @@ public:
     void setUpdatedFlags(QString json);
     QList<Flag> getUpdatedFlags();
     void updateFlag(QVariant data);
-    const QList<QPair<QString, QString> >& getFlagsToAttach();
-    const QList<QString>& getFlagsToDettach();
+    const QList<QPair<QString, QString> > getFlagsToAttach();
+    const QList<QString> getFlagsToDettach();
     QList<Flag> getAllFlags();
     QList<Flag> getNewFlags();
 
