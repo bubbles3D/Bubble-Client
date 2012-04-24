@@ -102,18 +102,24 @@ QList<Flag> Model::getNewFlags()
     return ret;
 }
 
-const QList<QPair<QString, QString> >& Model::getFlagsToAttach()
+const QList<QPair<QString, QString> > Model::getFlagsToAttach()
 {
     QMutexLocker locker(&mutex);
 
-    return flagsToAttach;
+    QList<QPair<QString, QString> > tmp(flagsToAttach);
+    flagsToAttach.clear();
+
+    return tmp;
 }
 
-const QList<QString>& Model::getFlagsToDettach()
+const QList<QString> Model::getFlagsToDettach()
 {
     QMutexLocker locker(&mutex);
 
-    return flagsToDettach;
+    QList<QString> tmp(flagsToDettach);
+    flagsToDettach.clear();
+
+    return tmp;
 }
 
 void Model::setUpdatedPlayers(QString json)
