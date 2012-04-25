@@ -4,6 +4,9 @@
 
 float PlayerHUDManagement::alphaBlood = 0;
 bool PlayerHUDManagement::statVisible = false;
+bool PlayerHUDManagement::startingGame = false;
+bool PlayerHUDManagement::runningGame= false;
+bool PlayerHUDManagement::endingGame= false;
 bool playersLessThan(Player &s1, Player &s2);
 
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
@@ -13,6 +16,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     playerContainer = 0;
     statsPanel = 0;
     playersStats = 0;
+    runningGame = false;
 
     lifeOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLifeName.toStdString());
     if(lifeOverlay){
@@ -98,9 +102,11 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
         qDebug()<<"ERROR flag Overlay missing";
     }
 
-    gameMode = NO_MODE;
+    gameMode = INIT;
     setTime("0:00");
-    setGameMode(DM);
+    setGameMode(NO_MODE);
+
+
     /*
 //Dynamic creation example
     Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
@@ -153,6 +159,51 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
     int sec = (int) mod->getRemainingTime() % 60;
     QString time = QString::number(min) + ":" + QString::number(sec);
     setTime(time);
+/*
+    QPair<QString,QMap<QString,int> > score = mod->getScores();
+
+    if(endingGame == true){//A match just end
+        qDebug()<<"ENDING GAME";
+        flagOverlay->hide();
+        endingGame = false;
+        runningGame = false;
+        if(score.first == "CTF" || score.first == "TDM"){
+            cleanFlags();
+        }
+    }
+
+    if(runningGame == true){//A match is running
+        qDebug()<<"RUNNING GAME";
+        if(score.first == "CTF" || score.first == "TDM"){
+            foreach( QString key, score.second.keys() ){
+                setFlagScore(key,score.second.value(key));
+            }
+        }
+    }
+
+    if(startingGame == true){//A match just start
+       qDebug()<<"STARTING GAME";
+       startingGame = false;
+       runningGame = true;
+
+       if(score.first == "CTF" || score.first == "TDM"){
+           qDebug()<<"STARTING GAME: CTF";
+           foreach( QString key, score.second.keys() )
+           {
+               addFlag(key,Ogre::ColourValue::Blue,2,0);
+           }
+           flagOverlay->show();
+       }else{
+
+       }
+    }
+*/
+    /*addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
+    addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
+    addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
+    setFlagScore("rreeff2",2);
+
+    flagOverlay->show();*/
 }
 
 void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
@@ -356,11 +407,18 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         case DM:
             break;
         case TDM:
-            break;
         case CTF:
             //flagOverlay->show();
+            //addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
+            //addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
+            //addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
+            //setFlagScore("rreeff2",2);
+
+            flagOverlay->show();
             break;
         case NO_MODE:
+            break;
+        case INIT:
             break;
         }
 
@@ -369,14 +427,16 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         lensOverlay->show();
         scoreOverlay->show();
         timeOverlay->show();
-        /*addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
-        addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
-        addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
-        setFlagScore("rreeff2",2);
 
-        flagOverlay->show();*/
 
     }
+}
+void PlayerHUDManagement::startGame(){
+    startingGame = true;
+}
+
+void PlayerHUDManagement::endGame(){
+    endingGame = true;
 }
 
 void PlayerHUDManagement::setTime(QString time){

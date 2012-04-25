@@ -8,7 +8,7 @@
 #include <string>
 
 enum GAME_MODE {
-    NO_MODE,DM,TDM, CTF
+    INIT,NO_MODE,DM,TDM, CTF
 };
 
 class PlayerHUDManagement{
@@ -31,6 +31,8 @@ public:
 
     static void displayStats();
     static void hideStats();
+    static void startGame();
+    static void endGame();
     bool statsAreVisible();
     void addFlag(QString id,Ogre::ColourValue flagColor, int score, int position);
     void setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb);
@@ -76,6 +78,7 @@ protected:
 
     GAME_MODE gameMode;
 
+
     float convertLifeToSize(float lifeValue);
     float maxLife;
     float maxLifeSize;
@@ -88,6 +91,10 @@ protected:
     void displayDMStats();
     void displayCTFStats();
     void cleanStats(Ogre::OverlayContainer* node);
+
+    static bool startingGame;
+    static bool runningGame;
+    static bool endingGame;
 };
 
 #endif // PLAYERHUDMANAGEMENT_H
