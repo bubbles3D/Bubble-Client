@@ -11,6 +11,7 @@ public:
     Team(QVariantMap map);
 
     void getColor(float* r, float* g, float* b);
+    void update(QVariantMap map);
 
     int cR, cG, cB;
     QString name;

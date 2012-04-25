@@ -14,6 +14,24 @@ Team::Team(QVariantMap map)
     pts = map["pts"].toInt();
 }
 
+void Team::update(QVariantMap map)
+{
+    //Colors
+    if (map.contains("cR"))
+        cR = map["cR"].toInt();
+    if (map.contains("cG"))
+        cG = map["cG"].toInt();
+    if (map.contains("cB"))
+        cB = map["cB"].toInt();
+
+    if (map.contains("name"))
+        name = map["name"].toString();;
+    if (map.contains("num"))
+        num = map["num"].toInt();
+    if (map.contains("pts"))
+        pts = map["pts"].toInt();
+}
+
 
 void Team::getColor(float* r, float* g, float* b)
 {
