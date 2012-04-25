@@ -157,7 +157,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
     Model* mod = Model::getInstance();
     int min =(int) mod->getRemainingTime()/60;
     int sec = (int) mod->getRemainingTime() % 60;
-    QString time = QString::number(min) + ":" + QString::number(sec);
+    QString time = QString("%1:%2").arg(min).arg(sec, 2, 10, QChar('0')); // Format => M:SS
     setTime(time);
 /*
     QPair<QString,QMap<QString,int> > score = mod->getScores();

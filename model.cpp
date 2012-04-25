@@ -76,6 +76,7 @@ QList<Flag> Model::getUpdatedFlags()
         }
     }
 
+    //qDebug() << "Flags to update " << flagsToUpdate;
     flagsToUpdate.clear();
 
     return ret;
@@ -442,22 +443,22 @@ void Model::setTeamInfo(QString json)
 
 }
 
-QPair<QString, QMap<QString, int> > Model::getScores()
+QPair<QString, QMap<int, int> > Model::getScores()
 {
     QMutexLocker locker(&mutex);
 
-    QPair<QString, QMap<QString, int> > ret;
-    QMap<QString, int> results;
+    QPair<QString, QMap<int, int> > ret;
+    QMap<int, int> results;
 
     switch(gameType){
         case 1:
-            ret.first = "Death Match";
+            ret.first = "DM";
             break;
         case 2:
-            ret.first = "Team Death Match";
+            ret.first = "TDM";
             break;
         case 3:
-            ret.first = "Capture the Flag";
+            ret.first = "CF";
             break;
         default:
             ret.first = "lol";
@@ -466,7 +467,7 @@ QPair<QString, QMap<QString, int> > Model::getScores()
 
     foreach(Team *t, teams)
     {
-        results.insert(t->name, t->pts);
+        results.insert(t->num, t->pts);
     }
 
     ret.second = results;
@@ -480,6 +481,11 @@ float Model::getRemainingTime()
             - (elapsedGameTime.elapsed() / 1000);
 
     return time >= 0.0 ? time : 0.0;
+}
+
+void Model::getTeamColor(int num, float *r, float *g, float *b)
+{
+    teams.value(num)->getColor(r,g,b);
 }
 
 int Model::getMapWidth()
