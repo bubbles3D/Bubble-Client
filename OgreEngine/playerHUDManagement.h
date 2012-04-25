@@ -58,10 +58,11 @@ protected:
     Ogre::OverlayContainer * deathValueContainer;
 
     //Stats
-    static Ogre::Overlay* statsOverlay;
-    static Ogre::OverlayElement * playerContainer;
-    static Ogre::OverlayContainer * statsPanel;
-    static Ogre::OverlayContainer * playersStats;
+    Ogre::Overlay* statsOverlay;
+    Ogre::OverlayElement * playerContainer;
+    Ogre::OverlayContainer * statsPanel;
+    Ogre::OverlayContainer * playersStats;
+    static bool statVisible;
 
     //life
     Ogre::Overlay* timeOverlay;
@@ -84,9 +85,9 @@ protected:
     void setLifeColor(Ogre::ColourValue lifeColor);
     void setTime(QString time);
     void setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::ColourValue flagColor);
-    static void displayDMStats();
-    static void displayCTFStats();
-    static void cleanStats(Ogre::OverlayContainer* node);
+    void displayDMStats();
+    void displayCTFStats();
+    void cleanStats(Ogre::OverlayContainer* node);
 };
 
 #endif // PLAYERHUDMANAGEMENT_H

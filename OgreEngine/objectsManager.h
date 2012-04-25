@@ -32,8 +32,10 @@ public:
     void updateObstaclesStates();
 
     void updateflagsState();
-    static void createFlag(Flag &p);
-
+    void createFlag(Flag &p);
+    void createFlags();
+    void attachFlags();
+    void detachFlags();
     //Destroy all objects in the list if they exist
     void destroyObjects(QList<QString> objectsToRemove);
 

@@ -2,16 +2,18 @@
 #include <QDebug>
 #include <OGRE/OgreTextAreaOverlayElement.h>
 
-Ogre::Overlay* PlayerHUDManagement::statsOverlay = 0;
-Ogre::OverlayElement * PlayerHUDManagement::playerContainer = 0;
-Ogre::OverlayContainer * PlayerHUDManagement::statsPanel = 0;
-Ogre::OverlayContainer * PlayerHUDManagement::playersStats = 0;
 float PlayerHUDManagement::alphaBlood = 0;
+bool PlayerHUDManagement::statVisible = false;
 bool playersLessThan(Player &s1, Player &s2);
 
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
 {
+
+    statsOverlay = 0;
+    playerContainer = 0;
+    statsPanel = 0;
+    playersStats = 0;
 
     lifeOverlay = Ogre::OverlayManager::getSingleton().getByName(overlayLifeName.toStdString());
     if(lifeOverlay){
@@ -136,6 +138,15 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
 void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
     updateBlood(timeSinceLastFrame);
+
+    //Update stats panel
+    if(statVisible == true && statsAreVisible() == false){
+        displayDMStats();
+    }else{
+        if(statVisible == false && statsAreVisible() == true){
+            statsOverlay->hide();
+        }
+    }
     //update time
 }
 
@@ -307,7 +318,7 @@ void PlayerHUDManagement::displayCTFStats(){
 
 void PlayerHUDManagement::displayStats(){
 
-    displayDMStats();
+    statVisible = true;
     /*
     switch(gameMode){
     case DM:
@@ -326,7 +337,7 @@ void PlayerHUDManagement::displayStats(){
 }
 
 void PlayerHUDManagement::hideStats(){
-    statsOverlay->hide();
+    statVisible = false;
 }
 
 bool PlayerHUDManagement::statsAreVisible(){

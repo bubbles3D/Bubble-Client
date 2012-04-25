@@ -79,7 +79,7 @@ void OgreApp::createScene(void)
     mode = FREE;
 
     //
-    //emit(ogrePartReady());
+    emit(ogrePartReady());
 
     //Create the cube
     Model * mod = Model::getInstance();

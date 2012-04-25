@@ -11,10 +11,17 @@ ObjectsManager::ObjectsManager(Ogre::SceneManager * msceneMgr)
 void ObjectsManager::updatePositions(){
      Model * model = Model::getInstance();
 
+     //Create flag if needed
+     createFlags();
+
      updatePlayersPositions();
      updateBulletsState();
      updateObstaclesStates();
      updateflagsState();
+
+     attachFlags();
+     detachFlags();
+
      //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
      destroyObjects(model->getClearedActors());
 }
@@ -112,7 +119,7 @@ void ObjectsManager::updatePlayersPositions(){
 }
 
 void ObjectsManager::updateflagsState(){
-
+/*
     Model * model = Model::getInstance();
     QList<Flag> flagList = model->getUpdatedFlags();
 
@@ -120,7 +127,6 @@ void ObjectsManager::updateflagsState(){
 
     foreach(Flag p, flagList){
         FlagObject * flag;
-//qDebug()<<"Update flag";
         if (objects.contains(p.getId())){
             flag =(FlagObject*) objects.value(p.getId());
             flag->updateState(p);
@@ -129,12 +135,75 @@ void ObjectsManager::updateflagsState(){
             objects.insert(p.getId(), flag);
         }
     }
+*/
+    Model * model = Model::getInstance();
+    QList<Flag> flagList = model->getUpdatedFlags();
+
+    //Update elements position
+
+    foreach(Flag p, flagList){
+        FlagObject * flag;
+        if (objects.contains(p.getId())){
+            flag =(FlagObject*) objects.value(p.getId());
+            flag->updateState(p);
+        }else{
+            qDebug()<<"UPDATE FLAG DON T EXIST";
+        }
+    }
 
 }
 
 void ObjectsManager::createFlag(Flag &p){
     FlagObject *flag = new FlagObject(sceneMgr, p);
     objects.insert(p.getId(), flag);
+}
+
+void ObjectsManager::createFlags(){
+
+    Model * model = Model::getInstance();
+    QList<Flag> flagList = model->getNewFlags();
+
+    //Update elements position
+
+    foreach(Flag p, flagList){
+        if (objects.contains(p.getId())){
+            qDebug()<<"ERROR CREATING FLAG: flag already exist!!!";
+        }else{
+            qDebug()<<"CREATE FLAG";
+            createFlag(p);
+        }
+    }
+
+}
+
+void ObjectsManager::attachFlags(){
+    Model * model = Model::getInstance();
+    QList<QPair<QString, QString> > listToAttach =  model->getFlagsToAttach();
+    QPair<QString, QString> p;
+
+    foreach( p, listToAttach){
+        if (objects.contains(p.first) && objects.contains(p.second)){
+            attachFlagToPlayer(p.first, p.second);
+        }else{
+            qDebug()<<"ATTACH FLAG: player or flag DON T EXIST";
+        }
+    }
+
+}
+
+void ObjectsManager::detachFlags(){
+
+    Model * model = Model::getInstance();
+    QList<QString> listToDetach =  model->getFlagsToDettach();
+
+    foreach(QString playerId, listToDetach){
+        qDebug()<<"DETACHING";
+        if (objects.contains(playerId)){
+            detachFlagFromPlayer(playerId);
+        }else{
+            qDebug()<<"DETACH FLAG DON T EXIST";
+        }
+    }
 }
 
 MainPlayerObject * ObjectsManager::getPlayer(){
@@ -163,10 +232,11 @@ void ObjectsManager::detachFlagFromPlayer(QString idPlayer){
 
     BubbleObject* player = (BubbleObject*)objects[idPlayer];
     if(player->getFlag() != 0){
+        qDebug()<<"DETACH FLAG";
         player->getFlag()->attach(sceneMgr->getRootSceneNode());
         player->removeFlag();
     }else{
-        qDebug()<<"ERROR: detaching flag";
+        qDebug()<<"ERROR: detaching flag (idPlayer: "<<idPlayer<<")";
     }
 
 }
