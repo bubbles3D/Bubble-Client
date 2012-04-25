@@ -142,9 +142,7 @@ void Model::setUpdatedPlayers(QString json)
                 PlayerHUDManagement::touched();
             }
             life = obj.toMap()["life"].toInt();
-        }
-
-        updatePlayer(obj);
+        }        
 
         //If a player is to be set a flag
         if (obj.toMap().contains("flag") &&
@@ -157,11 +155,14 @@ void Model::setUpdatedPlayers(QString json)
 
         //Remove a flag
         if (obj.toMap().contains("flag") &&
+                players.contains(obj.toMap()["id"].toString()) &&
                 players.value(obj.toMap()["id"].toString())->flag != 0 &&
                 obj.toMap()["flag"].toString() == "0")
         {
             flagsToDettach.append(obj.toMap()["id"].toString());
         }
+
+        updatePlayer(obj);
     }
 }
 
