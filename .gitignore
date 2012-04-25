@@ -1,0 +1,18 @@
+# Get rid of compiled objects...
+*.o
+
+# ...and compile-time Qt-stuff
+Makefile
+*.pro.user
+moc_*.cpp
+ui_*.h
+
+# ...and generated binary
+Bubble-Client
+
+# Runtime config
+OgreEngine/data/hosts
+OgreEngine/data/ogre.cfg
+OgreEngine/data/ogre_log.log
+hosts
+ogre_log.log
