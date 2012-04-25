@@ -18,6 +18,7 @@ public:
     virtual void setScale(Ogre::Vector3 scale);
     void attach(Ogre::SceneNode* nodeWhereAttach);
     Ogre::SceneNode * getNode();
+    QString getName();
 protected:
 
     // The root node

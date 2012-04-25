@@ -56,3 +56,7 @@ void Object::attach(Ogre::SceneNode* nodeWhereAttach){
 Object::~Object(){
     node->removeAndDestroyAllChildren();
 }
+
+QString Object::getName(){
+    return name;
+}
