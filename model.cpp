@@ -76,6 +76,7 @@ QList<Flag> Model::getUpdatedFlags()
         }
     }
 
+    //qDebug() << "Flags to update " << flagsToUpdate;
     flagsToUpdate.clear();
 
     return ret;
@@ -451,13 +452,13 @@ QPair<QString, QMap<QString, int> > Model::getScores()
 
     switch(gameType){
         case 1:
-            ret.first = "Death Match";
+            ret.first = "DM";
             break;
         case 2:
-            ret.first = "Team Death Match";
+            ret.first = "TDM";
             break;
         case 3:
-            ret.first = "Capture the Flag";
+            ret.first = "CF";
             break;
         default:
             ret.first = "lol";
