@@ -32,6 +32,7 @@ This source file is part of the
 #include <OIS/OISMouse.h>
 #include <OGRE/SdkTrays.h>
 #include <OGRE/SdkCameraMan.h>
+#include <QDebug>
 
 class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
 {
