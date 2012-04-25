@@ -43,7 +43,7 @@ void MainPlayerObject::mouseMouved(const OIS::MouseEvent &arg){
     pitchNode->needUpdate();
     Ogre::Vector3 verticalVect(pitchNode->getOrientation() * Ogre::Vector3::UNIT_Z);
     verticalVect.normalise();
-    if( (arg.state.Y.rel < 0 && verticalVect.y > 0.9) || (arg.state.Y.rel > 0 && verticalVect.y < -0.9)){
+    if( (arg.state.Y.rel < 0 && verticalVect.y > 0.999) || (arg.state.Y.rel > 0 && verticalVect.y < -0.999)){
         //Limit camera movement (looking up and down)
     }else{
         pitchNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));
