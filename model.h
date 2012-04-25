@@ -71,6 +71,7 @@ public:
     void setGameInfo(QString json);
     void setTeamInfo(QString json);
     float getRemainingTime();
+    QPair<QString, QMap<QString, int> > getScores();
 
     void setToClear(QString json);
 
