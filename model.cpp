@@ -352,6 +352,7 @@ void Model::setToClear(QString json)
         if(players.contains(obj.toString()))
         {
             delete players.take(obj.toString());
+            flagsToDettach.removeOne(obj.toString());
         }
         else if(bullets.contains(obj.toString()))
         {
@@ -381,6 +382,9 @@ void Model::setMap(QString json)
 
 void Model::endOfTime()
 {
+    flagsToDettach.clear();
+    flagsToAttach.clear();
+
     PlayerHUDManagement::displayStats();
     QTimer::singleShot(pauseTime * 1000, this, SLOT(endOfPause()));
 }
