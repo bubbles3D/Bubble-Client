@@ -483,6 +483,11 @@ float Model::getRemainingTime()
     return time >= 0.0 ? time : 0.0;
 }
 
+void Model::getTeamColor(int num, float *r, float *g, float *b)
+{
+    teams.value(num)->getColor(r,g,b);
+}
+
 int Model::getMapWidth()
 {
     return mapWidth;

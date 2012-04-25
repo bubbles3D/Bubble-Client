@@ -73,6 +73,7 @@ public:
     void setTeamInfo(QString json);
     float getRemainingTime();
     QPair<QString, QMap<int, int> > getScores();
+    void getTeamColor(int num, float *r, float *g, float *b);
 
     void setToClear(QString json);
 
