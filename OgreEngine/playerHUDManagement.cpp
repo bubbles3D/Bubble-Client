@@ -370,12 +370,12 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
         lensOverlay->show();
         scoreOverlay->show();
         timeOverlay->show();
-        //addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
-        //addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
-        //addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
-        //setFlagScore("rreeff2",42);
+        /*addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
+        addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
+        addFlag("rreeff3",Ogre::ColourValue::Green,3,2);
+        setFlagScore("rreeff2",2);
 
-        //flagOverlay->show();
+        flagOverlay->show();*/
 
     }
 }
