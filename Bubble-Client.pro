@@ -73,9 +73,7 @@ LIBS += \
     -L/usr/local/lib \
     -L/usr/lib \
     -lOgreMain\
-    -lOIS \
-    -lCEGUIBase \
-    -lCEGUIOgreRenderer
+    -lOIS
 
  QT += \
     network \
