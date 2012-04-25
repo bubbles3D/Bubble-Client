@@ -438,6 +438,38 @@ void Model::setTeamInfo(QString json)
 
 }
 
+QPair<QString, QMap<QString, int> > Model::getScores()
+{
+    QMutexLocker locker(&mutex);
+
+    QPair<QString, QMap<QString, int> > ret;
+    QMap<QString, int> results;
+
+    switch(gameType){
+        case 1:
+            ret.first = "Death Match";
+            break;
+        case 2:
+            ret.first = "Team Death Match";
+            break;
+        case 3:
+            ret.first = "Capture the Flag";
+            break;
+        default:
+            ret.first = "lol";
+    }
+
+
+    foreach(Team *t, teams)
+    {
+        results.insert(t->name, t->pts);
+    }
+
+    ret.second = results;
+
+    return ret;
+}
+
 float Model::getRemainingTime()
 {
     float time = gameTime - (elapsedGameTime.elapsed() / 1000);
