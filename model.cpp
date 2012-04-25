@@ -393,7 +393,7 @@ void Model::endOfTime()
     flagsToDettach.clear();
     flagsToAttach.clear();
 
-    PlayerHUDManagement::displayStats();
+    PlayerHUDManagement::endGame();
     QTimer::singleShot(pauseTime * 1000, this, SLOT(endOfPause()));
 
     playing = false;
@@ -402,7 +402,7 @@ void Model::endOfTime()
 
 void Model::endOfPause()
 {
-    PlayerHUDManagement::hideStats();
+    PlayerHUDManagement::startGame();
 }
 
 void Model::setGameInfo(QString json)
