@@ -70,8 +70,13 @@ QList<Flag> Model::getUpdatedFlags()
 
     QList<Flag> ret;
     foreach(Flag* f, flags.values()){
-        ret.append(*f);
+        if (flagsToUpdate.contains(f->id))
+        {
+            ret.append(*f);
+        }
     }
+
+    flagsToUpdate.clear();
 
     return ret;
 }
@@ -182,7 +187,7 @@ void Model::setUpdatedFlags(QString json)
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
 
-    foreach(QVariant obj, result["flags"].toList()){
+    foreach(QVariant obj, result["flags"].toList()){        
         updateFlag(obj);
     }
 }
@@ -269,6 +274,8 @@ void Model::updateFlag(QVariant data)
 {
     QMutexLocker locker(&mutex);
     QVariantMap obj = data.toMap();
+
+    flagsToUpdate.append(obj["id"].toString());
 
     if (flags.contains(obj["id"].toString()))
     {

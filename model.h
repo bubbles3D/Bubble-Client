@@ -84,6 +84,7 @@ private:
     QList<QString> newFlags;
     QList<QPair<QString, QString> > flagsToAttach;
     QList<QString> flagsToDettach;
+    QList<QString> flagsToUpdate;
     QString name;
     QSet<QString> toClear;
     QColor color;
