@@ -107,6 +107,11 @@ void NetworkClient::processIncommingData()
                 m->setGameInfo(toProcess[i]);
             }
 
+            if (toProcess[i].contains("teams"))
+            {
+                m->setTeamInfo(toProcess[i]);
+            }
+
             m->setUpdatedPlayers(toProcess[i]);
             m->setUpdatedBullets(toProcess[i]);
             m->setUpdatedFlags(toProcess[i]);
