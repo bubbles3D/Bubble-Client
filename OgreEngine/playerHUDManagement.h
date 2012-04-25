@@ -13,7 +13,7 @@ enum GAME_MODE {
 
 class PlayerHUDManagement{
 public:
-    PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue = 40, float maxLifeSize = 200);
+    PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue = 400, float mmaxLifeSize = 200);
 
     //Update life indicator
     void setLife(float lifeValue, Ogre::ColourValue color = Ogre::ColourValue::White);

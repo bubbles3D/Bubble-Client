@@ -25,7 +25,7 @@ void MainPlayerObject::createPlayer(QString id){
     playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
 
     //HUD
-    hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
+    hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",400);
 }
 
 Ogre::String MainPlayerObject::getPlayerCameraName(){
@@ -43,7 +43,7 @@ void MainPlayerObject::mouseMouved(const OIS::MouseEvent &arg){
     pitchNode->needUpdate();
     Ogre::Vector3 verticalVect(pitchNode->getOrientation() * Ogre::Vector3::UNIT_Z);
     verticalVect.normalise();
-    if( (arg.state.Y.rel < 0 && verticalVect.y > 0.9) || (arg.state.Y.rel > 0 && verticalVect.y < -0.9)){
+    if( (arg.state.Y.rel < 0 && verticalVect.y > 0.999) || (arg.state.Y.rel > 0 && verticalVect.y < -0.999)){
         //Limit camera movement (looking up and down)
     }else{
         pitchNode->pitch(Ogre::Degree(+arg.state.Y.rel * mRotateSpeed));

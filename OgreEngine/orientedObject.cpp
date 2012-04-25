@@ -13,7 +13,6 @@ Object::Object(mSceneMgr, size, name )
 void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor){
 
     objectSide = floor;
-
     if(directionToLookAt.isZeroLength()){
         //nothing to do
     }else{

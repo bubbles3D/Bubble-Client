@@ -9,7 +9,6 @@ bool playersLessThan(Player &s1, Player &s2);
 PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overlayLensName, QString overlayBloodName, float maxLifeValue, float maxLifeSize):
     maxLife(maxLifeValue), maxLifeSize(maxLifeSize)
 {
-
     statsOverlay = 0;
     playerContainer = 0;
     statsPanel = 0;
@@ -182,7 +181,7 @@ void PlayerHUDManagement::setLifeColor(Ogre::ColourValue lifeColor){
 }
 
 float PlayerHUDManagement::convertLifeToSize(float lifeValue){
-    return maxLifeSize - (maxLife - lifeValue)/maxLife*maxLifeSize;
+    return maxLifeSize*(1 - (maxLife - lifeValue)/maxLife ) ;
 }
 
 void PlayerHUDManagement::touched(){

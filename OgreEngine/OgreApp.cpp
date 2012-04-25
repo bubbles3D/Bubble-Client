@@ -92,12 +92,16 @@ void OgreApp::createScene(void)
     Ogre::ColourValue blanc(255/255.0, 255/255.0, 200/255.0);//Violet
     Ogre::ColourValue orange(249.0/255.0, 119.0/255.0, 20.0/255.0);//Orange
 
+    qDebug()<<"CREATE CUBE";
     cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.33333, orange, blanc, jaune, rouge, vert, bleu);
+    qDebug()<<"END CREATING CUBE";
 
 
 
     //Set up the scene
+    qDebug()<<"SET UP OBSTACLES";
     objectMgr->updateObstaclesStates();
+     qDebug()<<"OBSTACLES SETTED";
 
     //TEST for random color
     /* initialize random seed: */

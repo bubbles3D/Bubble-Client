@@ -91,7 +91,7 @@ void BubbleObject::updateState(Actor &p){
     p.getColor(&r,&g,&b);
     setBodyColor(r,g,b);
 
-    setOrientation(Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()),objectSide);
+    setOrientation(Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()),(side)p.getCube());
 
     setScale(Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()));
     setPosition(p.getX(),p.getY(),p.getZ());
