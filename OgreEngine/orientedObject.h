@@ -16,6 +16,8 @@ public:
 protected:
     Ogre::SceneNode* yawNode;
     Ogre::SceneNode* pitchNode;
+
+    side objectSide;
 };
 
 #endif // ORIENTEDOBJECT_H

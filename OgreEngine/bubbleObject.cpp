@@ -90,7 +90,9 @@ void BubbleObject::updateState(Actor &p){
     float b;
     p.getColor(&r,&g,&b);
     setBodyColor(r,g,b);
-    setOrientation(Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()),(side)p.getCube());
+
+    setOrientation(Ogre::Vector3(p.getVx(),p.getVy(),p.getVz()),objectSide);
+
     setScale(Ogre::Vector3(p.getWidth(),p.getHeight(),p.getLength()));
     setPosition(p.getX(),p.getY(),p.getZ());
 }
@@ -155,6 +157,7 @@ Ogre::Vector3 BubbleObject::getScale(){
 void BubbleObject::setFlag(FlagObject * flag){
     this->flag = flag;
     flag->setPosition(0,scale.y/2,0);
+    flag->setOrientation(Ogre::Vector3(1,0,0),side);
 
 }
 

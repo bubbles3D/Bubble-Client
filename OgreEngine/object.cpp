@@ -51,7 +51,6 @@ void Object::attach(Ogre::SceneNode* nodeWhereAttach){
     //Attach
     nodeWhereAttach->addChild(node);
     node->setPosition(0,0,0);
-    //node->setVisible(true,true);
 }
 
 Object::~Object(){
