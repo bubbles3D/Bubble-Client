@@ -26,7 +26,8 @@ SOURCES += \
     OgreEngine/objectsManager.cpp \
     OgreEngine/flagObject.cpp \
     OgreEngine/mainPlayerObject.cpp \
-    flag.cpp
+    flag.cpp \
+    team.cpp
 
 HEADERS += \
     networkclient.h \
@@ -63,7 +64,8 @@ HEADERS += \
     OgreEngine/objectsManager.h \
     OgreEngine/flagObject.h \
     OgreEngine/mainPlayerObject.h \
-    flag.h
+    flag.h \
+    team.h
 
 
 

@@ -70,9 +70,7 @@ public:
     void setGameInfo(QString json);
     float getRemainingTime();
 
-
     void setToClear(QString json);
-
 
 
 private:
