@@ -32,6 +32,7 @@ private slots:
 private:
     Ui::AppDialog *ui;
     GameApp * ga;
+    NetworkClient * nc;
     Model * m;
     QFile * hosts;
     QColorDialog * qchooser;

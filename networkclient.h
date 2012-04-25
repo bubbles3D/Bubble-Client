@@ -25,6 +25,10 @@ private:
     QTcpSocket * sock;
     QString name;
     QString messages;
+    bool gotInit;
+
+signals:
+    void networkReady();
 };
 
 #endif // NETWORKCLIENT_H

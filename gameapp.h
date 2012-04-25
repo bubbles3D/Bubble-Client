@@ -10,12 +10,10 @@ class GameApp : public QObject
     Q_OBJECT
 public:
     explicit GameApp(QObject *parent = 0);
-    void run();
-
-signals:
 
 public slots:
     void endOfThread();
+    void run();
 
  private:
     OgreApp * thread;
