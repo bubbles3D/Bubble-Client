@@ -25,7 +25,7 @@ void MainPlayerObject::createPlayer(QString id){
     playerCamera->rotate(Ogre::Vector3(0,1,0), Ogre::Angle(180));
 
     //HUD
-    hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",40);
+    hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",400);
 }
 
 Ogre::String MainPlayerObject::getPlayerCameraName(){
