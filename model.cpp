@@ -394,6 +394,9 @@ void Model::endOfTime()
 
     PlayerHUDManagement::displayStats();
     QTimer::singleShot(pauseTime * 1000, this, SLOT(endOfPause()));
+
+    playing = false;
+    elapsedGameTime.restart();
 }
 
 void Model::endOfPause()
@@ -414,6 +417,7 @@ void Model::setGameInfo(QString json)
 
     QTimer::singleShot(gameTime * 1000, this, SLOT(endOfTime()));
 
+    playing = true;
     elapsedGameTime.restart();
 }
 
@@ -472,7 +476,8 @@ QPair<QString, QMap<QString, int> > Model::getScores()
 
 float Model::getRemainingTime()
 {
-    float time = gameTime - (elapsedGameTime.elapsed() / 1000);
+    float time = (playing ? gameTime : pauseTime)
+            - (elapsedGameTime.elapsed() / 1000);
 
     return time >= 0.0 ? time : 0.0;
 }
