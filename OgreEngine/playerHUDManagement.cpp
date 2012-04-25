@@ -147,7 +147,13 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
             statsOverlay->hide();
         }
     }
+
     //update time
+    Model* mod = Model::getInstance();
+    int min =(int) mod->getRemainingTime()/60;
+    int sec = (int) mod->getRemainingTime() % 60;
+    QString time = QString::number(min) + ":" + QString::number(sec);
+    setTime(time);
 }
 
 void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
