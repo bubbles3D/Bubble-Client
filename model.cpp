@@ -419,7 +419,9 @@ void Model::setGameInfo(QString json)
 
 float Model::getRemainingTime()
 {
-    return gameTime - (elapsedGameTime.elapsed() * 1000);
+    int time = gameTime - (elapsedGameTime.elapsed() * 1000);
+
+    return time >= 0 ? time : 0;
 }
 
 int Model::getMapWidth()
