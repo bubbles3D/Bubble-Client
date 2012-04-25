@@ -159,6 +159,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
     int sec = (int) mod->getRemainingTime() % 60;
     QString time = QString("%1:%2").arg(min).arg(sec, 2, 10, QChar('0')); // Format => M:SS
     setTime(time);
+
 /*
     QPair<QString,QMap<QString,int> > score = mod->getScores();
 
@@ -190,6 +191,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
            qDebug()<<"STARTING GAME: CTF";
            foreach( QString key, score.second.keys() )
            {
+                //mod->getTeamColor();
                addFlag(key,Ogre::ColourValue::Blue,2,0);
            }
            flagOverlay->show();
@@ -433,10 +435,12 @@ void PlayerHUDManagement::setGameMode(GAME_MODE mode){
 }
 void PlayerHUDManagement::startGame(){
     startingGame = true;
+    hideStats();
 }
 
 void PlayerHUDManagement::endGame(){
     endingGame = true;
+    displayStats();
 }
 
 void PlayerHUDManagement::setTime(QString time){
