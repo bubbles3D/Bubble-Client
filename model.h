@@ -68,6 +68,7 @@ public:
 
     //Game
     void setGameInfo(QString json);
+    float getRemainingTime();
 
 
     void setToClear(QString json);
@@ -88,11 +89,13 @@ private:
     QString name;
     QSet<QString> toClear;
     QColor color;
+    QTime elapsedGameTime;
     int life, id;
     mutable QMutex mutex;
     QTime mouseTimeout;
     void update();
     float pauseTime;
+    float gameTime;
     int gameType;
 
 signals:
