@@ -96,6 +96,7 @@ private:
     mutable QMutex mutex;
     QTime mouseTimeout;
     void update();
+    bool playing;
     float pauseTime;
     float gameTime;
     int gameType;
