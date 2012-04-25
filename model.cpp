@@ -410,9 +410,16 @@ void Model::setGameInfo(QString json)
 
     pauseTime = game["pauseTime"].toFloat();
     gameType = game["gameType"].toInt();
+    gameTime = game["gameTime"].toFloat();
 
-    int timeLeft = game["gameTime"].toFloat();
-    QTimer::singleShot(timeLeft * 1000, this, SLOT(endOfTime()));
+    QTimer::singleShot(gameTime * 1000, this, SLOT(endOfTime()));
+
+    elapsedGameTime.restart();
+}
+
+float Model::getRemainingTime()
+{
+    return (gameTime - elapsedGameTime.elapsed()) * 1000;
 }
 
 int Model::getMapWidth()
