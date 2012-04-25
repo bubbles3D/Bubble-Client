@@ -21,6 +21,7 @@ class Model: public QObject
     Q_OBJECT
 public:
     int mapWidth, mapLength;
+    mutable QMutex ready;
 
     static Model * getInstance();
 
@@ -71,7 +72,7 @@ public:
     void setGameInfo(QString json);
     void setTeamInfo(QString json);
     float getRemainingTime();
-    QPair<QString, QMap<QString, int> > getScores();
+    QPair<QString, QMap<int, int> > getScores();
 
     void setToClear(QString json);
 

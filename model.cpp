@@ -443,12 +443,12 @@ void Model::setTeamInfo(QString json)
 
 }
 
-QPair<QString, QMap<QString, int> > Model::getScores()
+QPair<QString, QMap<int, int> > Model::getScores()
 {
     QMutexLocker locker(&mutex);
 
-    QPair<QString, QMap<QString, int> > ret;
-    QMap<QString, int> results;
+    QPair<QString, QMap<int, int> > ret;
+    QMap<int, int> results;
 
     switch(gameType){
         case 1:
@@ -467,7 +467,7 @@ QPair<QString, QMap<QString, int> > Model::getScores()
 
     foreach(Team *t, teams)
     {
-        results.insert(t->name, t->pts);
+        results.insert(t->num, t->pts);
     }
 
     ret.second = results;
