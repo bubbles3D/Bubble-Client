@@ -70,8 +70,13 @@ QList<Flag> Model::getUpdatedFlags()
 
     QList<Flag> ret;
     foreach(Flag* f, flags.values()){
-        ret.append(*f);
+        if (flagsToUpdate.contains(f->id))
+        {
+            ret.append(*f);
+        }
     }
+
+    flagsToUpdate.clear();
 
     return ret;
 }
@@ -182,7 +187,7 @@ void Model::setUpdatedFlags(QString json)
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
 
-    foreach(QVariant obj, result["flags"].toList()){
+    foreach(QVariant obj, result["flags"].toList()){        
         updateFlag(obj);
     }
 }
@@ -270,6 +275,8 @@ void Model::updateFlag(QVariant data)
     QMutexLocker locker(&mutex);
     QVariantMap obj = data.toMap();
 
+    flagsToUpdate.append(obj["id"].toString());
+
     if (flags.contains(obj["id"].toString()))
     {
         flags[obj["id"].toString()]->update(obj);        
@@ -352,6 +359,7 @@ void Model::setToClear(QString json)
         if(players.contains(obj.toString()))
         {
             delete players.take(obj.toString());
+            flagsToDettach.removeOne(obj.toString());
         }
         else if(bullets.contains(obj.toString()))
         {
@@ -381,6 +389,9 @@ void Model::setMap(QString json)
 
 void Model::endOfTime()
 {
+    flagsToDettach.clear();
+    flagsToAttach.clear();
+
     PlayerHUDManagement::displayStats();
     QTimer::singleShot(pauseTime * 1000, this, SLOT(endOfPause()));
 }
