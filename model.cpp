@@ -451,12 +451,13 @@ QPair<QString, QMap<QString, int> > Model::getScores()
             break;
         case 2:
             ret.first = "Team Death Match";
+            break;
         case 3:
             ret.first = "Capture the Flag";
+            break;
         default:
             ret.first = "lol";
     }
-
 
 
     foreach(Team *t, teams)
