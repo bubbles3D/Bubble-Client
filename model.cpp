@@ -422,9 +422,19 @@ void Model::setTeamInfo(QString json)
     QMutexLocker locker(&mutex);
     QJson::Parser parser;
     QVariantMap result = parser.parse(json.toAscii()).toMap();
-    QMap<QString, QVariant> teams = result["teams"].toMap();
+    QList<QVariant> srvTeams = result["teams"].toList();
 
-
+    foreach(QVariant obj, srvTeams){
+        if (teams.contains(obj.toMap()["id"].toInt()))
+        {
+            teams.value((obj.toMap()["id"].toInt()))->update(obj.toMap());
+        }
+        else
+        {
+            Team *t = new Team(obj.toMap());
+            teams.insert(t->num, t);
+        }
+    }
 
 }
 

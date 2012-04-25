@@ -14,6 +14,7 @@
 #include "bullet.h"
 #include "obstacles.h"
 #include "flag.h"
+#include "team.h"
 
 class Model: public QObject
 {
@@ -85,6 +86,7 @@ private:
     QList<QPair<QString, QString> > flagsToAttach;
     QList<QString> flagsToDettach;
     QList<QString> flagsToUpdate;
+    QMap<int, Team*> teams;
     QString name;
     QSet<QString> toClear;
     QColor color;
