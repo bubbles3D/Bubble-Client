@@ -12,6 +12,7 @@ Object::Object(mSceneMgr, size, name )
 
 void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor){
 
+    objectSide = floor;
 
     if(directionToLookAt.isZeroLength()){
         //nothing to do
@@ -40,72 +41,71 @@ void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor)
     directionToLookAtVertical.x = 0;
 
     //switch(p.getCube()){
-    if(objectSide != floor){//If we need to update face
-        objectSide = floor;
-        switch(floor){
-        case BOTTOM: //bas
 
-            directionToLookAtHorizontal.x = directionToLookAt.x;
-            directionToLookAtHorizontal.z = directionToLookAt.z;
+    switch(floor){
+    case BOTTOM: //bas
 
-            directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.x * directionToLookAt.x) ;
-            directionToLookAtVertical.y = directionToLookAt.y;
+        directionToLookAtHorizontal.x = directionToLookAt.x;
+        directionToLookAtHorizontal.z = directionToLookAt.z;
 
-            break;
-        case XSIDE_OP: //COTE X  OPP
-            node->pitch(Ogre::Degree(-90));
+        directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.x * directionToLookAt.x) ;
+        directionToLookAtVertical.y = directionToLookAt.y;
 
-            directionToLookAtHorizontal.x = directionToLookAt.x;
-            directionToLookAtHorizontal.z = directionToLookAt.y;
+        break;
+    case XSIDE_OP: //COTE X  OPP
+        node->pitch(Ogre::Degree(-90));
 
-            directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.x * directionToLookAt.x) ;
-            directionToLookAtVertical.y = -directionToLookAt.z;
+        directionToLookAtHorizontal.x = directionToLookAt.x;
+        directionToLookAtHorizontal.z = directionToLookAt.y;
 
-            break;
-        case XSIDE: //COTE X
-            node->pitch(Ogre::Degree(90));
+        directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.x * directionToLookAt.x) ;
+        directionToLookAtVertical.y = -directionToLookAt.z;
 
-            directionToLookAtHorizontal.x = directionToLookAt.x;
-            directionToLookAtHorizontal.z = -directionToLookAt.y;
+        break;
+    case XSIDE: //COTE X
+        node->pitch(Ogre::Degree(90));
 
-            directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.x * directionToLookAt.x) ;
-            directionToLookAtVertical.y = directionToLookAt.z;
+        directionToLookAtHorizontal.x = directionToLookAt.x;
+        directionToLookAtHorizontal.z = -directionToLookAt.y;
 
-            break;
-        case ZSIDE: //COTE Z
+        directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.x * directionToLookAt.x) ;
+        directionToLookAtVertical.y = directionToLookAt.z;
 
-            node->roll(Ogre::Degree(-90));
-            directionToLookAtHorizontal.x = -directionToLookAt.y;
-            directionToLookAtHorizontal.z = directionToLookAt.z;
+        break;
+    case ZSIDE: //COTE Z
 
-            directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.z * directionToLookAt.z) ;
-            directionToLookAtVertical.y = directionToLookAt.x;
+        node->roll(Ogre::Degree(-90));
+        directionToLookAtHorizontal.x = -directionToLookAt.y;
+        directionToLookAtHorizontal.z = directionToLookAt.z;
 
-            break;
-        case ZSIDE_OP:
+        directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.y * directionToLookAt.y + directionToLookAt.z * directionToLookAt.z) ;
+        directionToLookAtVertical.y = directionToLookAt.x;
 
-            node->roll(Ogre::Degree(90));
+        break;
+    case ZSIDE_OP:
 
-            directionToLookAtHorizontal.x = directionToLookAt.y;
-            directionToLookAtHorizontal.z = directionToLookAt.z;
+        node->roll(Ogre::Degree(90));
 
-            directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.y * directionToLookAt.y) ;
-            directionToLookAtVertical.y = -directionToLookAt.x;
+        directionToLookAtHorizontal.x = directionToLookAt.y;
+        directionToLookAtHorizontal.z = directionToLookAt.z;
 
-            break;
-        case TOP:
+        directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.y * directionToLookAt.y) ;
+        directionToLookAtVertical.y = -directionToLookAt.x;
 
-            node->roll(Ogre::Degree(180));
+        break;
+    case TOP:
 
-            directionToLookAtHorizontal.x = -directionToLookAt.x;
-            directionToLookAtHorizontal.z = directionToLookAt.z;
+        node->roll(Ogre::Degree(180));
 
-            directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.x * directionToLookAt.x) ;
-            directionToLookAtVertical.y = -directionToLookAt.y;
+        directionToLookAtHorizontal.x = -directionToLookAt.x;
+        directionToLookAtHorizontal.z = directionToLookAt.z;
 
-            break;
-        }
+        directionToLookAtVertical.z = Ogre::Math::Sqrt(directionToLookAt.z * directionToLookAt.z + directionToLookAt.x * directionToLookAt.x) ;
+        directionToLookAtVertical.y = -directionToLookAt.y;
+
+        break;
     }
+
 
     // Normalise
     directionToLookAtHorizontal.normalise();

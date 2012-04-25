@@ -157,7 +157,7 @@ Ogre::Vector3 BubbleObject::getScale(){
 void BubbleObject::setFlag(FlagObject * flag){
     this->flag = flag;
     flag->setPosition(0,scale.y/2,0);
-    flag->setOrientation(Ogre::Vector3(1,0,0),objectSide);
+    flag->setOrientation(Ogre::Vector3(1,0,0),BOTTOM);
 
 }
 

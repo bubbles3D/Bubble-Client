@@ -19,7 +19,7 @@ public:
     virtual void setScale(float scale);
     virtual void setScale(Ogre::Vector3 scale);
     virtual Ogre::Vector3 getScale();
-    void setFlag(FlagObject * flag);
+    virtual void setFlag(FlagObject * flag);
     FlagObject * getFlag();
     void removeFlag();
 
