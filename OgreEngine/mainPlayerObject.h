@@ -29,6 +29,10 @@ protected:
     enum side playerSide;
 
     void createPlayer(QString id);
+
+    int life;
+    int kill;
+    int death;
 };
 
 #endif // PLAYEROBJECT_H

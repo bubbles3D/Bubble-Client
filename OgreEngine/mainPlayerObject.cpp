@@ -3,15 +3,21 @@
 
 
 MainPlayerObject::MainPlayerObject(Ogre::SceneManager *mSceneMgr,Player p):
-BubbleObject(mSceneMgr,p)
+    BubbleObject(mSceneMgr,p),life(p.getLife()),kill(p.getKills()),death(p.getDeaths())
 {
     createPlayer(p.getId());
+    Ogre::ColourValue color;
+    p.getColor(&(color.r),&(color.g),&(color.b));
+    hudMgt->setLife(p.getLife(),color);
+    hudMgt->setKillsValue(p.getKills());
+    hudMgt->setDeathValue(p.getDeaths());
 }
 
 MainPlayerObject::MainPlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color):
-    BubbleObject(mSceneMgr, id, mside, position, directionToLookAt, size, color )
+    BubbleObject(mSceneMgr, id, mside, position, directionToLookAt, size, color ),life(-1),kill(-1),death(-1)
 {
     createPlayer(id);
+
 }
 
 void MainPlayerObject::createPlayer(QString id){
@@ -26,6 +32,7 @@ void MainPlayerObject::createPlayer(QString id){
 
     //HUD
     hudMgt = new PlayerHUDManagement("FirstPerson/life", "FirstPerson/lens","FirstPerson/blood",400);
+
 }
 
 Ogre::String MainPlayerObject::getPlayerCameraName(){
@@ -102,9 +109,21 @@ void MainPlayerObject::updateState(Player &p){
     //Update HUD
     Ogre::ColourValue color;
     p.getColor(&(color.r),&(color.g),&(color.b));
-    hudMgt->setLife(p.getLife(),color);
-    hudMgt->setKillsValue(p.getKills());
-    hudMgt->setDeathValue(p.getDeaths());
+
+    if(life!=p.getLife()){
+        hudMgt->setLife(p.getLife(),color);
+        life=p.getLife();
+    }
+
+    if(kill!=p.getKills()){
+        hudMgt->setKillsValue(p.getKills());
+        kill=p.getKills();
+    }
+
+    if(death!=p.getDeaths()){
+        hudMgt->setDeathValue(p.getDeaths());
+        death=p.getDeaths();
+    }
 
     //Update flag
     updateFlag(p.flag);
