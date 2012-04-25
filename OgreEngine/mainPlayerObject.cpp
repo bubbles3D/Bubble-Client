@@ -54,6 +54,7 @@ PlayerHUDManagement* MainPlayerObject::getHUD(){
     return hudMgt;
 }
 
+
 void MainPlayerObject::updateState(Player &p){
     setBodyColor(p.r,p.g,p.b);
     // It's our player:

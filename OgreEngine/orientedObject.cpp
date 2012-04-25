@@ -6,10 +6,13 @@ Object::Object(mSceneMgr, size, name )
 {
     yawNode = ((Ogre::SceneNode*)node)->createChildSceneNode(name.toStdString() + "_yaw", Ogre::Vector3(0,0,0));
     pitchNode = ((Ogre::SceneNode*)yawNode)->createChildSceneNode(name.toStdString() + "_pitch", Ogre::Vector3(0,0,0));
+    objectSide = BOTTOM;
 
 }
 
 void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor){
+
+    objectSide = floor;
 
     if(directionToLookAt.isZeroLength()){
         //nothing to do
@@ -38,6 +41,7 @@ void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor)
     directionToLookAtVertical.x = 0;
 
     //switch(p.getCube()){
+
     switch(floor){
     case BOTTOM: //bas
 
@@ -101,6 +105,7 @@ void OrientedObject::setOrientation(Ogre::Vector3 directionToLookAt, side floor)
 
         break;
     }
+
 
     // Normalise
     directionToLookAtHorizontal.normalise();
