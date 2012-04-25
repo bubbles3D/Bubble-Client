@@ -68,6 +68,7 @@ public:
 
     //Game
     void setGameInfo(QString json);
+    void setTeamInfo(QString json);
     float getRemainingTime();
 
     void setToClear(QString json);

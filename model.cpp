@@ -419,6 +419,12 @@ void Model::setGameInfo(QString json)
 
 void Model::setTeamInfo(QString json)
 {
+    QMutexLocker locker(&mutex);
+    QJson::Parser parser;
+    QVariantMap result = parser.parse(json.toAscii()).toMap();
+    QMap<QString, QVariant> teams = result["teams"].toMap();
+
+
 
 }
 
