@@ -166,8 +166,6 @@ void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
 
 void PlayerHUDManagement::setLife(float lifeValue, Ogre::ColourValue color){
     float lifeSize = convertLifeToSize(lifeValue);
-    qDebug()<<"lifeSize "<<lifeSize;
-    qDebug()<<"lifeValue "<<lifeValue;
     OverlayUtils::setScaleKeepingCenter(lifeContainer,lifeSize,lifeSize);
 
     if(lifeValue == 1){
@@ -183,12 +181,6 @@ void PlayerHUDManagement::setLifeColor(Ogre::ColourValue lifeColor){
 }
 
 float PlayerHUDManagement::convertLifeToSize(float lifeValue){
-    //return maxLifeSize - (maxLife - lifeValue)/maxLife*maxLifeSize;
-     qDebug()<<"COUCOU";
-    qDebug()<<"maxLifeSize"<<maxLifeSize;
-    qDebug()<<"maxLife"<<maxLife;
-    qDebug()<<"lifeValue"<<lifeValue;
-    qDebug()<<"COUCOU END";
     return maxLifeSize*(1 - (maxLife - lifeValue)/maxLife ) ;
 }
 
