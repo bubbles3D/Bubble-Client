@@ -9,6 +9,7 @@
 #include <QVariant>
 #include <QTime>
 #include <QColor>
+#include <QSemaphore>
 
 #include "player.h"
 #include "bullet.h"
@@ -96,6 +97,7 @@ private:
     QTime elapsedGameTime;
     int life, id;
     mutable QMutex mutex;
+    mutable QSemaphore readyToStart;
     QTime mouseTimeout;
     void update();
     bool playing;
