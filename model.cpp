@@ -458,7 +458,7 @@ QPair<QString, QMap<int, int> > Model::getScores()
             ret.first = "TDM";
             break;
         case 3:
-            ret.first = "CF";
+            ret.first = "CTF";
             break;
         default:
             ret.first = "lol";

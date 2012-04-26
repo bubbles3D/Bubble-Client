@@ -14,6 +14,7 @@ NetworkClient::NetworkClient(QObject *parent) :
     sock = new QTcpSocket(this);
     Model * m = Model::getInstance();
     name = m->getName();
+    gotInit = false;
 
     connect(sock, SIGNAL(connected()), this, SLOT(init()));
     connect(sock, SIGNAL(readyRead()), this, SLOT(processIncommingData()));
@@ -116,6 +117,12 @@ void NetworkClient::processIncommingData()
             m->setUpdatedBullets(toProcess[i]);
             m->setUpdatedFlags(toProcess[i]);
             m->setToClear(toProcess[i]);
+
+            if (!gotInit)
+            {
+                gotInit = true;
+                emit networkReady();
+            }
         }
 
         messages = toProcess[toProcess.size() - 1];

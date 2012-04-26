@@ -35,13 +35,15 @@ AppDialog::AppDialog(QWidget *parent) :
         hosts->close();
     }
 
+    nc = new NetworkClient();
     ga = new GameApp();
-    connect(ga, SIGNAL(destroyed()), this, SLOT(reject()));
+    connect(ga, SIGNAL(destroyed()), this, SLOT(reject()));    
 }
 
 void AppDialog::accept()
 {
     m->setName(ui->PlayerName->text());
+    nc->setName(ui->PlayerName->text());
 
     if (!hosts->open(QIODevice::WriteOnly))
     {
@@ -54,10 +56,10 @@ void AppDialog::accept()
         hosts->close();
     }
 
-    NetworkClient * nc = new NetworkClient();
     nc->startOn(ui->ServerAddr->text(), ui->ServerPort->value());
+    connect(nc, SIGNAL(networkReady()), ga, SLOT(run()));
 
-    ga->run();
+    //ga->run();
 
     setVisible(false);
     hosts->close();
