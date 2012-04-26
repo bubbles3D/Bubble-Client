@@ -175,7 +175,8 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
         //qDebug()<<"MODE:"<<score.first;
         if(score.first.compare("CTF") == 0 || score.first.compare("TDM") == 0){
             foreach( int key, score.second.keys() ){
-                //qDebug()<<"SET SCORE";
+                //qDebug()<<"MODE RUNNING:"<<score.first;
+                //qDebug()<<"SET SCORE"<<QString::number(key)<<" "<<score.second.value(key);
                 setFlagScore(QString::number(key),score.second.value(key));
             }
         }
@@ -202,7 +203,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
            }
            flagOverlay->show();
        }else{
-
+        qDebug()<<"MODE STARTING:"<<score.first;
        }
     }
 
@@ -216,8 +217,8 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
 void PlayerHUDManagement::updateBlood(float timeSinceLastFrame){
     if(PlayerHUDManagement::alphaBlood > 0){
-        setAlphaBlood(PlayerHUDManagement::alphaBlood);
         PlayerHUDManagement::alphaBlood = PlayerHUDManagement::alphaBlood - PlayerHUDManagement::alphaBlood * timeSinceLastFrame;
+        setAlphaBlood(PlayerHUDManagement::alphaBlood);
     }else{
        PlayerHUDManagement::alphaBlood = 0;
     }
@@ -454,21 +455,36 @@ void PlayerHUDManagement::setTime(QString time){
 }
 
 void PlayerHUDManagement::setFlagColor(Ogre::OverlayContainer * flagPan, Ogre::ColourValue flagColor){
+
+    try{
     Ogre::OverlayElement * flagIcone = flagPan->getChild(flagPan->getName() + "/icone");
 
     Ogre::TextureUnitState * flagTex = flagIcone->getMaterial()->getTechnique(0)->getPass(0)->getTextureUnitState(0);
 
     flagTex->setColourOperationEx(Ogre::LBX_MODULATE,Ogre::LBS_TEXTURE,Ogre::LBS_MANUAL,Ogre::ColourValue::White,flagColor);
+
+    }catch(Ogre::Exception e){
+        qDebug()<<"ERROR SETTING FLAG COLOR";
+    }
+
 }
 
 void PlayerHUDManagement::setFlagScore(Ogre::OverlayContainer * flagPan, int flagnb){
+    try{
     Ogre::OverlayElement* nbFlagArea = ((Ogre::OverlayContainer*)flagPan)->getChild( flagPan->getName() + "/nbFlag");
     nbFlagArea->setCaption(QString::number(flagnb).toStdString());
+    }catch(Ogre::Exception e){
+        qDebug()<<"ERROR SETTING FLAG SCORE (1)";
+    }
 }
 
 void PlayerHUDManagement::setFlagScore(QString id, int flagnb){
-    Ogre::OverlayContainer* flagPan = (Ogre::OverlayContainer*)((Ogre::OverlayContainer*)flagsPanel)->getChild(id.toStdString() + "/flag");
-    setFlagScore(flagPan, flagnb);
+    try{
+        Ogre::OverlayContainer* flagPan = (Ogre::OverlayContainer*)((Ogre::OverlayContainer*)flagsPanel)->getChild(id.toStdString() + "/flag");
+        setFlagScore(flagPan, flagnb);
+    }catch(Ogre::Exception e){
+        qDebug()<<"ERROR SETTING FLAG SCORE (2)";
+    }
 }
 
 void PlayerHUDManagement::cleanFlags(){
