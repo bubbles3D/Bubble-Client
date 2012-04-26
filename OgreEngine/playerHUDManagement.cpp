@@ -163,7 +163,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
     QPair<QString,QMap<int,int> > score = mod->getScores();
 
-    qDebug()<<"MODE:"<<score.first;
+
     if(endingGame == true){//A match just end
         qDebug()<<"ENDING GAME";
         endingGame = false;
@@ -172,9 +172,10 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
     if(runningGame == true){//A match is running
         //qDebug()<<"RUNNING GAME";
+        //qDebug()<<"MODE:"<<score.first;
         if(score.first.compare("CTF") == 0 || score.first.compare("TDM") == 0){
             foreach( int key, score.second.keys() ){
-                qDebug()<<"SET SCORE";
+                //qDebug()<<"SET SCORE";
                 setFlagScore(QString::number(key),score.second.value(key));
             }
         }
