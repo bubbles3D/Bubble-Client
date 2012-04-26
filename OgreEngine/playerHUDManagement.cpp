@@ -165,7 +165,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
 
 
     if(endingGame == true){//A match just end
-        qDebug()<<"ENDING GAME";
+        qDebug()<<"HUD:ENDING GAME";
         endingGame = false;
         runningGame = false;
     }
@@ -183,7 +183,7 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
     }
 
     if(startingGame == true){//A match just start
-       qDebug()<<"STARTING GAME";
+       qDebug()<<"HUD:STARTING GAME";
        startingGame = false;
        runningGame = true;
 
@@ -197,13 +197,14 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
            {
                Ogre::ColourValue color;
                mod->getTeamColor(key,&(color.r),&(color.g),&(color.b));
-               qDebug()<<"FlagID:"<<key;
+               qDebug()<<"HUD:FlagID:"<<key;
                addFlag(QString::number(key),color,2,position);
                position++;
+               qDebug()<<"HUD:FlagADDED";
            }
            flagOverlay->show();
        }else{
-        qDebug()<<"MODE STARTING:"<<score.first;
+        qDebug()<<"HUD:MODE STARTING:"<<score.first;
        }
     }
 

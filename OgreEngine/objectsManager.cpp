@@ -147,7 +147,7 @@ void ObjectsManager::updateflagsState(){
             flag =(FlagObject*) objects.value(p.getId());
             flag->updateState(p);
         }else{
-            qDebug()<<"UPDATE FLAG DON T EXIST";
+            qDebug()<<"UPDATE FLAG DON T EXIST id:"<<p.getId();
         }
     }
 
@@ -167,9 +167,9 @@ void ObjectsManager::createFlags(){
 
     foreach(Flag p, flagList){
         if (objects.contains(p.getId())){
-            qDebug()<<"ERROR CREATING FLAG: flag already exist!!!";
+            qDebug()<<"ERROR CREATING FLAG: flag already exist!!! id:"<<p.getId();;
         }else{
-            qDebug()<<"CREATE FLAG";
+            qDebug()<<"CREATE FLAG id:"<<p.getId();;
             createFlag(p);
         }
     }
@@ -236,6 +236,7 @@ void ObjectsManager::detachFlagFromPlayer(QString idPlayer){
     if(player->getFlag() != 0){
         qDebug()<<"DETACH FLAG";
         player->getFlag()->attach(sceneMgr->getRootSceneNode());
+        //player->getFlag()->setOrientation(Ogre::Vector3(1,0,0),player->g);
         player->removeFlag();
     }else{
         qDebug()<<"ERROR: detaching flag (idPlayer: "<<idPlayer<<")";
