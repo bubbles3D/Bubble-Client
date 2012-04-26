@@ -23,6 +23,7 @@ class Model: public QObject
 public:
     int mapWidth, mapLength;
     mutable QMutex ready;
+    bool inGame;
 
     static Model * getInstance();
 
@@ -99,8 +100,7 @@ private:
     mutable QMutex mutex;
     mutable QSemaphore readyToStart;
     QTime mouseTimeout;
-    void update();
-    bool playing;
+    void update();    
     float pauseTime;
     float gameTime;
     int gameType;
