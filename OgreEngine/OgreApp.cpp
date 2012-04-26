@@ -92,7 +92,7 @@ void OgreApp::createScene(void)
     Ogre::ColourValue blanc(255/255.0, 255/255.0, 200/255.0);//Violet
     Ogre::ColourValue orange(249.0/255.0, 119.0/255.0, 20.0/255.0);//Orange
 
-    qDebug()<<"CREATE CUBE";
+    qDebug()<<"CREATE CUBE, size: "<<mod->getMapLength();
     cubeScene = new Cube(mod->getMapLength(),mSceneMgr, "Croix.png" , 0.33333, orange, blanc, jaune, rouge, vert, bleu);
     qDebug()<<"END CREATING CUBE";
 
