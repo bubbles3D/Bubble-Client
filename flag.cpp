@@ -12,6 +12,8 @@ Flag::Flag(QVariantMap map)
 
 void Flag::update(QVariantMap map)
 {
+    Actor::update(map);
+
     if (map.contains("team"))
         team = map["team"].toInt();
 }

@@ -280,7 +280,7 @@ void Model::updateFlag(QVariant data)
 
     if (flags.contains(obj["id"].toString()))
     {
-        flags[obj["id"].toString()]->update(obj);        
+        flags[obj["id"].toString()]->update(obj);
     }
     else
     {
