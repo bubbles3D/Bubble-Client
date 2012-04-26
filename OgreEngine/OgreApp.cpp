@@ -41,6 +41,7 @@ void OgreApp::createScene(void)
     setupViewport(mSceneMgr,mCamera->getName());
 
     //Test------------------------------------------------------------------------
+    /*
     Ogre::Entity* bullet = mSceneMgr->createEntity("ball", "Bullet.mesh");
     Ogre::SceneNode* bulletNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     bulletNode->setPosition(200,55,0);
@@ -56,24 +57,12 @@ void OgreApp::createScene(void)
     BubbleObject* bubble_test = new BubbleObject(mSceneMgr,"BUBBLE_TEST",BOTTOM,Ogre::Vector3(700,50,100),Ogre::Vector3(0,0,1),Ogre::Vector3(100,100,100),Ogre::ColourValue::White);
 
     //Flag test
-/*
-    Ogre::Entity* flag = mSceneMgr->createEntity("flag", "mat.mesh");
-    Ogre::SceneNode* flagNode = bubble_test->getNode()->createChildSceneNode();
-    flagNode->setPosition(0,100,0);
-    flagNode->setScale(5,50,5);
-    flagNode->attachObject(flag);
-    flagNode->setInheritScale(false);
-    //ObstacleObject * flagNode= new ObstacleObject(mSceneMgr,Ogre::Vector3(10,100,10),"FlagRoot",Ogre::ColourValue(1,0,0,1),Ogre::Vector3(800,50,100));
 
 
-    ObstacleObject * toile= new ObstacleObject(mSceneMgr,Ogre::Vector3(60,30,5),"Flag",Ogre::ColourValue(1,0,0,1),Ogre::Vector3(0,0,0),flagNode);
-    toile->setPosition(7,0.6,0);
-    toile->getNode()->setInheritScale(false);
-
-    */
     FlagObject * flag2 = new FlagObject(mSceneMgr,"testss");//120
     flag2->setPosition(700,100,100);
     flag2->setScale(Ogre::Vector3(1,1,1));
+    */
     //End tests-------------------------------------------------------------------------
 
     //Init mode
