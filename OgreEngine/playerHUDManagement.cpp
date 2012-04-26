@@ -106,7 +106,7 @@ PlayerHUDManagement::PlayerHUDManagement(QString overlayLifeName, QString overla
     setTime("0:00");
     setGameMode(NO_MODE);
 
-
+    startGame();
     /*
 //Dynamic creation example
     Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
@@ -160,24 +160,22 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
     QString time = QString("%1:%2").arg(min).arg(sec, 2, 10, QChar('0')); // Format => M:SS
     setTime(time);
 
-/*
-    QPair<QString,QMap<QString,int> > score = mod->getScores();
 
+    QPair<QString,QMap<int,int> > score = mod->getScores();
+
+    qDebug()<<"MODE:"<<score.first;
     if(endingGame == true){//A match just end
         qDebug()<<"ENDING GAME";
-        flagOverlay->hide();
         endingGame = false;
         runningGame = false;
-        if(score.first == "CTF" || score.first == "TDM"){
-            cleanFlags();
-        }
     }
 
     if(runningGame == true){//A match is running
-        qDebug()<<"RUNNING GAME";
-        if(score.first == "CTF" || score.first == "TDM"){
-            foreach( QString key, score.second.keys() ){
-                setFlagScore(key,score.second.value(key));
+        //qDebug()<<"RUNNING GAME";
+        if(score.first.compare("CTF") == 0 || score.first.compare("TDM") == 0){
+            foreach( int key, score.second.keys() ){
+                qDebug()<<"SET SCORE";
+                setFlagScore(QString::number(key),score.second.value(key));
             }
         }
     }
@@ -187,19 +185,26 @@ void PlayerHUDManagement::updateHUD(float timeSinceLastFrame){
        startingGame = false;
        runningGame = true;
 
-       if(score.first == "CTF" || score.first == "TDM"){
+       cleanFlags();
+
+
+       if(score.first.compare("CTF") == 0 || score.first.compare("TDM") == 0){
            qDebug()<<"STARTING GAME: CTF";
-           foreach( QString key, score.second.keys() )
+           int position = 0;
+           foreach( int key, score.second.keys() )
            {
-                //mod->getTeamColor();
-               addFlag(key,Ogre::ColourValue::Blue,2,0);
+               Ogre::ColourValue color;
+               mod->getTeamColor(key,&(color.r),&(color.g),&(color.b));
+               qDebug()<<"FlagID:"<<key;
+               addFlag(QString::number(key),color,2,position);
+               position++;
            }
            flagOverlay->show();
        }else{
 
        }
     }
-*/
+
     /*addFlag("rreeff",Ogre::ColourValue::Blue,2,0);
     addFlag("rreeff2",Ogre::ColourValue::Red,1,1);
     addFlag("rreeff3",Ogre::ColourValue::Green,3,2);

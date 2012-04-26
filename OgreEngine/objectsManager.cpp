@@ -219,6 +219,7 @@ void ObjectsManager::attachFlagToPlayer(QString idPlayer, QString idFlag){
         FlagObject* flag = (FlagObject*)objects.value(idFlag);
         BubbleObject* player = (BubbleObject*)objects.value(idPlayer);
         flag->attach(player->getPitchNode());
+        //flag->setPosition();
         player->setFlag(flag);
 
         qDebug()<<"ATTACH "<<endl;
