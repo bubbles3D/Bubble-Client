@@ -402,6 +402,7 @@ void Model::endOfTime()
 
 void Model::endOfPause()
 {
+    readyToStart.acquire();
     PlayerHUDManagement::startGame();
 }
 
@@ -417,6 +418,8 @@ void Model::setGameInfo(QString json)
     gameTime = game["gameTime"].toFloat();
 
     QTimer::singleShot(gameTime * 1000, this, SLOT(endOfTime()));
+
+    readyToStart.release();
 
     playing = true;
     elapsedGameTime.restart();
