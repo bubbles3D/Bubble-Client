@@ -16,3 +16,6 @@ OgreEngine/data/ogre.cfg
 OgreEngine/data/ogre_log.log
 hosts
 ogre_log.log
+
+# Emacs Tag file
+TAGS
