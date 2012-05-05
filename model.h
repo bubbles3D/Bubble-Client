@@ -41,14 +41,6 @@ enum EVENT_TYPE{
 
 };
 
-enum EVENT_TARGET{
-    PLAYER,
-    BULLET,
-    OBSTACLE,
-    CUBE,
-    NONE
-};
-
 class Model: public QObject
 {
     Q_OBJECT
@@ -138,7 +130,7 @@ private:
     int gameType;
 
     //New--
-    QList<QString> events;
+    QList< QPair<EVENT_TYPE, QList<QString > > > events;
     //End --
 
 signals:
