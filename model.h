@@ -130,8 +130,10 @@ private:
     int gameType;
 
     //New--
+    //List of events
+    //QList<QVariant > is the list of the parameter
     QList< QPair<EVENT_TYPE, QList<QVariant > > > events;
-    //End --
+
 
 signals:
     void keyChanged(QString name, bool state);
