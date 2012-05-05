@@ -19,12 +19,14 @@
 
 enum EVENT_TYPE{
 
-    //Object management (those actions have to be combined with EVENT_TARGET)
+    //Object management
     CREATE,
     UPDATE_ORIENTATION,
     UPDATE_POSITION,
     UPDATE_SCALE,
     UPDATE_COLOR,
+    ATTACH,
+    DETACH,
     DELETE,
 
     //Match management
