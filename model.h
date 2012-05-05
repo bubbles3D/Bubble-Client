@@ -1,8 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-
-
 #include <QList>
 #include <QPair>
 #include <QSet>
@@ -18,6 +16,36 @@
 #include "obstacles.h"
 #include "flag.h"
 #include "team.h"
+
+enum EVENT_TYPE{
+
+    //Object management (those actions have to be combined with EVENT_TARGET)
+    CREATE,
+    UPDATE_ORIENTATION,
+    UPDATE_POSITION,
+    UPDATE_SCALE,
+    UPDATE_COLOR,
+    DELETE,
+
+    //Match management
+    START_DM,
+    START_CTF,
+    START_TDM,
+    ENDING_MATCH,
+
+    //HUD management
+    SET_PLAYER_SCORE,//kills and deaths
+    SET_TEAM_SCORE // in TDM,CTF
+
+};
+
+enum EVENT_TARGET{
+    PLAYER,
+    BULLET,
+    OBSTACLE,
+    CUBE,
+    NONE
+};
 
 class Model: public QObject
 {
@@ -106,6 +134,10 @@ private:
     float pauseTime;
     float gameTime;
     int gameType;
+
+    //New--
+    QList<QString> events;
+    //End --
 
 signals:
     void keyChanged(QString name, bool state);
