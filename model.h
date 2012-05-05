@@ -130,7 +130,7 @@ private:
     int gameType;
 
     //New--
-    QList< QPair<EVENT_TYPE, QList<QString > > > events;
+    QList< QPair<EVENT_TYPE, QList<QVariant > > > events;
     //End --
 
 signals:
