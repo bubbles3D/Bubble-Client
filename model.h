@@ -131,7 +131,7 @@ private:
 
     //New--
     //List of events
-    //QList<QVariant > is the list of the parameter
+    //QList<QVariant > is the parameters list
     QList< QPair<EVENT_TYPE, QList<QVariant > > > events;
 
 
