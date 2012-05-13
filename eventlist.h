@@ -7,6 +7,9 @@
 
 enum BEvent{
 
+    //List Management
+    NONE_EVENT, //No event on the list
+
     //Object management
     CREATE,
     UPDATE_ORIENTATION,
@@ -26,7 +29,6 @@ enum BEvent{
     //HUD management
     SET_PLAYER_SCORE,//kills and deaths
     SET_TEAM_SCORE // in TDM,CTF
-
 };
 
 
@@ -38,7 +40,7 @@ public:
     QPair<BEvent, QList<QVariant> > pop();
 
 private:
-    QList<QPair<BEvent, QList<QVariant > > > eGvents;
+    QList<QPair<BEvent, QList<QVariant > > > events;
 };
 
 #endif // EVENTLIST_H
