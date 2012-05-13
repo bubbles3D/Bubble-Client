@@ -27,7 +27,8 @@ SOURCES += \
     OgreEngine/flagObject.cpp \
     OgreEngine/mainPlayerObject.cpp \
     flag.cpp \
-    team.cpp
+    team.cpp \
+    eventlist.cpp
 
 HEADERS += \
     networkclient.h \
@@ -65,7 +66,8 @@ HEADERS += \
     OgreEngine/flagObject.h \
     OgreEngine/mainPlayerObject.h \
     flag.h \
-    team.h
+    team.h \
+    eventlist.h
 
 
 

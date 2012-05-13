@@ -16,30 +16,8 @@
 #include "obstacles.h"
 #include "flag.h"
 #include "team.h"
+#include "eventlist.h"
 
-enum EVENT_TYPE{
-
-    //Object management
-    CREATE,
-    UPDATE_ORIENTATION,
-    UPDATE_POSITION,
-    UPDATE_SCALE,
-    UPDATE_COLOR,
-    ATTACH,
-    DETACH,
-    DELETE,
-
-    //Match management
-    START_DM,
-    START_CTF,
-    START_TDM,
-    ENDING_MATCH,
-
-    //HUD management
-    SET_PLAYER_SCORE,//kills and deaths
-    SET_TEAM_SCORE // in TDM,CTF
-
-};
 
 class Model: public QObject
 {
@@ -128,12 +106,7 @@ private:
     float pauseTime;
     float gameTime;
     int gameType;
-
-    //New--
-    //List of events
-    //QList<QVariant > is the parameters list
-    QList< QPair<EVENT_TYPE, QList<QVariant > > > events;
-
+    EventList events;
 
 signals:
     void keyChanged(QString name, bool state);
