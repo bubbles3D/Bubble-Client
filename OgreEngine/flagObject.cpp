@@ -1,9 +1,10 @@
 #include "flagObject.h"
 
-FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color):
+FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color, Ogre::Vector3 pos):
 OrientedObject(mSceneMgr, 1, name)
 {
     initFlag( mSceneMgr, name, color);
+    setPosition(pos);
 }
 
 FlagObject::FlagObject(Ogre::SceneManager * mSceneMgr, Actor p):

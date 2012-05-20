@@ -13,6 +13,7 @@ public:
     //Destroy all children nodes
     virtual ~Object();
     void setPosition(float x, float y, float z);
+    void setPosition(Ogre::Vector3 pos);
     void setVisible(bool isVisible = true);
     virtual void setScale(float scale);
     virtual void setScale(Ogre::Vector3 scale);

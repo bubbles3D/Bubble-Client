@@ -29,6 +29,10 @@ void Object::setPosition(float x, float y, float z){
     node->setPosition(x,y,z);
 }
 
+void Object::setPosition(Ogre::Vector3 pos){
+    node->setPosition(pos);
+}
+
 void Object::setVisible(bool isVisible){
      node->setVisible(isVisible,true);
 }

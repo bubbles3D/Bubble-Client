@@ -9,21 +9,159 @@ ObjectsManager::ObjectsManager(Ogre::SceneManager * msceneMgr)
 }
 
 void ObjectsManager::updatePositions(){
-     Model * model = Model::getInstance();
+    Model * model = Model::getInstance();
 
-     //Create flag if needed
-     createFlags();
+    //Create flag if needed
+    createFlags();
 
-     updatePlayersPositions();
-     updateBulletsState();
-     updateObstaclesStates();
-     updateflagsState();
+    updatePlayersPositions();
+    updateBulletsState();
+    updateObstaclesStates();
+    updateflagsState();
 
-     attachFlags();
-     detachFlags();
+    attachFlags();
+    detachFlags();
 
-     //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
-     destroyObjects(model->getClearedActors());
+    //updateObjectsAnimations(model->getAllPlayers(), mSceneManager); // SEE LATER
+    destroyObjects(model->getClearedActors());
+}
+
+void ObjectsManager::processEvents(EventList events){
+
+    QPair<BEvent, QList<QVariant> > event = events.pop();
+
+    while(event.first != NONE_EVENT){
+        switch(event.first){
+        case CREATE:
+            createObject(event.second);
+            break;
+        case UPDATE_ORIENTATION:
+            break;
+        case UPDATE_POSITION:
+            break;
+        case UPDATE_SCALE:
+            break;
+        case UPDATE_COLOR:
+            break;
+        case ATTACH:
+            break;
+        case START_DM:
+            break;
+        case START_CTF:
+            break;
+        case START_TDM:
+            break;
+        case ENDING_MATCH:
+            break;
+        case SET_PLAYER_SCORE:
+            break;
+        case SET_TEAM_SCORE:
+            break;
+        default:
+            qDebug()<<"OBJMGR: ERROR PROCESSING EVENT";
+            break;
+        }
+
+        event = events.pop();
+    }
+}
+void ObjectsManager::createObject(QList<QVariant> params){
+    OBJECT_TYPE type =(OBJECT_TYPE) (params.front().toInt());
+    params.pop_front();
+    createObject(type, params);
+}
+
+void ObjectsManager::createObject(OBJECT_TYPE type, QList<QVariant> params){
+    QString id = params.front().toString();
+    params.pop_front();
+
+    float width = params.front().toFloat();
+    params.pop_front();
+    float height = params.front().toFloat();
+    params.pop_front();
+    float length = params.front().toFloat();
+    params.pop_front();
+    Ogre::Vector3 dim = Ogre::Vector3(width,height,length);
+
+    float posX = params.front().toFloat();
+    params.pop_front();
+    float posY = params.front().toFloat();
+    params.pop_front();
+    float posZ = params.front().toFloat();
+    params.pop_front();
+    Ogre::Vector3 pos = Ogre::Vector3(posX,posY,posZ);
+
+    float r = params.front().toFloat();
+    params.pop_front();
+    float g = params.front().toFloat();
+    params.pop_front();
+    float b = params.front().toFloat();
+    params.pop_front();
+    Ogre::ColourValue color = Ogre::ColourValue(r,g,b);
+
+    Model * mod = Model::getInstance();
+
+    //For players
+    QString name;
+    int mside;
+    float Vx;
+    float Vy;
+    float Vz;
+    Ogre::Vector3 V;
+    int life;
+    int kill;
+    int death;
+
+
+    if (!objects.contains(id)){
+        Object * object;
+        switch(type){
+        case BUBBLE:
+            name = params.front().toString();
+            params.pop_front();
+            mside = params.front().toInt();
+            params.pop_front();
+            Vx =params.front().toFloat();
+            params.pop_front();
+            Vy = params.front().toFloat();
+            params.pop_front();
+            Vz = params.front().toFloat();
+            params.pop_front();
+            V = Ogre::Vector3(Vx,Vy,Vz);
+
+            life = params.front().toInt();
+            params.pop_front();
+            kill = params.front().toInt();
+            params.pop_front();
+            death = params.front().toInt();
+            params.pop_front();
+
+            object = new BubbleObject(sceneMgr,id, (side) mside, pos, V, dim, color);
+
+            if(name == mod->getName()){
+                qDebug()<<"NEW US"<<name;
+                //If it's our player
+                player = new MainPlayerObject(sceneMgr, id, (side) mside, pos, V, dim, color, life, kill, death);
+                object = player;
+
+                //Change mode view
+                emit changeModeEvent(FIRST);
+            }
+            break;
+        case BULLET:
+            object = new BulletObject(sceneMgr,width,id, color, pos);
+            break;
+        case FLAG:
+            object = new FlagObject(sceneMgr, id, color, pos);
+            break;
+        case OBSTACLE:
+            object = new ObstacleObject(sceneMgr, dim, id, color, pos);
+            break;
+        }
+        objects.insert(id, object);
+    }else{
+        qDebug()<<"OBJMNG: ERROR CREATING OBJECT (Id already used!!!)";
+    }
 }
 
 void ObjectsManager::destroyObjects(QList<QString> objectsToRemove){
@@ -34,28 +172,28 @@ void ObjectsManager::destroyObjects(QList<QString> objectsToRemove){
 }
 
 void ObjectsManager::updateObstaclesStates(){
-   Model * model = Model::getInstance();
-   QList<Obstacles> obstacleList = model->getUpdatedObstacles();
+    Model * model = Model::getInstance();
+    QList<Obstacles> obstacleList = model->getUpdatedObstacles();
 
-   //Update elements position
-   foreach(Obstacles p, obstacleList){
-       ObstacleObject * obstacle;
-       if (objects.contains(p.getId())){
-           //Obstacle exist
-           obstacle =(ObstacleObject*) objects.value(p.getId());
-           obstacle->updateState(p);
-       }else{
-           //Color is ignored for now
-           float r =1.0/(rand() % 5 + 1);
-           float g =1.0/(rand() % 5 + 1);
-           float b =1.0/(rand() % 5 + 1);
-           //material->setDiffuse(r, g, b,0.5);
-           //material->setAmbient(r, g, b);
-           obstacle = new ObstacleObject(sceneMgr, p);
-           obstacle->setColor(r,g,b);
-           objects.insert(p.getId(), obstacle);
-       }
-   }
+    //Update elements position
+    foreach(Obstacles p, obstacleList){
+        ObstacleObject * obstacle;
+        if (objects.contains(p.getId())){
+            //Obstacle exist
+            obstacle =(ObstacleObject*) objects.value(p.getId());
+            obstacle->updateState(p);
+        }else{
+            //Color is ignored for now
+            float r =1.0/(rand() % 5 + 1);
+            float g =1.0/(rand() % 5 + 1);
+            float b =1.0/(rand() % 5 + 1);
+            //material->setDiffuse(r, g, b,0.5);
+            //material->setAmbient(r, g, b);
+            obstacle = new ObstacleObject(sceneMgr, p);
+            obstacle->setColor(r,g,b);
+            objects.insert(p.getId(), obstacle);
+        }
+    }
 }
 void ObjectsManager::updateBulletsState(){
     Model * model = Model::getInstance();
@@ -93,7 +231,7 @@ void ObjectsManager::updatePlayersPositions(){
                 ((MainPlayerObject*)bubble)->updateState(p);
             }else{
                 //If it's an other player
-               bubble->updateState(p);
+                bubble->updateState(p);
             }
         }else{
             if(p.getName() == model->getName()){
@@ -110,7 +248,7 @@ void ObjectsManager::updatePlayersPositions(){
             }else{
                 //If it's an other player
                 qDebug()<<"NEW OTHER "<<p.getName();
-               bubble = new BubbleObject(sceneMgr, (Actor) p);
+                bubble = new BubbleObject(sceneMgr, (Actor) p);
             }
             objects.insert(p.getId(), bubble);
 
@@ -119,7 +257,7 @@ void ObjectsManager::updatePlayersPositions(){
 }
 
 void ObjectsManager::updateflagsState(){
-/*
+    /*
     Model * model = Model::getInstance();
     QList<Flag> flagList = model->getUpdatedFlags();
 

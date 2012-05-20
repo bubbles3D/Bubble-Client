@@ -2,6 +2,7 @@
 #define OBJECTSMANAGER_H
 
 #include "model.h"
+#include "objectsStruct.h"
 #include "OgreEngine/playerHUDManagement.h"
 #include "OgreEngine/bubbleObject.h"
 #include "OgreEngine/mainPlayerObject.h"
@@ -48,12 +49,18 @@ public:
     PlayerHUDManagement * getHUD();
 
 protected:
+    //Create an object
+    void createObject(OBJECT_TYPE type, QList<QVariant> params);
+    void createObject(QList<QVariant> params);
+
     static Ogre::SceneManager * sceneMgr;
     static QMap<QString,Object*> objects;
     MainPlayerObject * player;
+    void processEvents(EventList events);
 
 signals:
     void changeModeEvent(MODE mode);
+
 };
 
 #endif // OBJECTSMANAGER_H

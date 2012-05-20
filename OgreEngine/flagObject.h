@@ -6,7 +6,7 @@
 
 class FlagObject: public OrientedObject{
 public:
-    FlagObject(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color = Ogre::ColourValue::Red);
+    FlagObject(Ogre::SceneManager * mSceneMgr, QString name, Ogre::ColourValue color = Ogre::ColourValue::Red, Ogre::Vector3 pos = Ogre::Vector3(0,0,0));
     FlagObject(Ogre::SceneManager * mSceneMgr, Actor p);
     virtual ~FlagObject();
     void setColor(float r, float g, float b);

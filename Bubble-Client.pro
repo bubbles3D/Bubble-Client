@@ -67,7 +67,8 @@ HEADERS += \
     OgreEngine/mainPlayerObject.h \
     flag.h \
     team.h \
-    eventlist.h
+    eventlist.h \
+    objectsStruct.h
 
 
 

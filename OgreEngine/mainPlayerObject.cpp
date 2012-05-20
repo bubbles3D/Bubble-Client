@@ -13,10 +13,13 @@ MainPlayerObject::MainPlayerObject(Ogre::SceneManager *mSceneMgr,Player p):
     hudMgt->setDeathValue(p.getDeaths());
 }
 
-MainPlayerObject::MainPlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color):
-    BubbleObject(mSceneMgr, id, mside, position, directionToLookAt, size, color ),life(-1),kill(-1),death(-1)
+MainPlayerObject::MainPlayerObject(Ogre::SceneManager *mSceneMgr,QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color, int mlife, int mkill,int mdeath):
+    BubbleObject(mSceneMgr, id, mside, position, directionToLookAt, size, color ),life(mlife),kill(mkill),death(mdeath)
 {
     createPlayer(id);
+    hudMgt->setLife(mlife,color);
+    hudMgt->setKillsValue(mkill);
+    hudMgt->setDeathValue(mdeath);
 
 }
 

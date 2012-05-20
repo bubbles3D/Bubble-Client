@@ -11,7 +11,7 @@ class MainPlayerObject : public BubbleObject
 {
 public:
     MainPlayerObject(Ogre::SceneManager *mSceneMgr,Player p);
-    MainPlayerObject(QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color);
+    MainPlayerObject(Ogre::SceneManager *mSceneMgr, QString id,side mside, Ogre::Vector3 position, Ogre::Vector3 directionToLookAt, Ogre::Vector3 size, Ogre::ColourValue color, int mlife = -1, int mkill =-1,int mdeath = -1);
     Ogre::String getPlayerCameraName();
     Ogre::Vector3 getPlayerDirection();
     void updateState(Player &p);
